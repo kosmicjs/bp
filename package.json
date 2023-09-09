@@ -1,0 +1,75 @@
+{
+  "name": "@kosmic/core",
+  "version": "0.0.0",
+  "description": "Strongly typed Koa web and api framework with all the basics built in and minimal opinions",
+  "bugs": {
+    "url": "https://github.com/spence-s/kosmic/issues"
+  },
+  "repository": {
+    "url": "https://github/com/spence-s/kosmic"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Spencer Snyder",
+    "email": "sasnyde2@gmail.com",
+    "url": "https://spencersnyder.io"
+  },
+  "main": "dist/src/index",
+  "types": "dist/src/index",
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf -rf ./dist",
+    "compile": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "test": "ava"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "@kosmic/fs-router": "file:../fs-router",
+    "http-terminator": "^3.2.0",
+    "kcors": "^2.2.2",
+    "koa": "npm:@kosmic/koa@^0.0.8",
+    "koa-404-handler": "^0.1.0",
+    "koa-bodyparser": "^4.4.1",
+    "koa-conditional-get": "^3.0.0",
+    "koa-etag": "^4.0.0",
+    "koa-json": "^2.0.2",
+    "koa-requestid": "^2.1.0",
+    "koa-response-time": "^2.1.0",
+    "koa-router": "^12.0.0",
+    "koa-static": "^5.0.0",
+    "lodash": "^4.17.21",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@types/kcors": "^2",
+    "@types/koa__router": "^12.0.0",
+    "@types/koa-bodyparser": "^4",
+    "@types/koa-conditional-get": "^2.0.0",
+    "@types/koa-etag": "^3.0.0",
+    "@types/koa-response-time": "^2",
+    "@types/koa-static": "^4.0.2",
+    "@types/lodash": "^4.14.197",
+    "@types/node": "~20.5.7",
+    "ava": "^5.3.1",
+    "got": "^13",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "npm-package-json-lint": "^7.0.0",
+    "npm-package-json-lint-config-default": "^6.0.0",
+    "prettier-plugin-packagejson": "^2.4.5",
+    "rimraf": "^5.0.1",
+    "typescript": "~5.2.2",
+    "xo": "^0.56.0"
+  }
+}

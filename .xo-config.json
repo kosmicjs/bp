@@ -1,0 +1,14 @@
+{
+  "prettier": true,
+  "parserOptions": {
+    "project": "./tsconfig.xo.json"
+  },
+  "rules": {
+    "import/extensions": "off",
+    "capitalized-comments": "off",
+    "unicorn/no-array-reduce": "off",
+    "no-warning-comments": "off",
+    "max-depth": "off",
+    "complexity": "off"
+  }
+}

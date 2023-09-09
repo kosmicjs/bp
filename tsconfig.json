@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "ES2022",
+    "module": "Node16",
+    "rootDir": ".",
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "koa": ["./node_modules/koa/dist/application.d.ts"]
+    }
+  },
+  "include": ["src/**/*"]
+}
