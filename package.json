@@ -20,8 +20,14 @@
     "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist",
     "compile": "tsc -p tsconfig.json",
+    "prepare": "husky install",
     "prepublishOnly": "npm run build",
     "test": "ava"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-packagejson"
+    ]
   },
   "ava": {
     "extensions": [
@@ -53,12 +59,12 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@types/kcors": "^2",
-    "@types/koa__router": "^12.0.0",
     "@types/koa-bodyparser": "^4",
     "@types/koa-conditional-get": "^2.0.0",
     "@types/koa-etag": "^3.0.0",
     "@types/koa-response-time": "^2",
     "@types/koa-static": "^4.0.2",
+    "@types/koa__router": "^12.0.0",
     "@types/lodash": "^4.14.197",
     "@types/node": "~20.5.7",
     "ava": "^5.3.1",
