@@ -36,7 +36,7 @@
     "@kosmic/fs-router": "file:../fs-router",
     "http-terminator": "^3.2.0",
     "kcors": "^2.2.2",
-    "koa": "npm:@kosmic/koa@^0.0.8",
+    "koa": "npm:@kosmic/koa@latest",
     "koa-404-handler": "^0.1.0",
     "koa-bodyparser": "^4.4.1",
     "koa-conditional-get": "^3.0.0",
