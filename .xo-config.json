@@ -4,6 +4,7 @@
     "project": "./tsconfig.xo.json"
   },
   "rules": {
+    "@typescript-eslint/consistent-type-definitions": "off",
     "import/extensions": "off",
     "capitalized-comments": "off",
     "unicorn/no-array-reduce": "off",

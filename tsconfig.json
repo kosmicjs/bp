@@ -8,8 +8,12 @@
     "declaration": true,
     "skipLibCheck": true,
     "baseUrl": "./",
+    "sourceMap": true,
     "paths": {
-      "koa": ["./node_modules/koa/dist/application.d.ts"]
+      "koa": ["./node_modules/koa/dist/esm/application.d.mts"],
+      "@kosmic/koa": ["./node_modules/koa/dist/esm/application.d.mts"],
+      "koa-compose": ["./node_modules/koa-compose/dist/index.d.mts"],
+      "@kosmic/compose": ["./node_modules/koa-compose/dist/index.d.mts"]
     }
   },
   "include": ["src/**/*"]

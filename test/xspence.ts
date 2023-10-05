@@ -2,10 +2,10 @@ import http from 'node:http';
 import type {TestFn as TestInterface} from 'ava';
 import anyTest from 'ava';
 // import got from 'got';
-import Xspence from '../src/index';
+import {Kosmic} from '../src/core/index.js';
 
 const test = anyTest as TestInterface<{
-  app: Xspence;
+  app: Kosmic;
   port: number;
   address: string;
 }>;
@@ -25,7 +25,7 @@ test.beforeEach(async (t) => {
       srv.close();
     });
   });
-  const app = new Xspence();
+  const app = new Kosmic();
   t.context.app = app;
   t.context.port = port;
   t.context.address = `http://localhost:${port}`;
@@ -33,7 +33,7 @@ test.beforeEach(async (t) => {
 
 test('app is a koa instance', (t) => {
   const {app} = t.context;
-  t.true(app instanceof Xspence);
+  t.true(app instanceof Kosmic);
 });
 
 test.afterEach(async (t) => {

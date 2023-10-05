@@ -1,5 +1,5 @@
 import type {Middleware, Next, Context} from 'koa';
-import type {Logger} from './types';
+import type {Logger} from '../logger/logger.interface.js';
 
 function errorHandler(logger: Logger): Middleware {
   async function middleware(ctx: Context, next: Next) {
