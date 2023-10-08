@@ -8,7 +8,8 @@
     "@typescript-eslint/naming-convention": "off",
     "capitalized-comments": "off",
     "unicorn/no-array-reduce": "off",
-    "no-warning-comments": "off"
+    "no-warning-comments": "off",
+    "import/extensions": "off"
   },
   "overrides": [
     {

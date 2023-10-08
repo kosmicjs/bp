@@ -15,6 +15,11 @@
     "url": "https://spencersnyder.io"
   },
   "type": "module",
+  "imports": {
+    "#kosmic/render": "./packages/render/middleware.js",
+    "#kosmic/logger": "./packages/logger/console-logger.js",
+    "#kosmic/*": "./packages/*/index.js"
+  },
   "main": "dist/src/index.js",
   "source": "./src/app/client/main.ts",
   "types": "dist/src/index.d.ts",
@@ -45,6 +50,7 @@
     "@types/pg": "^8.10.3",
     "@types/pug": "^2.0.7",
     "argon2": "^0.31.1",
+    "bootstrap": "^5.3.2",
     "fast-glob": "^3.3.1",
     "http-terminator": "^3.2.0",
     "kcors": "^2.2.2",
@@ -101,6 +107,7 @@
     "prettier": "^3.0.3",
     "prettier-plugin-packagejson": "^2.4.5",
     "rimraf": "^5.0.1",
+    "sass": "^1.69.0",
     "ts-node": "^10.9.1",
     "type-fest": "^4.3.3",
     "typescript": "~5.2.2",
