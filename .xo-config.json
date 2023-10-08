@@ -9,5 +9,13 @@
     "capitalized-comments": "off",
     "unicorn/no-array-reduce": "off",
     "no-warning-comments": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/app/**/*.ts"],
+      "rules": {
+        "import/no-unassigned-import": "off"
+      }
+    }
+  ]
 }

@@ -11,6 +11,10 @@ declare module 'koa' {
   interface Request {
     params?: Record<string, unknown>;
   }
+
+  interface Context {
+    params?: Record<string, unknown>;
+  }
 }
 
 type Method = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'head' | 'options';

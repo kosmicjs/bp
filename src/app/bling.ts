@@ -2,13 +2,8 @@ declare global {
   interface Node {
     on(
       name: string,
-      selector:
-        | string
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        | null
-        | undefined
-        | ((...args: any) => unknown),
-      fn: (...args: any) => unknown,
+      selector: string | ((...args: any) => unknown),
+      fn?: (...args: any) => unknown,
     ): void;
   }
 }
@@ -21,6 +16,7 @@ Node.prototype.on = function (name: string, selector, fn) {
 
   this.addEventListener(name, function (event: Event) {
     if (
+      fn &&
       selector &&
       event.target instanceof Element &&
       event.target?.matches(selector)
