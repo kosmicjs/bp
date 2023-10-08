@@ -27,7 +27,7 @@
     "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist",
     "compile": "tsc -p tsconfig.json",
-    "dev": "NODE_NO_WARNINGS=1 node --watch --loader ts-node/esm/transpile-only ./src/server.ts",
+    "dev": "NODE_NO_WARNINGS=1 node --watch --loader ts-node/esm/transpile-only ./src/server.ts & vite",
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
     "test": "ava"
@@ -52,6 +52,7 @@
     "argon2": "^0.31.1",
     "bootstrap": "^5.3.2",
     "fast-glob": "^3.3.1",
+    "htmx.org": "^1.9.6",
     "http-terminator": "^3.2.0",
     "kcors": "^2.2.2",
     "koa": "npm:@kosmic/koa@latest",
