@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "declaration": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "Node16",
@@ -11,6 +11,7 @@
       "koa": ["./node_modules/koa/dist/esm/application.d.mts"],
       "koa-compose": ["./node_modules/koa-compose/dist/index.d.mts"]
     },
+    "rootDir": ".",
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
