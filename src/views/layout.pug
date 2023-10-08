@@ -5,7 +5,9 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     title My Website
-    link(rel="stylesheet", href="/styles.css")
+    script(src="https://unpkg.com/htmx.org/dist/htmx.min.js")
+    script(type="module", src="http://localhost:5173/@vite/client")
+    script(type="module", src="http://localhost:5173/main.ts")
   body
     header
       h1 My Website
@@ -13,4 +15,3 @@ html(lang="en")
       block content
     footer
       p Copyright © 2021 My Website
-    script(src="/scripts.js")

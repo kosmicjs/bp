@@ -1,5 +1,5 @@
-import * as path from 'node:path';
-import * as fs from 'node:fs';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 import {type Context, type Next} from 'koa';
 import * as pug from 'pug';
 import {type LocalsObject} from 'pug';

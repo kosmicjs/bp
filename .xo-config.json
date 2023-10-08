@@ -5,11 +5,9 @@
   },
   "rules": {
     "@typescript-eslint/consistent-type-definitions": "off",
-    "import/extensions": "off",
+    "@typescript-eslint/naming-convention": "off",
     "capitalized-comments": "off",
     "unicorn/no-array-reduce": "off",
-    "no-warning-comments": "off",
-    "max-depth": "off",
-    "complexity": "off"
+    "no-warning-comments": "off"
   }
 }

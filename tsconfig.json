@@ -3,6 +3,7 @@
     "outDir": "./dist",
     "target": "ES2022",
     "module": "Node16",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "rootDir": ".",
     "strict": true,
     "declaration": true,
@@ -16,5 +17,5 @@
       "@kosmic/compose": ["./node_modules/koa-compose/dist/index.d.mts"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "packages/**/*"]
 }

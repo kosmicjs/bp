@@ -2,9 +2,9 @@ import url from 'node:url';
 import path from 'node:path';
 import shortUUID from 'short-uuid';
 import {pino} from 'pino';
-import {createPinoMiddleware} from './pino-http/index.js';
-import {Kosmic} from './core/index.js';
-import {renderMiddleware} from './render/middleware.js';
+import {Kosmic} from '../packages/core/index.js';
+import {createPinoMiddleware} from '../packages/pino-http/index.js';
+import {renderMiddleware} from '../packages/render/middleware.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const routesDir = path.join(__dirname, 'routes');
