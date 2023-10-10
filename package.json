@@ -47,8 +47,6 @@
     ]
   },
   "dependencies": {
-    "@types/pg": "^8.10.3",
-    "@types/pug": "^2.0.7",
     "argon2": "^0.31.1",
     "bootstrap": "^5.3.2",
     "fast-glob": "^3.3.1",
@@ -98,6 +96,8 @@
     "@types/node": "~20.6.4",
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/passport-local": "^1.0.36",
+    "@types/pg": "^8.10.3",
+    "@types/pug": "^2.0.7",
     "ava": "^5.3.1",
     "got": "^13",
     "husky": "^8.0.3",

@@ -1,6 +1,6 @@
 import http from 'node:http';
 import test from 'ava';
-import {Kosmic} from '../src/core/index.js';
+import {Kosmic} from '../packages/core/index.js';
 
 test('Exposes static function static', (t) => {
   t.true(typeof Kosmic.static === 'function');

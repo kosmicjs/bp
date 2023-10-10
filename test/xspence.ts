@@ -2,7 +2,7 @@ import http from 'node:http';
 import type {TestFn as TestInterface} from 'ava';
 import anyTest from 'ava';
 // import got from 'got';
-import {Kosmic} from '../src/core/index.js';
+import {Kosmic} from '../packages/core/index.js';
 
 const test = anyTest as TestInterface<{
   app: Kosmic;
