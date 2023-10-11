@@ -8,12 +8,14 @@ import compose from 'koa-compose';
 import z from 'zod';
 
 declare module 'koa' {
+  // eslint-disable-next-line unicorn/prevent-abbreviations
+  interface Params extends Record<string, string | undefined> {}
   interface Request {
-    params?: Record<string, unknown>;
+    params?: Params;
   }
 
   interface Context {
-    params?: Record<string, unknown>;
+    params?: Params;
   }
 }
 
@@ -40,10 +42,10 @@ type RouteModule = z.TypeOf<typeof routeModuleSchema>;
 type RouteDefinition = {
   uriPath: string;
   filePath: string;
-  match: MatchFunction<Record<string, unknown>>;
+  match: MatchFunction<Record<string, string | undefined>>;
   module: RouteModule;
   middleware?: Middleware;
-  params?: Record<string, unknown>;
+  params?: Record<string, string | undefined>;
 };
 
 async function createFsRouter(
@@ -98,7 +100,7 @@ async function createFsRouter(
       return {
         filePath,
         uriPath,
-        match: createMatchFn<Record<string, unknown>>(uriPath),
+        match: createMatchFn<Record<string, string | undefined>>(uriPath),
         module,
         middlewareBefore,
         middlewareAfter,

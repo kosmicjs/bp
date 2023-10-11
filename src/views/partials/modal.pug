@@ -1,0 +1,16 @@
+#modal.modal.fade(tabindex="-1")
+  .modal-dialog
+    #modal-content.modal-content
+      .modal-header
+        h5.modal-title
+          .htmx-indicator.spinner-border.text-secondary(role="status")
+            span.visually-hidden Loading...
+        button.btn-close(
+          type="button",
+          data-bs-dismiss="modal",
+          aria-label="Close"
+        )
+      .modal-body
+        .htmx-indicator.spinner-border.text-secondary(role="status")
+      .modal-footer
+        button.btn.btn-secondary(type="button", data-bs-dismiss="modal") Close

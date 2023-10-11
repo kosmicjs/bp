@@ -1,17 +1,27 @@
+import process from 'node:process';
 import {pinoHttp, type Options} from 'pino-http';
 import {type DestinationStream} from 'pino';
 import {type Middleware} from 'koa';
-import shortUUID from 'short-uuid';
+import shortUUID, {type SUUID} from 'short-uuid';
 
 export function createPinoMiddleware(
   options: Options,
   stream?: DestinationStream,
 ): Middleware {
+  let id: SUUID | number = 0;
   options.genReqId ??= function (request, response) {
     const existingId = request.id ?? request.headers['x-request-id'];
     if (existingId) return existingId;
-    const uid = shortUUID();
-    const id = uid.generate();
+
+    console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+
+    if (process.env.NODE_ENV !== 'production' && typeof id === 'number') {
+      id++;
+    } else {
+      const uid = shortUUID();
+      id = uid.generate();
+    }
+
     response.setHeader('X-Request-Id', id);
     return id;
   };

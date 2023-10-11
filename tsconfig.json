@@ -9,8 +9,11 @@
       "@kosmic/compose": ["./node_modules/koa-compose/dist/index.d.mts"],
       "@kosmic/koa": ["./node_modules/koa/dist/esm/application.d.mts"],
       "koa": ["./node_modules/koa/dist/esm/application.d.mts"],
-      "koa-compose": ["./node_modules/koa-compose/dist/index.d.mts"]
+      "koa-compose": ["./node_modules/koa-compose/dist/index.d.mts"],
+      "views/*": ["./src/views/*"]
     },
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "rootDir": ".",
     "skipLibCheck": true,
     "sourceMap": true,
