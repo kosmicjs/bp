@@ -1,20 +1,26 @@
 import {type ComponentChildren} from 'preact';
 import Nav from './partials/nav.js';
 
-export default function Layout({
-  children,
-}: {
+export type Props = {
   readonly children: ComponentChildren;
-}) {
+  readonly title?: string;
+  readonly env?: string;
+};
+
+export default function Layout({children, title, env = 'development'}: Props) {
   return (
     <html lang="en">
       <head>
         <meta charset="utf8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
-        <title>My Website</title>
-        <script type="module" src="http://localhost:5173/@vite/client" />
-        <script type="module" src="http://localhost:5173/scripts/main.ts" />
+        <title>{title ?? 'My Website'}</title>
+        {env === 'development' ? (
+          <>
+            <script type="module" src="http://localhost:5173/@vite/client" />
+            <script type="module" src="http://localhost:5173/scripts/main.ts" />
+          </>
+        ) : null}
       </head>
 
       <body className="container w-100 h-100">

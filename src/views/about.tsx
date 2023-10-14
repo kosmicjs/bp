@@ -11,7 +11,7 @@ export type Props = {
 const Index: FunctionComponent<Props> = (props: Props) => {
   return (
     <Layout>
-      <h2>Welcome to My Website</h2>
+      <h2>Welcome to My ABOUT PAGE</h2>
       <p>This is my first Pug template!</p>
       <p>You are on the homepage</p>
       <p>{props.title}</p>
