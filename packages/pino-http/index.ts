@@ -13,8 +13,6 @@ export function createPinoMiddleware(
     const existingId = request.id ?? request.headers['x-request-id'];
     if (existingId) return existingId;
 
-    console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-
     if (process.env.NODE_ENV !== 'production' && typeof id === 'number') {
       id++;
     } else {

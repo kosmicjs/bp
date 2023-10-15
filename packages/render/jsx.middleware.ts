@@ -45,7 +45,7 @@ export async function renderMiddleware(viewPath: string) {
       viewName: string,
       locals?: Omit<L, keyof Locals>,
     ) => {
-      const viewFilePath = path.join(__dirname, viewPath, `${viewName}.jsx`);
+      const viewFilePath = path.join(viewPath, `${viewName}.js`);
       const {default: component} = (await import(viewFilePath)) as {
         default: FunctionComponent<ComponentProps<any>>;
       };

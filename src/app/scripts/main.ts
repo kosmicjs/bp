@@ -2,6 +2,7 @@ import 'vite/modulepreload-polyfill';
 import '@popperjs/core';
 import 'bootstrap';
 import 'htmx.org';
+import {io} from 'socket.io-client';
 import '../styles/styles.scss';
 
 declare global {
@@ -39,6 +40,22 @@ Node.prototype.on = function (name: string, selector, fn) {
   });
 };
 
+console.log('attempting to connect to socket.io server');
+const socket = io('http://127.0.0.1:2222/');
+
+socket.on('message', (data) => {
+  console.log('message');
+});
+socket.on('disconnect', () => {
+  console.log('disconnected');
+});
+socket.on('connect', () => {
+  console.log('connected');
+});
+socket.on('restart', (data) => {
+  console.log('data', data);
+  window.location.reload();
+});
 /**
  * An alias for document.querySelector
  */
