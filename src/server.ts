@@ -1,3 +1,4 @@
+import process from 'node:process';
 import url from 'node:url';
 import path from 'node:path';
 import {pino} from 'pino';
@@ -12,7 +13,7 @@ const logger = pino({
   transport: {target: 'pino-princess'},
 });
 
-const app = new Kosmic()
+export const app = new Kosmic()
   .withFsRouter(routesDir)
   .injectLogger(logger)
   .injectHttpLoggingMiddleware(createPinoMiddleware({logger}));
@@ -20,5 +21,8 @@ const app = new Kosmic()
 app.use(await jsxRender(path.join(__dirname, 'views')));
 
 await app.start(3000);
-
 app.logger.info('Server started on port 3000');
+
+if (typeof process?.send === 'function') {
+  process.send('ready');
+}

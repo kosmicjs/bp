@@ -40,17 +40,12 @@ Node.prototype.on = function (name: string, selector, fn) {
   });
 };
 
-console.log('attempting to connect to socket.io server');
 const socket = io('http://127.0.0.1:2222/');
-
-socket.on('message', (data) => {
-  console.log('message');
-});
 socket.on('disconnect', () => {
-  console.log('disconnected');
+  console.log('socket server disconnected');
 });
 socket.on('connect', () => {
-  console.log('connected');
+  console.log('socket server connected');
 });
 socket.on('restart', (data) => {
   console.log('data', data);

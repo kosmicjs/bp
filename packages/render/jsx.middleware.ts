@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {type Context, type Next, type Locals} from 'koa';
 import {render} from 'preact-render-to-string';
 import {type ComponentProps, type FunctionComponent} from 'preact';
@@ -46,7 +46,9 @@ export async function renderMiddleware(viewPath: string) {
       locals?: Omit<L, keyof Locals>,
     ) => {
       const viewFilePath = path.join(viewPath, `${viewName}.js`);
-      const {default: component} = (await import(viewFilePath)) as {
+      const {default: component} = (await import(
+        `${pathToFileURL(viewFilePath).toString()}?t=${Date.now()}`
+      )) as {
         default: FunctionComponent<ComponentProps<any>>;
       };
       const app = component({

@@ -174,8 +174,10 @@ export class Kosmic extends Koa {
     });
   }
 
-  public async close(): Promise<void> {
-    if (this.terminator) {
+  public async close(soft?: boolean): Promise<void> {
+    if (soft) {
+      this.server.close();
+    } else if (this.terminator) {
       await this.terminator.terminate();
     }
   }
