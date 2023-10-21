@@ -1,6 +1,7 @@
 import {type FunctionComponent} from 'preact';
 import Layout from './layout.js';
 import Modal from './partials/modal.js';
+import Counter from './stateful/test.js';
 
 export type Props = {
   readonly title: string;
@@ -28,6 +29,9 @@ const Index: FunctionComponent<Props> = (props: Props) => {
       >
         Launch demo modal
       </button>
+      <div id="counter" class="pt-5">
+        <Counter />
+      </div>
       <Modal />
     </Layout>
   );

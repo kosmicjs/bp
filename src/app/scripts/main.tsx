@@ -1,8 +1,11 @@
+/* eslint-disable import/no-unassigned-import */
 import 'vite/modulepreload-polyfill';
 import '@popperjs/core';
 import 'bootstrap';
 import 'htmx.org';
 import {io} from 'socket.io-client';
+import {hydrate} from 'preact';
+import Counter from '../../views/stateful/test.js';
 import '../styles/styles.scss';
 
 declare global {
@@ -61,3 +64,7 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 const $body = $('body')!;
+
+const $counter = $('#counter')!;
+
+hydrate(<Counter />, $counter);

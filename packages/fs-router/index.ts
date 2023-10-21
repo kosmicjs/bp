@@ -2,8 +2,7 @@ import process from 'node:process';
 import path from 'node:path';
 import {type Middleware, type Context} from 'koa';
 import fg from 'fast-glob';
-import type {MatchFunction} from 'path-to-regexp';
-import {match as createMatchFn} from 'path-to-regexp';
+import {match as createMatchFn, type MatchFunction} from 'path-to-regexp';
 import compose from 'koa-compose';
 import z from 'zod';
 
@@ -109,11 +108,23 @@ async function createFsRouter(
   );
 
   // eslint-disable-next-line unicorn/no-await-expression-member
-  const routes = (await Promise.all(routesPromises)).sort(
-    (a, b) => (b.module?.weight ?? 100) - (a.module.weight ?? 100),
+  const routes = (await Promise.all(routesPromises)).sort((a, b) =>
+    a.uriPath < b.uriPath
+      ? -1
+      : a.uriPath > b.uriPath
+      ? 1
+      : a.uriPath.split('/').length < b.uriPath.split('/').length
+      ? -1
+      : 1,
+  );
+
+  console.log(
+    'routes',
+    routes.map((uriPath) => uriPath.uriPath),
   );
 
   const middleware: Middleware = async function (ctx: Context, next) {
+    const collectedMiddleware: Middleware[] = [];
     const matchedHandler = routes.find((route) => {
       const [url] = ctx.originalUrl?.split('?') ?? [];
       const match = route.match(url);

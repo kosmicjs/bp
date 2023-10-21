@@ -18,7 +18,10 @@ export default function Layout({children, title, env = 'development'}: Props) {
         {env === 'development' ? (
           <>
             <script type="module" src="http://localhost:5173/@vite/client" />
-            <script type="module" src="http://localhost:5173/scripts/main.ts" />
+            <script
+              type="module"
+              src="http://localhost:5173/scripts/main.tsx"
+            />
           </>
         ) : null}
       </head>

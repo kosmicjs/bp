@@ -24,7 +24,7 @@ const io: Server = new Server({
   },
 });
 io.on('connection', (socket) => {
-  logger.info({id: socket.id}, 'socket connection established...');
+  logger.info({'socket.id': socket.id}, 'socket connection established...');
 });
 io.listen(2222);
 logger.info('socket.io listening on port 2222');

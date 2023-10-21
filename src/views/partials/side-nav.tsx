@@ -5,7 +5,7 @@ export default function SideNav() {
         <li class="mb-1">
           <button
             type="button"
-            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            class="btn"
             data-bs-toggle="collapse"
             data-bs-target="#home-collapse"
             aria-expanded="false"
