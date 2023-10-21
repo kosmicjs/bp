@@ -1,12 +1,11 @@
-/* eslint-disable import/no-unassigned-import */
-import 'vite/modulepreload-polyfill';
-import '@popperjs/core';
-import 'bootstrap';
-import 'htmx.org';
-import {io} from 'socket.io-client';
-import {hydrate} from 'preact';
-import Counter from '../../views/stateful/test.js';
-import '../styles/styles.scss';
+/**
+ * For convenience we add this small helper script which adds a global
+ * on() function to the Node prototype. This allows us to add event listeners
+ * to nodes and delegate to a selector jQuery style.
+ *
+ * This file also exports some handy shortcuts for document.querySelector which
+ * feel nice and less verbose to use.
+ */
 
 declare global {
   interface Node {
@@ -43,28 +42,11 @@ Node.prototype.on = function (name: string, selector, fn) {
   });
 };
 
-const socket = io('http://127.0.0.1:2222/');
-socket.on('disconnect', () => {
-  console.log('socket server disconnected');
-});
-socket.on('connect', () => {
-  console.log('socket server connected');
-});
-socket.on('restart', (data) => {
-  console.log('data', data);
-  window.location.reload();
-});
 /**
  * An alias for document.querySelector
  */
-const $ = document.querySelector.bind(document);
+export const $ = document.querySelector.bind(document);
 /**
  * An alias for document.querySelectorAll
  */
-const $$ = document.querySelectorAll.bind(document);
-
-const $body = $('body')!;
-
-const $counter = $('#counter')!;
-
-hydrate(<Counter />, $counter);
+export const $$ = document.querySelectorAll.bind(document);

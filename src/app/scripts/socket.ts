@@ -1,0 +1,13 @@
+import {io} from 'socket.io-client';
+
+const socket = io('http://127.0.0.1:2222/');
+socket.on('disconnect', () => {
+  console.log('socket server disconnected');
+});
+socket.on('connect', () => {
+  console.log('socket server connected');
+});
+socket.on('restart', (data) => {
+  console.log('data', data);
+  window.location.reload();
+});

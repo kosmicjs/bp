@@ -20,7 +20,7 @@ export default function Layout({children, title, env = 'development'}: Props) {
             <script type="module" src="http://localhost:5173/@vite/client" />
             <script
               type="module"
-              src="http://localhost:5173/scripts/main.tsx"
+              src="http://localhost:5173/scripts/index.ts"
             />
           </>
         ) : null}
