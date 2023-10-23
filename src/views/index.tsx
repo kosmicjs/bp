@@ -1,7 +1,7 @@
 import {type FunctionComponent} from 'preact';
 import Layout from './layout.js';
 import Modal from './partials/modal.js';
-import Counter from './stateful/test.js';
+import Counter from './stateful/counter.js';
 
 export type Props = {
   readonly title: string;
@@ -12,9 +12,17 @@ export type Props = {
 const Index: FunctionComponent<Props> = (props: Props) => {
   return (
     <Layout>
-      <h2>Welcome to My Website</h2>
-      <p>This is my first Pug template!</p>
-      <p>You are on the homepage</p>
+      <h1>Kosmic TS</h1>
+      <p>Less abstractions, all the same features!</p>
+      <p>
+        Kosmic is all about getting back to the roots of web-development. React
+        server components are a cool idea, but honestly, they are full of magic
+        and are very hard to understand. Their development has taken _years_ and
+        the initial delivery of them has been lack luster, full of bugs, and
+        difficulties for developers. Kosmic is a way to get back to the roots of
+        web-development, but still have all the same features that React server
+        components promise.
+      </p>
       <p>{props.title}</p>
       <p>{props.description}</p>
       <button
@@ -29,8 +37,14 @@ const Index: FunctionComponent<Props> = (props: Props) => {
       >
         Launch demo modal
       </button>
-      <div id="counter" class="pt-5">
-        <Counter />
+      <div class="border border-rounded p-2 mt-2">
+        <div>
+          Hello from Preact! This is a small island of Preact that is hydrated
+          and given interactivity on the client side.
+        </div>
+        <div id="counter">
+          <Counter />
+        </div>
       </div>
       <Modal />
     </Layout>

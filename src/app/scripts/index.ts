@@ -11,5 +11,5 @@ import 'bootstrap';
 import 'htmx.org';
 import '../styles/styles.scss';
 import './query.js';
-import './preact-islands.js';
+import './islands.js';
 import './socket.js';

@@ -1,5 +1,5 @@
 import {hydrate} from 'preact';
-import Counter from '../../views/stateful/test.js';
+import Counter from '../../views/stateful/counter.js';
 import {$} from './query.js';
 
 /**
@@ -10,6 +10,10 @@ import {$} from './query.js';
  * find the container component and hydrate it on the front-end with preact.hydrate
  *
  * In this way, only the component you want to hydrate will be loaded and re-rendered on the front-end
+ *
+ * We strongly reccomend you only reach for this as a last resort when htmx is not enough
+ * for client side interactions. If you start reaching for this too much, you should consider
+ * using a more robust front-end metaframework like next or remix.
  */
 
 const $counterIsland = $('#counter');

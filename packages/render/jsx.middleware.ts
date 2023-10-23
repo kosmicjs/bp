@@ -49,7 +49,7 @@ export async function renderMiddleware(viewPath: string) {
       const {default: component} = (await import(
         `${pathToFileURL(viewFilePath).toString()}?t=${Date.now()}`
       )) as {
-        default: FunctionComponent<ComponentProps<any>>;
+        default: FunctionComponent<ComponentProps<any> & typeof locals>;
       };
       const app = component({
         ...locals,
