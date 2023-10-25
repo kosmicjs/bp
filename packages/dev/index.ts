@@ -1,5 +1,6 @@
 import process from 'node:process';
 import path from 'node:path';
+import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {$, type Options as ExecaOptions} from 'execa';
 import chokidar from 'chokidar';
@@ -31,7 +32,9 @@ const execaOptions: ExecaOptions = {
     NODE_NO_WARNINGS: '1',
   },
 };
-const serverFilePath = path.resolve(__dirname, '..', '..', 'src', 'server.ts');
+const baseDevFolderPath = path.resolve(__dirname, '..', '..', '.dev');
+const serverFilePath = path.join(baseDevFolderPath, 'server.js');
+
 const viteServer = await vite.createServer({});
 
 try {
@@ -46,33 +49,42 @@ try {
   io.listen(2222);
   logger.info('socket.io listening on port 2222');
 
-  let server: ReturnType<typeof $>;
-
   const watchGlob = [
     path.resolve(__dirname, `../../src/**/*.{js,jsx,ts,tsx}`),
     path.resolve(__dirname, `../**/*.{js,jsx,ts,tsx}`),
   ];
 
-  const handleFileChanges = (file: string) => {
+  /**
+   * TODO: new dev flow based on dynohot
+   * use swc to compile all files to .dev folder
+   * use dynohot to watch .dev folder and restart server
+   * use vite to watch .dev folder and reload browser for client side changes
+   * use socket.io to reload browser on file changes
+   */
+
+  await fs.rm(path.resolve(__dirname, '..', '..', '.dev'), {
+    force: true,
+    recursive: true,
+  });
+
+  // await $`swc src/**/* -d .dev/src --source-maps inline`;
+  // await $`swc packages/**/* -d .dev/src --source-maps inline`;
+
+  const handleFileChanges = async (file: string) => {
+    console.log('file', file);
     try {
-      logger.info('Change detected, restarting server...');
-      server.kill();
-      server = $(
-        execaOptions,
-      )`node --enable-source-maps  --loader ts-node/esm ${serverFilePath}`;
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      server.once('message', (message) => {
-        if (file.includes('/views')) {
-          io.emit('restart', 'restart');
-        }
-      });
+      await $`swc ${file} -d .dev --source-maps inline`;
+      await $`swc ${file} -d .dev --source-maps inline`;
+      if (file.includes('/views')) {
+        io.emit('restart', 'restart');
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   chokidar
-    .watch(watchGlob, {ignoreInitial: true})
+    .watch(watchGlob)
     .on('ready', () => {
       logger.info({watchGlob}, 'chokidar ready');
     })
@@ -85,9 +97,9 @@ try {
   process.on('SIGHUP', exitHandler);
   process.on('exit', exitHandler);
 
-  server = $(
+  const server = $(
     execaOptions,
-  )`node --enable-source-maps --loader ts-node/esm ${serverFilePath}`;
+  )`node --enable-source-maps --loader dynohot ${serverFilePath}`;
 
   console.log('viteServer', viteServer);
   await viteServer.listen();

@@ -57,7 +57,10 @@ async function createFsRouter(
 
   // TODO: how to do ts?
   // needs to work with ts-node
-  const files = await fg(`${routesDir}/**/*.{js,ts,cts,mts}`);
+  const files = await fg([
+    `${routesDir}/**/*.{js,ts,cts,mts}`,
+    `!${routesDir}/**/*.d.{js,ts,cts,mts}`,
+  ]);
 
   const routesPromises: Array<Promise<RouteDefinition>> = files.map(
     async (filePath) => {

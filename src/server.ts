@@ -20,6 +20,12 @@ export const app = new Kosmic()
 
 app.use(await jsxRender(path.join(__dirname, 'views')));
 
+// 🔥 This is what you have to do. This is "self accepting".
+import.meta.hot?.accept(async () => {
+  await app.close();
+  app.server.close();
+});
+
 await app.start(3000);
 app.logger.info('Server started on port 3000');
 

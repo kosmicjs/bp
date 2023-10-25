@@ -45,18 +45,25 @@ export async function renderMiddleware(viewPath: string) {
       viewName: string,
       locals?: Omit<L, keyof Locals>,
     ) => {
-      const viewFilePath = path.join(viewPath, `${viewName}.js`);
-      const {default: component} = (await import(
-        `${pathToFileURL(viewFilePath).toString()}?t=${Date.now()}`
-      )) as {
+      const viewFilePath = `${pathToFileURL(
+        path.join(viewPath, `${viewName}.js`),
+      ).toString()}?t=${Date.now()}`;
+
+      // console.log(viewFilePath);
+
+      const {default: component} = (await import(viewFilePath)) as {
         default: FunctionComponent<ComponentProps<any> & typeof locals>;
       };
+
+      // console.log(component.toString());
       const app = component({
         ...locals,
         ...ctx.locals,
         ...ctx.response.locals,
       })!;
+
       ctx.type = 'html';
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       ctx.body = render(app);
     };

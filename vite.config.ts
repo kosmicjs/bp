@@ -6,7 +6,7 @@ const config: UserConfig = {
   build: {
     manifest: true,
     rollupOptions: {
-      input: path.join(__dirname, 'src/app/scripts/main.ts'), // eslint-disable-line unicorn/prefer-module
+      input: path.join(__dirname, 'src/app/scripts/index.ts'), // eslint-disable-line unicorn/prefer-module
     },
   },
 };
