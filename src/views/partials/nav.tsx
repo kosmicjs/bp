@@ -28,6 +28,11 @@ export default function Nav() {
                 Docs
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/docs">
+                Test!
+              </a>
+            </li>
           </ul>
           <form class="d-flex" role="search">
             <input

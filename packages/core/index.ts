@@ -174,12 +174,24 @@ export class Kosmic extends Koa {
     });
   }
 
-  public async close(soft?: boolean): Promise<void> {
-    if (soft) {
-      this.server.close();
-    } else if (this.terminator) {
+  public async close(): Promise<void> {
+    /**
+     * Set a close event handler and return a promise
+     */
+    const serverClosedPromise = new Promise((resolve) => {
+      this.server.on('close', resolve);
+    });
+    /**
+     * Close HTTP server connections
+     * and properly cleanup and destroy them
+     * and then close the server (handled internally by http-terminator)
+     */
+    if (this.terminator) {
       await this.terminator.terminate();
     }
+
+    /** ensure the server has completely closed before returning */
+    await serverClosedPromise;
   }
 
   private async _applyMiddleware() {

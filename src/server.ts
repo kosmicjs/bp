@@ -3,8 +3,8 @@ import url from 'node:url';
 import path from 'node:path';
 import {pino} from 'pino';
 import {renderMiddleware as jsxRender} from '../packages/render/jsx.middleware.js';
-import {createPinoMiddleware} from '#kosmic/pino-http';
-import {Kosmic} from '#kosmic/core';
+import {createPinoMiddleware} from '../packages/pino-http/index.js';
+import {Kosmic} from '../packages/core/index.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const routesDir = path.join(__dirname, 'routes');
@@ -20,15 +20,8 @@ export const app = new Kosmic()
 
 app.use(await jsxRender(path.join(__dirname, 'views')));
 
-// 🔥 This is what you have to do. This is "self accepting".
-import.meta.hot?.accept(async () => {
+import.meta.hot?.accept(async (...args) => {
+  console.log('accept callback', args);
   await app.close();
-  app.server.close();
+  await app.start(3000);
 });
-
-await app.start(3000);
-app.logger.info('Server started on port 3000');
-
-if (typeof process?.send === 'function') {
-  process.send('ready');
-}

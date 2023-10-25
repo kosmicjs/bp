@@ -2,11 +2,13 @@ import process from 'node:process';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {$, type Options as ExecaOptions} from 'execa';
+import {$} from 'execa';
 import chokidar from 'chokidar';
 import {pino} from 'pino';
 import {Server} from 'socket.io';
 import * as vite from 'vite';
+import esbuild from 'esbuild';
+import glob from 'fast-glob';
 
 let isExiting = false;
 
@@ -23,17 +25,30 @@ const exitHandler = () => {
   process.exit(0);
 };
 
+/**
+ * Dev tool logger
+ */
+const logger = pino({transport: {target: 'pino-princess'}, name: 'dev'});
+
+/**
+ * Current directory of this file
+ */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+/**
+ * CWD of the project
+ */
 const cwd = path.resolve(__dirname, '..', '..');
-const logger = pino({transport: {target: 'pino-princess'}});
-const execaOptions: ExecaOptions = {
-  stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
-  env: {
-    NODE_NO_WARNINGS: '1',
-  },
-};
-const baseDevFolderPath = path.resolve(__dirname, '..', '..', '.dev');
-const serverFilePath = path.join(baseDevFolderPath, 'server.js');
+
+logger.info(`starting dev server from cwd:${cwd}`);
+
+/**
+ * .dev folder for swc compiled files
+ */
+const devFolder = path.resolve(__dirname, '..', '..', '.dev');
+/**
+ * server path after swc compilation
+ */
+const serverFilePath = path.join(devFolder, 'src', 'index.js');
 
 const viteServer = await vite.createServer({});
 
@@ -52,6 +67,7 @@ try {
   const watchGlob = [
     path.resolve(__dirname, `../../src/**/*.{js,jsx,ts,tsx}`),
     path.resolve(__dirname, `../**/*.{js,jsx,ts,tsx}`),
+    path.join(cwd, 'package.json'),
   ];
 
   /**
@@ -62,34 +78,63 @@ try {
    * use socket.io to reload browser on file changes
    */
 
+  /**
+   * Clean .dev folder
+   */
   await fs.rm(path.resolve(__dirname, '..', '..', '.dev'), {
     force: true,
     recursive: true,
   });
 
-  // await $`swc src/**/* -d .dev/src --source-maps inline`;
-  // await $`swc packages/**/* -d .dev/src --source-maps inline`;
+  /**
+   * initial build
+   */
+  const tsbuilder = await esbuild.context({
+    entryPoints: await glob(watchGlob),
+    outdir: devFolder,
+    platform: 'node',
+    minify: false,
+    sourcemap: true,
+    target: 'node18',
+    format: 'esm',
+    tsconfig: path.join(cwd, 'tsconfig.json'),
+  });
+
+  await tsbuilder.rebuild();
 
   const handleFileChanges = async (file: string) => {
-    console.log('file', file);
     try {
-      await $`swc ${file} -d .dev --source-maps inline`;
-      await $`swc ${file} -d .dev --source-maps inline`;
-      if (file.includes('/views')) {
-        io.emit('restart', 'restart');
+      if (file.endsWith('package.json')) {
+        await fs.rm(path.join(devFolder, 'package.json'), {
+          force: true,
+          recursive: true,
+        });
+        await fs.mkdir(devFolder, {recursive: true});
+        await fs.copyFile(
+          path.join(cwd, 'package.json'),
+          path.join(devFolder, 'package.json'),
+        );
+      } else {
+        await tsbuilder.rebuild();
+        if (file.includes('/views')) {
+          io.emit('restart', 'restart');
+        }
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  chokidar
-    .watch(watchGlob)
-    .on('ready', () => {
-      logger.info({watchGlob}, 'chokidar ready');
-    })
-    .on('change', handleFileChanges)
-    .on('add', handleFileChanges);
+  await new Promise((resolve, reject) => {
+    chokidar
+      .watch(watchGlob)
+      .on('ready', () => {
+        logger.info({watchGlob}, 'chokidar ready');
+        resolve(undefined);
+      })
+      .on('change', handleFileChanges)
+      .on('add', handleFileChanges);
+  });
 
   process.on('SIGINT', exitHandler);
   process.on('SIGTERM', exitHandler);
@@ -97,11 +142,14 @@ try {
   process.on('SIGHUP', exitHandler);
   process.on('exit', exitHandler);
 
-  const server = $(
-    execaOptions,
-  )`node --enable-source-maps --loader dynohot ${serverFilePath}`;
+  const server = $({
+    stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
+    env: {
+      NODE_NO_WARNINGS: '1',
+    },
+  })`node --enable-source-maps --loader dynohot ${serverFilePath}`;
 
-  console.log('viteServer', viteServer);
+  // console.log('viteServer', viteServer);
   await viteServer.listen();
   viteServer.printUrls();
 } catch (error) {
