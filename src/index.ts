@@ -6,4 +6,4 @@ import {app} from './server.js';
 // });
 
 await app.start(3000);
-app.logger.info('Server started on port 3000!');
+app.logger.info('Server started on port 3000');

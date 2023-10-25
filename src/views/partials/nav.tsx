@@ -30,7 +30,7 @@ export default function Nav() {
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/docs">
-                Test!
+                Test
               </a>
             </li>
           </ul>

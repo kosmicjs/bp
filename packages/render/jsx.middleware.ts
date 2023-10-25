@@ -49,7 +49,7 @@ export async function renderMiddleware(viewPath: string) {
         path.join(viewPath, `${viewName}.js`),
       ).toString()}?t=${Date.now()}`;
 
-      console.log('viewFilePath ahha', viewFilePath);
+      console.log('viewFilePath oooh yah', viewFilePath);
 
       const {default: component} = (await import(viewFilePath)) as {
         default: FunctionComponent<ComponentProps<any> & typeof locals>;

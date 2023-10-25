@@ -147,7 +147,7 @@ try {
     env: {
       NODE_NO_WARNINGS: '1',
     },
-  })`node --enable-source-maps --loader dynohot ${serverFilePath}`;
+  })`node --watch --watch-preserve-output --enable-source-maps ${serverFilePath}`;
 
   // console.log('viteServer', viteServer);
   await viteServer.listen();
