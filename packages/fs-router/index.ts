@@ -121,10 +121,7 @@ async function createFsRouter(
       : 1,
   );
 
-  console.log(
-    'routes',
-    routes.map((uriPath) => uriPath.uriPath),
-  );
+  console.log('routes', routes);
 
   const middleware: Middleware = async function (ctx: Context, next) {
     const collectedMiddleware: Middleware[] = [];
