@@ -20,8 +20,8 @@ export const app = new Kosmic()
 
 app.use(await jsxRender(path.join(__dirname, 'views')));
 
-import.meta.hot?.accept(async (...args) => {
-  console.log('accept callback', args);
+console.log('pospod');
+
+import.meta.hot?.dispose(async (data) => {
   await app.close();
-  await app.start(3000);
 });

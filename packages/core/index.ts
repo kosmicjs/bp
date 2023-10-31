@@ -168,6 +168,10 @@ export class Kosmic extends Koa {
         .once('listening', () => {
           this.terminator = createHttpTerminator({server: this.server});
 
+          this.logger.info(
+            `server started at ${JSON.stringify(server.address()) || ''}`,
+          );
+
           resolve(this);
         })
         .once('error', reject);
@@ -179,7 +183,9 @@ export class Kosmic extends Koa {
      * Set a close event handler and return a promise
      */
     const serverClosedPromise = new Promise((resolve) => {
-      this.server.on('close', resolve);
+      this.server.on('close', () => {
+        resolve(undefined);
+      });
     });
     /**
      * Close HTTP server connections

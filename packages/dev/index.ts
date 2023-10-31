@@ -59,7 +59,7 @@ try {
     },
   });
   io.on('connection', (socket) => {
-    logger.info({'socket.id': socket.id}, 'socket connection established...');
+    logger.debug({'socket.id': socket.id}, 'socket connection established...');
   });
   io.listen(2222);
   logger.info('socket.io listening on port 2222');
@@ -116,9 +116,6 @@ try {
         );
       } else {
         await tsbuilder.rebuild();
-        if (file.includes('/views')) {
-          io.emit('restart', 'restart');
-        }
       }
     } catch (error) {
       console.error(error);
@@ -127,7 +124,7 @@ try {
 
   await new Promise((resolve, reject) => {
     chokidar
-      .watch(watchGlob)
+      .watch(watchGlob, {ignoreInitial: true})
       .on('ready', () => {
         logger.info({watchGlob}, 'chokidar ready');
         resolve(undefined);
@@ -142,14 +139,21 @@ try {
   process.on('SIGHUP', exitHandler);
   process.on('exit', exitHandler);
 
+  logger.info('starting server');
   const server = $({
     stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
     env: {
       NODE_NO_WARNINGS: '1',
     },
-  })`node --watch --watch-preserve-output --enable-source-maps ${serverFilePath}`;
+  })`node --enable-source-maps --loader dynohot ${serverFilePath}`;
 
-  // console.log('viteServer', viteServer);
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  server.on('message', (message) => {
+    if (message === 'reload') {
+      io.emit('restart', 'restart');
+    }
+  });
+
   await viteServer.listen();
   viteServer.printUrls();
 } catch (error) {

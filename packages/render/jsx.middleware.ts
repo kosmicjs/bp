@@ -47,15 +47,12 @@ export async function renderMiddleware(viewPath: string) {
     ) => {
       const viewFilePath = `${pathToFileURL(
         path.join(viewPath, `${viewName}.js`),
-      ).toString()}?t=${Date.now()}`;
-
-      console.log('viewFilePath oooh yah', viewFilePath);
+      ).toString()}`;
 
       const {default: component} = (await import(viewFilePath)) as {
         default: FunctionComponent<ComponentProps<any> & typeof locals>;
       };
 
-      // console.log(component.toString());
       const app = component({
         ...locals,
         ...ctx.locals,

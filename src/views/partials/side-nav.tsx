@@ -10,7 +10,7 @@ export default function SideNav() {
             data-bs-target="#home-collapse"
             aria-expanded="false"
           >
-            Home
+            Getting Started
           </button>
           <div class="collapse" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -19,7 +19,7 @@ export default function SideNav() {
                   href="#"
                   class="link-body-emphasis d-inline-flex text-decoration-none rounded"
                 >
-                  Overview
+                  Installation
                 </a>
               </li>
               <li>
