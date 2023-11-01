@@ -1,7 +1,7 @@
 import process from 'node:process';
 import path from 'node:path';
 import {type Middleware, type Context} from 'koa';
-import fg from 'fast-glob';
+import {globby} from 'globby';
 import {match as createMatchFn, type MatchFunction} from 'path-to-regexp';
 import compose from 'koa-compose';
 import z from 'zod';
@@ -57,7 +57,7 @@ async function createFsRouter(
 
   // TODO: how to do ts?
   // needs to work with ts-node
-  const files = await fg([
+  const files = await globby([
     `${routesDir}/**/*.{js,ts,cts,mts}`,
     `!${routesDir}/**/*.d.{js,ts,cts,mts}`,
   ]);
@@ -65,10 +65,19 @@ async function createFsRouter(
   const routesPromises: Array<Promise<RouteDefinition>> = files.map(
     async (filePath) => {
       let uriPath = filePath
-        .replace(routesDir, '')
-        .replace(/(\.js)|(\.ts)/, '')
-        .replaceAll('/index', '')
-        .replace(/\/*$/, '');
+        .replaceAll(
+          new RegExp(`(${routesDir})|(.jsx?)|(.tsx?)|(/index)|(/*$)`, 'g'),
+          '',
+        )
+        .split(path.sep)
+        .map((part) => {
+          if (/^\[.*]$/.test(part)) {
+            return part.replace(/^\[/, ':').replace(/]$/, '');
+          }
+
+          return part;
+        })
+        .join('/');
 
       if (uriPath === '') uriPath = '/';
 

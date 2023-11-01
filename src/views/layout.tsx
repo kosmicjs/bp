@@ -26,12 +26,14 @@ export default function Layout({children, title, env = 'development'}: Props) {
         ) : null}
       </head>
 
-      <body className="container w-100 h-100">
+      <body className="container w-100 h-100" data-barba="wrapper">
         <Nav />
         <header className="w-100">
           <h1>{title}</h1>
         </header>
-        <main className="w-100">{children}</main>
+        <main className="w-100" data-barba="container">
+          {children}
+        </main>
         <footer className="w-100">
           <p>Copyright © 2021 My Website</p>
         </footer>

@@ -15,6 +15,11 @@ let isExiting = false;
 const viteAbortController = new AbortController();
 const serverAbortController = new AbortController();
 
+/**
+ * Dev tool logger
+ */
+const logger = pino({transport: {target: 'pino-princess'}, name: 'dev'});
+
 const exitHandler = () => {
   if (isExiting) return;
   logger.info('Exiting...');
@@ -24,11 +29,6 @@ const exitHandler = () => {
   // eslint-disable-next-line unicorn/no-process-exit
   process.exit(0);
 };
-
-/**
- * Dev tool logger
- */
-const logger = pino({transport: {target: 'pino-princess'}, name: 'dev'});
 
 /**
  * Current directory of this file
@@ -126,7 +126,7 @@ try {
     chokidar
       .watch(watchGlob, {ignoreInitial: true})
       .on('ready', () => {
-        logger.info({watchGlob}, 'chokidar ready');
+        logger.debug({watchGlob}, 'chokidar ready');
         resolve(undefined);
       })
       .on('change', handleFileChanges)
