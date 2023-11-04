@@ -66,7 +66,7 @@ async function createFsRouter(
     async (filePath) => {
       let uriPath = filePath
         .replaceAll(
-          new RegExp(`(${routesDir})|(.jsx?)|(.tsx?)|(/index)|(/*$)`, 'g'),
+          new RegExp(`(${routesDir})|(.(j|t)sx?)|(/index)|(/*$)`, 'g'),
           '',
         )
         .split(path.sep)
