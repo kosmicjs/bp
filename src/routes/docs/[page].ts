@@ -15,6 +15,5 @@ declare module 'koa' {
 
 export const get: Middleware = async (ctx) => {
   ctx.log.debug(`Rendering partial "${ctx.request.params?.page}"`);
-  await setTimeout(2000);
   await ctx.render(`partials/docs/${ctx.request.params?.page}`, {});
 };

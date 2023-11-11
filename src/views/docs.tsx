@@ -10,11 +10,17 @@ function Index(props: Props) {
   return (
     <Layout>
       <div class="row">
-        <div class="col-6">
+        <div class="col-2">
           <SideNav />
         </div>
-        <div id="docs-content" class="col-6">
-          <h2>Default content</h2>
+        <div id="docs-content" class="col-10">
+          <div className="d-flex justify-content-center">
+            <h2>Docs</h2>
+          </div>
+          <p>
+            Welcome to Kosmic Docs! This is a work in progress, so please be
+            patient.
+          </p>
         </div>
       </div>
     </Layout>

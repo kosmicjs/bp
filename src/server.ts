@@ -10,7 +10,9 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const routesDir = path.join(__dirname, 'routes');
 
 const logger = pino({
+  level: 'debug',
   transport: {target: 'pino-princess'},
+  name: 'server',
 });
 
 export const app = new Kosmic()

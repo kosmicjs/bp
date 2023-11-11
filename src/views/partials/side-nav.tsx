@@ -14,15 +14,7 @@ export default function SideNav() {
         <div class="list-group list-group-flush">
           <button
             type="button"
-            class="list-group-item list-group-item-action"
-            hx-get="/docs/getting-started"
-            hx-target="#docs-content"
-          >
-            Installation
-          </button>
-          <button
-            type="button"
-            class="list-group-item list-group-item-action"
+            class="list-group-item list-group-item-action text-end"
             hx-get="/docs/getting-started"
             hx-target="#docs-content"
           >
