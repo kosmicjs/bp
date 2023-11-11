@@ -7,8 +7,7 @@ export type Props = {
   readonly description: string;
 };
 
-// eslint-disable-next-line react/function-component-definition
-const Index: FunctionComponent<Props> = (props: Props) => {
+function Index(props: Props) {
   return (
     <Layout>
       <h2>Welcome to My ABOUT PAGE</h2>
@@ -31,6 +30,6 @@ const Index: FunctionComponent<Props> = (props: Props) => {
       <Modal />
     </Layout>
   );
-};
+}
 
 export default Index;
