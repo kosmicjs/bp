@@ -1,6 +1,5 @@
 import {type FunctionComponent} from 'preact';
 import Layout from './layout.js';
-import Modal from './partials/modal.js';
 import SideNav from './partials/side-nav.js';
 
 export type Props = {
@@ -11,8 +10,14 @@ export type Props = {
 const Index: FunctionComponent<Props> = (props: Props) => {
   return (
     <Layout>
-      <SideNav />
-      <Modal />
+      <div class="row">
+        <div class="col-6">
+          <SideNav />
+        </div>
+        <div id="docs-content" class="col-6">
+          <h2>Default content</h2>
+        </div>
+      </div>
     </Layout>
   );
 };

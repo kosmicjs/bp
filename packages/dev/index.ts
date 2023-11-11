@@ -18,7 +18,11 @@ const serverAbortController = new AbortController();
 /**
  * Dev tool logger
  */
-const logger = pino({transport: {target: 'pino-princess'}, name: 'dev'});
+const logger = pino({
+  level: 'debug',
+  transport: {target: 'pino-princess'},
+  name: 'dev',
+});
 
 const exitHandler = () => {
   if (isExiting) return;
@@ -71,14 +75,6 @@ try {
   ];
 
   /**
-   * TODO: new dev flow based on dynohot
-   * use swc to compile all files to .dev folder
-   * use dynohot to watch .dev folder and restart server
-   * use vite to watch .dev folder and reload browser for client side changes
-   * use socket.io to reload browser on file changes
-   */
-
-  /**
    * Clean .dev folder
    */
   await fs.rm(path.resolve(__dirname, '..', '..', '.dev'), {
@@ -115,6 +111,7 @@ try {
           path.join(devFolder, 'package.json'),
         );
       } else {
+        logger.debug({file}, 'ts rebuilding');
         await tsbuilder.rebuild();
       }
     } catch (error) {
@@ -150,6 +147,7 @@ try {
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   server.on('message', (message) => {
     if (message === 'reload') {
+      logger.debug('sending reload to socket.io');
       io.emit('restart', 'restart');
     }
   });

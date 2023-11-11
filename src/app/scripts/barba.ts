@@ -1,3 +1,3 @@
 import barba from '@barba/core';
 
-barba.default.init({});
+(barba as unknown as typeof barba.default).init({});

@@ -12,6 +12,7 @@
       "koa-compose": ["./node_modules/koa-compose/dist/index.d.mts"],
       "views/*": ["./src/views/*"]
     },
+    "esModuleInterop": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "rootDir": ".",
