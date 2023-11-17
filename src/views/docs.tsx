@@ -1,4 +1,3 @@
-import {type FunctionComponent} from 'preact';
 import Layout from './layout.js';
 import SideNav from './partials/side-nav.js';
 
@@ -13,7 +12,7 @@ function Index(props: Props) {
         <div class="col-2">
           <SideNav />
         </div>
-        <div id="docs-content" class="col-10">
+        <div id="docs-content" class="col-10 p-5">
           <div className="d-flex justify-content-center">
             <h2>Docs</h2>
           </div>

@@ -1,4 +1,3 @@
-import {type FunctionComponent} from 'preact';
 import Layout from './layout.js';
 import Modal from './partials/modal.js';
 import Counter from './stateful/counter.js';

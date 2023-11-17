@@ -15,7 +15,10 @@ import {$} from './query.js';
  * for client side interactions. If you start reaching for this too much, you should consider
  * using a more robust front-end metaframework like next or remix.
  */
+export const hydrateIslands = () => {
+  const $counterIsland = $('#counter');
 
-const $counterIsland = $('#counter');
+  if ($counterIsland) hydrate(<Counter />, $counterIsland);
+};
 
-if ($counterIsland) hydrate(<Counter />, $counterIsland);
+hydrateIslands();
