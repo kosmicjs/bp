@@ -5,6 +5,7 @@ import {pino} from 'pino';
 import {renderMiddleware as jsxRender} from '../packages/render/jsx.middleware.js';
 import {createPinoMiddleware} from '../packages/pino-http/index.js';
 import {Kosmic} from '../packages/core/index.js';
+import {passport} from './config/passport.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const routesDir = path.join(__dirname, 'routes');
@@ -21,6 +22,10 @@ export const app = new Kosmic()
   .injectHttpLoggingMiddleware(createPinoMiddleware({logger}));
 
 app.use(await jsxRender(path.join(__dirname, 'views')));
+
+app.use(passport.initialize({userProperty: 'user'}));
+
+app.use(passport.session());
 
 import.meta.hot?.dispose(async (data) => {
   await app.close();
