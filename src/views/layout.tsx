@@ -30,6 +30,7 @@ export default function Layout({children, title, env = 'development'}: Props) {
       <body
         className="container w-100 min-vh-100"
         data-barba="wrapper"
+        data-barba-namespace="default"
         data-bs-theme="dark"
       >
         <Header />

@@ -3,11 +3,17 @@ import htmx from 'htmx.org';
 import {hydrateIslands} from './islands.js';
 import {$} from './query.js';
 
-const barbaTyped = barba as unknown as typeof barba.default;
+const typedBarba = barba as unknown as typeof barba.default;
 
-barbaTyped.hooks.after(async () => {
-  htmx.process($('main')!);
+typedBarba.hooks.beforeEnter((viewData) => {
+  htmx.process(viewData!.next.container);
   hydrateIslands();
 });
 
-barbaTyped.init();
+typedBarba.init({
+  transitions: [
+    {
+      name: 'self',
+    },
+  ],
+});

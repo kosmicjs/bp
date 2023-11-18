@@ -1,3 +1,5 @@
+export type Props = Record<string, unknown>;
+
 export default function Nav() {
   return (
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
