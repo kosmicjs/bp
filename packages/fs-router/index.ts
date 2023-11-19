@@ -1,3 +1,4 @@
+/* eslint-disable max-depth */
 import process from 'node:process';
 import path from 'node:path';
 import {type Middleware, type Context} from 'koa';
@@ -5,6 +6,12 @@ import {globby} from 'globby';
 import {match as createMatchFn, type MatchFunction} from 'path-to-regexp';
 import compose from 'koa-compose';
 import z from 'zod';
+import {
+  type HttpVerb,
+  type HttpVerbsAll,
+  type RouteModule,
+  type RouteDefinition,
+} from './types.js';
 
 declare module 'koa' {
   // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -18,42 +25,57 @@ declare module 'koa' {
   }
 }
 
-type Method = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'head' | 'options';
+const verbs: HttpVerb[] = ['get', 'post', 'put', 'patch', 'delete'];
+const verbsWithAll: HttpVerbsAll[] = [...verbs, 'all'];
 
-const middlewareSchema = z.function().args(z.any()).returns(z.any());
+const middlewareSchema = z.function().optional();
 
-const routeModuleSchema = z.object({
-  get: middlewareSchema.optional(),
-  post: middlewareSchema.optional(),
-  put: middlewareSchema.optional(),
-  patch: middlewareSchema.optional(),
-  delete: middlewareSchema.optional(),
-  head: middlewareSchema.optional(),
-  options: middlewareSchema.optional(),
-  weight: z.number().optional(),
-  useBefore: z.array(middlewareSchema).optional(),
-  useAfter: z.array(middlewareSchema).optional(),
+const middlewareArraySchema = z
+  .union([z.array(middlewareSchema).optional(), middlewareSchema.optional()])
+  .optional();
+
+const useObjectSchema = z.object({
+  get: middlewareArraySchema,
+  post: middlewareArraySchema,
+  put: middlewareArraySchema,
+  patch: middlewareArraySchema,
+  delete: middlewareArraySchema,
+  all: middlewareArraySchema,
 });
 
-// Create a TypeScript type from the schema
-type RouteModule = z.TypeOf<typeof routeModuleSchema>;
+const useSchema = z.union([useObjectSchema, middlewareArraySchema]);
 
-type RouteDefinition = {
-  uriPath: string;
-  filePath: string;
-  match: MatchFunction<Record<string, string | undefined>>;
-  module: RouteModule;
-  middleware?: Middleware;
-  params?: Record<string, string | undefined>;
-};
+const routeModuleSchema = z.object({
+  get: middlewareSchema,
+  post: middlewareSchema,
+  put: middlewareSchema,
+  patch: middlewareSchema,
+  delete: middlewareSchema,
+  use: useSchema,
+});
 
 async function createFsRouter(
   routesDir = path.join(process.cwd(), 'routes'),
 ): Promise<{middleware: Middleware; routes: RouteDefinition[]}> {
-  const middlewareByFileDir: {
-    before: Record<string, Middleware>;
-    after: Record<string, Middleware>;
-  } = {before: {}, after: {}};
+  /**
+   * create a function on start up that transforms filePaths
+   * with the correct convention to path-to-regexp compatible paths
+   */
+  const getUriPathFromFilePath = (filePath: string): string =>
+    filePath
+      .replaceAll(
+        new RegExp(`(${routesDir})|(.(j|t)sx?)|(/index)|(/*$)`, 'g'),
+        '',
+      )
+      .split(path.sep)
+      .map((part) => {
+        if (/^\[.*]$/.test(part)) {
+          return part.replace(/^\[/, ':').replace(/]$/, '');
+        }
+
+        return part;
+      })
+      .join('/');
 
   // TODO: how to do ts?
   // needs to work with ts-node
@@ -62,65 +84,27 @@ async function createFsRouter(
     `!${routesDir}/**/*.d.{js,ts,cts,mts}`,
   ]);
 
-  const routesPromises: Array<Promise<RouteDefinition>> = files.map(
+  const routesFromFilesPromises: Array<Promise<RouteDefinition>> = files.map(
     async (filePath) => {
-      let uriPath = filePath
-        .replaceAll(
-          new RegExp(`(${routesDir})|(.(j|t)sx?)|(/index)|(/*$)`, 'g'),
-          '',
-        )
-        .split(path.sep)
-        .map((part) => {
-          if (/^\[.*]$/.test(part)) {
-            return part.replace(/^\[/, ':').replace(/]$/, '');
-          }
+      const uriPath = getUriPathFromFilePath(filePath);
 
-          return part;
-        })
-        .join('/');
-
-      if (uriPath === '') uriPath = '/';
-
-      if (uriPath.includes('?')) {
-        throw new Error(
-          'fs-router does not support optional parameters in filenames',
-        );
-      }
-
-      let module!: RouteModule;
-
-      try {
-        // need to handle errors better here...
-        module = (await import(filePath)) as RouteModule;
-      } catch (error) {
-        console.error(error);
-      }
+      const module: RouteModule | undefined = (await import(
+        filePath
+      )) as RouteModule;
 
       routeModuleSchema.parse(module);
-
-      const middlewareBefore = module.useBefore && compose(module.useBefore);
-
-      const middlewareAfter = module.useAfter && compose(module.useAfter);
-
-      if (middlewareBefore)
-        middlewareByFileDir.before[path.dirname(filePath)] = middlewareBefore;
-
-      if (middlewareAfter)
-        middlewareByFileDir.after[path.dirname(filePath)] = middlewareAfter;
 
       return {
         filePath,
         uriPath,
         match: createMatchFn<Record<string, string | undefined>>(uriPath),
         module,
-        middlewareBefore,
-        middlewareAfter,
       };
     },
   );
 
   // eslint-disable-next-line unicorn/no-await-expression-member
-  const routes = (await Promise.all(routesPromises)).sort((a, b) =>
+  const routes = (await Promise.all(routesFromFilesPromises)).sort((a, b) =>
     a.uriPath < b.uriPath
       ? -1
       : a.uriPath > b.uriPath
@@ -130,11 +114,72 @@ async function createFsRouter(
       : 1,
   );
 
+  // After sorting, we can pre-compose the middleware for each route
+  for (const route of routes) {
+    console.log('route', route.filePath);
+    const collectedMiddleware: Record<HttpVerbsAll, Middleware[]> = {
+      get: [],
+      post: [],
+      put: [],
+      patch: [],
+      delete: [],
+      all: [],
+    };
+
+    // for each route, loop over the routes and collect the middleware
+    // stopping when we reach the current route. In this way we can pre-compose
+    // the middleware combinations needed for each route and avoid doing it at runtime in the handler
+    for (const {module, uriPath} of routes) {
+      console.log('    collecting middleware', uriPath);
+
+      if (typeof module.use === 'function') {
+        console.log('    collected "all" middleware', module.use);
+        collectedMiddleware.all.push(module.use);
+      }
+
+      if (Array.isArray(module.use)) {
+        for (const use of module.use) {
+          if (typeof use === 'function') {
+            console.log('    collected "all" middleware', module.use);
+            collectedMiddleware.all.push(use);
+            continue;
+          }
+
+          for (const verb of verbsWithAll) {
+            const useVerb = use[verb];
+            if (useVerb && typeof useVerb === 'function') {
+              console.log(`    collected "${verb}" middleware`, module.use);
+              collectedMiddleware[verb].push(useVerb);
+            }
+          }
+        }
+      }
+
+      // now for each http verb, we have a fully pre-composed method
+      // that excutes all the middleware in the correct order including the route handler
+      for (const verb of verbs) {
+        const routeVerbHandler = route.module[verb];
+        if (routeVerbHandler) {
+          console.log('    adding route verb handler', verb, routeVerbHandler);
+          route[verb] = compose([
+            ...collectedMiddleware.all,
+            ...collectedMiddleware[verb],
+            routeVerbHandler,
+          ]);
+        }
+      }
+
+      if (route.uriPath === uriPath) {
+        console.log('  matched!! break!');
+        break;
+      }
+    }
+  }
+
   console.log('routes', routes);
 
   const middleware: Middleware = async function (ctx: Context, next) {
-    const collectedMiddleware: Middleware[] = [];
-    const matchedHandler = routes.find((route) => {
+    const matchedRoute = routes.find((route) => {
       const [url] = ctx.originalUrl?.split('?') ?? [];
       const match = route.match(url);
 
@@ -144,29 +189,11 @@ async function createFsRouter(
 
       return match;
     });
-
-    if (!matchedHandler) return next();
-
-    const fn = matchedHandler?.module?.[ctx.method?.toLowerCase() as Method];
-
+    if (!matchedRoute) return next();
+    const fn = matchedRoute?.[ctx.method?.toLowerCase() as HttpVerb];
     if (!fn || typeof fn !== 'function') return next();
-
-    const middleware: Middleware[] = [];
-
-    if (matchedHandler) {
-      for (const fileDir of Object.keys(middlewareByFileDir)) {
-        if (path.dirname(matchedHandler.filePath).includes(fileDir)) {
-          middleware.push(middlewareByFileDir.before[fileDir]);
-        }
-      }
-    }
-
-    if (middleware.length > 0) {
-      await compose(middleware)(ctx, next);
-    }
-
-    ctx.request.params = matchedHandler?.params;
-
+    ctx.request.params = matchedRoute?.params;
+    ctx.params = matchedRoute?.params;
     await fn(ctx, next);
   };
 

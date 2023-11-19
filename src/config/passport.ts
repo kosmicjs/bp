@@ -1,11 +1,11 @@
 import process from 'node:process';
 import passport from 'koa-passport';
 import {Strategy as LocalStrategy} from 'passport-local';
-import {
-  Strategy as GoogleStrategy,
-  type Profile,
-  type VerifyCallback,
-} from 'passport-google-oauth20';
+// import {
+//   Strategy as GoogleStrategy,
+//   type Profile,
+//   type VerifyCallback,
+// } from 'passport-google-oauth20';
 import argon2 from 'argon2';
 import {db} from '../db/index.js';
 import {type SelectableUser} from '../models/user.js';
@@ -69,65 +69,65 @@ passport.use(
   }),
 );
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: GOOGLE_CLIENT_ID!,
-      clientSecret: GOOGLE_CLIENT_SECRET!,
-      scope: [
-        'https://www.googleapis.com/auth/userinfo.profile',
-        'https://www.googleapis.com/auth/userinfo.email',
-      ],
-      callbackURL: 'http://localhost:3000/auth/google/callback',
-    },
-    async function (
-      accessToken,
-      refreshToken,
-      profile: Profile,
-      cb: VerifyCallback,
-    ) {
-      logger.debug(
-        {accessToken, refreshToken, profile},
-        'google profile response',
-      );
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID: GOOGLE_CLIENT_ID!,
+//       clientSecret: GOOGLE_CLIENT_SECRET!,
+//       scope: [
+//         'https://www.googleapis.com/auth/userinfo.profile',
+//         'https://www.googleapis.com/auth/userinfo.email',
+//       ],
+//       callbackURL: 'http://localhost:3000/auth/google/callback',
+//     },
+//     async function (
+//       accessToken,
+//       refreshToken,
+//       profile: Profile,
+//       cb: VerifyCallback,
+//     ) {
+//       logger.debug(
+//         {accessToken, refreshToken, profile},
+//         'google profile response',
+//       );
 
-      if (!profile.emails?.[0].value) {
-        cb(new Error('No email found in profile'));
-        return;
-      }
+//       if (!profile.emails?.[0].value) {
+//         cb(new Error('No email found in profile'));
+//         return;
+//       }
 
-      let user = await db
-        .selectFrom('users')
-        .selectAll()
-        .where('email', '=', profile.emails[0].value)
-        .executeTakeFirst();
+//       let user = await db
+//         .selectFrom('users')
+//         .selectAll()
+//         .where('email', '=', profile.emails[0].value)
+//         .executeTakeFirst();
 
-      if (user) {
-        cb(null, user);
-        return;
-      }
+//       if (user) {
+//         cb(null, user);
+//         return;
+//       }
 
-      try {
-        user = await db
-          .insertInto('users')
-          .values({
-            first_name: profile.name?.givenName,
-            last_name: profile.name?.familyName,
-            email: profile.emails[0].value,
-            google_access_token: accessToken,
-            google_refresh_token: refreshToken,
-          })
-          .returningAll()
-          .executeTakeFirstOrThrow();
-      } catch (error) {
-        logger.error(error);
-        throw error;
-      }
+//       try {
+//         user = await db
+//           .insertInto('users')
+//           .values({
+//             first_name: profile.name?.givenName,
+//             last_name: profile.name?.familyName,
+//             email: profile.emails[0].value,
+//             google_access_token: accessToken,
+//             google_refresh_token: refreshToken,
+//           })
+//           .returningAll()
+//           .executeTakeFirstOrThrow();
+//       } catch (error) {
+//         logger.error(error);
+//         throw error;
+//       }
 
-      cb(null, user);
-    },
-  ),
-);
+//       cb(null, user);
+//     },
+//   ),
+// );
 
 // eslint-disable-next-line unicorn/prefer-export-from
 export {passport};

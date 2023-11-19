@@ -13,5 +13,5 @@ export const use: Middleware[] = [
 ];
 
 export const get: Middleware = async (ctx, next) => {
-  await ctx.render('users', {id: ctx.params?.id});
+  return ctx.render('users', {id: ctx.params?.id});
 };
