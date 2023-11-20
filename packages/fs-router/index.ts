@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable max-depth */
 import process from 'node:process';
 import path from 'node:path';
@@ -5,7 +6,7 @@ import {type Middleware, type Context} from 'koa';
 import {globby} from 'globby';
 import {match as createMatchFn, type MatchFunction} from 'path-to-regexp';
 import compose from 'koa-compose';
-import z from 'zod';
+import {routeModuleSchema} from './schema.js';
 import {
   type HttpVerb,
   type HttpVerbsAll,
@@ -26,33 +27,8 @@ declare module 'koa' {
 }
 
 const verbs: HttpVerb[] = ['get', 'post', 'put', 'patch', 'delete'];
+
 const verbsWithAll: HttpVerbsAll[] = [...verbs, 'all'];
-
-const middlewareSchema = z.function().optional();
-
-const middlewareArraySchema = z
-  .union([z.array(middlewareSchema).optional(), middlewareSchema.optional()])
-  .optional();
-
-const useObjectSchema = z.object({
-  get: middlewareArraySchema,
-  post: middlewareArraySchema,
-  put: middlewareArraySchema,
-  patch: middlewareArraySchema,
-  delete: middlewareArraySchema,
-  all: middlewareArraySchema,
-});
-
-const useSchema = z.union([useObjectSchema, middlewareArraySchema]);
-
-const routeModuleSchema = z.object({
-  get: middlewareSchema,
-  post: middlewareSchema,
-  put: middlewareSchema,
-  patch: middlewareSchema,
-  delete: middlewareSchema,
-  use: useSchema,
-});
 
 async function createFsRouter(
   routesDir = path.join(process.cwd(), 'routes'),
@@ -154,6 +130,13 @@ async function createFsRouter(
           const useVerb = module.use[verb];
           if (useVerb && typeof useVerb === 'function') {
             collectedMiddleware[verb].push(useVerb);
+          } else if (Array.isArray(useVerb)) {
+            for (const use of useVerb) {
+              // function condition in array
+              if (typeof use === 'function') {
+                collectedMiddleware.all.push(use);
+              }
+            }
           }
         }
       }

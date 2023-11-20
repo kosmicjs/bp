@@ -21,12 +21,6 @@ export const app = new Kosmic()
   .injectLogger(logger)
   .injectHttpLoggingMiddleware(createPinoMiddleware({logger}));
 
-app.use(await jsxRender(path.join(__dirname, 'views')));
-
-app.use(passport.initialize({userProperty: 'user'}));
-
-app.use(passport.session());
-
 import.meta.hot?.dispose(async (data) => {
   await app.close();
 });
