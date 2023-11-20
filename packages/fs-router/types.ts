@@ -50,6 +50,12 @@ export type RouteDefinition = {
    * The params extracted from the url to be passed into the route handler
    */
   params?: Record<string, string | undefined>;
+
+  /**
+   * The middleware to be executed before the route handler, already bundled into composed handlers, but exposed on the route definition for debugging purposes
+   */
+
+  collectedMiddleware?: Record<HttpVerbsAll, Middleware[]>;
 } & {
   [key in HttpVerb]?: Middleware;
 };

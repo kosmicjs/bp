@@ -116,7 +116,6 @@ async function createFsRouter(
 
   // After sorting, we can pre-compose the middleware for each route
   for (const route of routes) {
-    console.log('route', route.filePath);
     const collectedMiddleware: Record<HttpVerbsAll, Middleware[]> = {
       get: [],
       post: [],
@@ -130,50 +129,54 @@ async function createFsRouter(
     // stopping when we reach the current route. In this way we can pre-compose
     // the middleware combinations needed for each route and avoid doing it at runtime in the handler
     for (const {module, uriPath} of routes) {
-      console.log('    collecting middleware', uriPath);
-
+      // function condition
       if (typeof module.use === 'function') {
-        console.log('    collected "all" middleware', module.use);
         collectedMiddleware.all.push(module.use);
-      }
-
-      if (Array.isArray(module.use)) {
+        // array condition
+      } else if (Array.isArray(module.use)) {
         for (const use of module.use) {
+          // function condition in array
           if (typeof use === 'function') {
-            console.log('    collected "all" middleware', module.use);
             collectedMiddleware.all.push(use);
-            continue;
-          }
-
-          for (const verb of verbsWithAll) {
-            const useVerb = use[verb];
-            if (useVerb && typeof useVerb === 'function') {
-              console.log(`    collected "${verb}" middleware`, module.use);
-              collectedMiddleware[verb].push(useVerb);
+            // object condition in array
+          } else if (typeof use === 'object') {
+            for (const verb of verbsWithAll) {
+              const useVerb = use[verb];
+              if (useVerb && typeof useVerb === 'function') {
+                collectedMiddleware[verb].push(useVerb);
+              }
             }
           }
         }
-      }
-
-      // now for each http verb, we have a fully pre-composed method
-      // that excutes all the middleware in the correct order including the route handler
-      for (const verb of verbs) {
-        const routeVerbHandler = route.module[verb];
-        if (routeVerbHandler) {
-          console.log('    adding route verb handler', verb, routeVerbHandler);
-          route[verb] = compose([
-            ...collectedMiddleware.all,
-            ...collectedMiddleware[verb],
-            routeVerbHandler,
-          ]);
+        // object condition
+      } else if (module.use && typeof module.use === 'object') {
+        for (const verb of verbsWithAll) {
+          const useVerb = module.use[verb];
+          if (useVerb && typeof useVerb === 'function') {
+            collectedMiddleware[verb].push(useVerb);
+          }
         }
       }
 
       if (route.uriPath === uriPath) {
-        console.log('  matched!! break!');
         break;
       }
     }
+
+    // now for each http verb, we have a fully pre-composed method
+    // that excutes all the middleware in the correct order including the route handler
+    for (const verb of verbs) {
+      const routeVerbHandler = route.module[verb];
+      if (routeVerbHandler) {
+        route[verb] = compose([
+          ...collectedMiddleware.all,
+          ...collectedMiddleware[verb],
+          routeVerbHandler,
+        ]);
+      }
+    }
+
+    route.collectedMiddleware = collectedMiddleware;
   }
 
   console.log('routes', routes);

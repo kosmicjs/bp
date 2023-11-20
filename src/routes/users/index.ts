@@ -23,3 +23,9 @@ export async function post(ctx: Context, next: Next) {
 
   ctx.body = updatedUser;
 }
+
+export async function useGet(ctx: Context, next: Next) {
+  await next();
+}
+
+export const use: {get?: Middleware} = {get: useGet};
