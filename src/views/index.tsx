@@ -1,6 +1,6 @@
 import Layout from './layout.js';
 import Modal from './partials/modal.js';
-import Counter from './stateful/counter.js';
+import Counter from './islands/counter.js';
 
 export type Props = {
   readonly title: string;
@@ -40,7 +40,7 @@ function Index(props: Props) {
           Hello from Preact! This is a small island of Preact that is hydrated
           and given interactivity on the client side.
         </div>
-        <div id="counter">
+        <div data-island="counter">
           <Counter />
         </div>
       </div>

@@ -8,13 +8,11 @@ import {passport} from '../config/passport.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-export const use: Use = {
-  all: [
-    passport.initialize({userProperty: 'user'}),
-    passport.session(),
-    await jsxRender(path.join(__dirname, '..', 'views')),
-  ],
-};
+export const use: Use = [
+  passport.initialize({userProperty: 'user'}),
+  passport.session(),
+  await jsxRender(path.join(__dirname, '..', 'views')),
+];
 
 export const get: Middleware = async function (ctx) {
   await ctx.render<Props>('index', {

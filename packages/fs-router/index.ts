@@ -162,7 +162,7 @@ async function createFsRouter(
     route.collectedMiddleware = collectedMiddleware;
   }
 
-  console.log('routes', routes);
+  // console.log('routes', routes);
 
   const middleware: Middleware = async function (ctx: Context, next) {
     const matchedRoute = routes.find((route) => {

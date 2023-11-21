@@ -1,6 +1,7 @@
 import {hydrate} from 'preact';
-import Counter from '../../views/stateful/counter.js';
-import {$} from './query.js';
+import camelcase from 'camelcase';
+import * as Islands from '../../views/islands/index.js';
+import {$$} from './query.js';
 
 /**
  * If you want to use your jsx views as preact components on the front end
@@ -16,9 +17,13 @@ import {$} from './query.js';
  * using a more robust front-end metaframework like next or remix.
  */
 export const hydrateIslands = () => {
-  const $counterIsland = $('#counter');
+  const $islands = $$<HTMLElement>('[data-island]');
 
-  if ($counterIsland) hydrate(<Counter />, $counterIsland);
+  for (const $island of $islands) {
+    const islandName = camelcase($island.dataset?.island ?? '', {
+      pascalCase: true,
+    });
+    const Component = Islands[islandName as keyof typeof Islands];
+    if (Component) hydrate(<Component />, $island);
+  }
 };
-
-hydrateIslands();
