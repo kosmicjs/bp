@@ -1,5 +1,5 @@
 import type {Context, Next, Middleware} from 'koa';
-import {type InsertableUser} from 'src/models/user.js';
+import {type InsertableUser, userSchema} from 'src/models/user.js';
 import {db} from '../../db/index.js';
 
 export async function get(ctx: Context, next: Next) {
@@ -11,7 +11,7 @@ export async function get(ctx: Context, next: Next) {
 }
 
 export async function post(ctx: Context, next: Next) {
-  const user = ctx.request?.body as InsertableUser;
+  const user: InsertableUser = userSchema.parse(ctx.request.body);
 
   const updatedUser = await db
     .insertInto('users')

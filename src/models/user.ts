@@ -1,4 +1,16 @@
 import type {Generated, Insertable, Selectable, Updateable} from 'kysely';
+import zod from 'zod';
+
+export const userSchema = zod.object({
+  id: zod.number().int().positive().optional(),
+  first_name: zod.string().max(255).optional(),
+  last_name: zod.string().max(255).optional(),
+  phone: zod.string().max(255).optional(),
+  email: zod.string().max(255).email(),
+  hash: zod.string().max(255).optional(),
+  google_access_token: zod.string().max(255).optional(),
+  google_refresh_token: zod.string().max(255).optional(),
+});
 
 export type UserTable = {
   id: Generated<number>;

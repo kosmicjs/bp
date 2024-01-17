@@ -84,10 +84,10 @@ async function createFsRouter(
     a.uriPath < b.uriPath
       ? -1
       : a.uriPath > b.uriPath
-      ? 1
-      : a.uriPath.split('/').length < b.uriPath.split('/').length
-      ? -1
-      : 1,
+        ? 1
+        : a.uriPath.split('/').length < b.uriPath.split('/').length
+          ? -1
+          : 1,
   );
 
   // After sorting, we can pre-compose the middleware for each route

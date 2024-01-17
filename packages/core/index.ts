@@ -168,9 +168,17 @@ export class Kosmic extends Koa {
         .once('listening', () => {
           this.terminator = createHttpTerminator({server: this.server});
 
-          this.logger.info(
-            `server started at ${JSON.stringify(server.address()) || ''}`,
-          );
+          const address = _server.address();
+
+          if (typeof address === 'string') {
+            this.logger.info(`server started at ${address}`);
+          } else {
+            const isIPv6 = address?.family === 'IPv6';
+            const host = isIPv6 ? `[${address?.address}]` : address?.address;
+            this.logger.info(
+              `server started at http://${host}:${address?.port}`,
+            );
+          }
 
           resolve(this);
         })

@@ -1,4 +1,4 @@
-import {Fragment} from 'preact';
+import {Fragment, type Component} from 'preact';
 
 export type Props = {
   readonly dropdownItems: Array<{
@@ -13,7 +13,7 @@ export type Props = {
 export default function SideNav({dropdownItems}: Props) {
   return dropdownItems.map((item) => {
     return (
-      <Fragment key={item.title}>
+      <div key={item.title}>
         <button
           type="button"
           class="list-group-item list-group-item-action"
@@ -43,7 +43,7 @@ export default function SideNav({dropdownItems}: Props) {
             </button>
           </div>
         </div>
-      </Fragment>
+      </div>
     );
   });
 }

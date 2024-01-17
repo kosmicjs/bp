@@ -26,15 +26,14 @@ export default function Layout({children, title, env = 'development'}: Props) {
           </>
         ) : null}
       </head>
-
       <body
-        className="container w-100 min-vh-100"
+        className="container-fluid w-100 min-vh-100"
         data-barba="wrapper"
         data-barba-namespace="default"
         data-bs-theme="dark"
       >
         <Header />
-        <main className="w-100 h-75" data-barba="container">
+        <main className="container h-75" data-barba="container">
           {children}
         </main>
         <Footer />

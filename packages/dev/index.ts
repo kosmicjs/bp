@@ -2,6 +2,7 @@ import process from 'node:process';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
+import {type AddressInfo} from 'node:net';
 import {$} from 'execa';
 import chokidar from 'chokidar';
 import {pino} from 'pino';
@@ -19,7 +20,7 @@ const serverAbortController = new AbortController();
  * Dev tool logger
  */
 const logger = pino({
-  level: 'debug',
+  level: 'info',
   transport: {target: 'pino-princess'},
   name: 'dev',
 });
@@ -66,7 +67,19 @@ try {
     logger.debug({'socket.id': socket.id}, 'socket connection established...');
   });
   io.listen(2222);
-  logger.info('socket.io listening on port 2222');
+
+  // @ts-expect-error private property
+  const address: AddressInfo = io.httpServer.address(); // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+
+  let host;
+  if (typeof address === 'string') {
+    host = address;
+  } else {
+    const isIPv6 = address?.family === 'IPv6';
+    host = isIPv6 ? `[${address?.address}]` : address?.address;
+  }
+
+  logger.info(`socket.io listening on http://${host}:${address?.port}`);
 
   const watchGlob = [
     path.resolve(__dirname, `../../src/**/*.{js,jsx,ts,tsx}`),
@@ -111,7 +124,7 @@ try {
           path.join(devFolder, 'package.json'),
         );
       } else {
-        logger.debug({file}, 'ts rebuilding');
+        logger.debug({file: '.' + file.replace(cwd, '')}, 'ts rebuilding');
         await tsbuilder.rebuild();
       }
     } catch (error) {
@@ -153,7 +166,7 @@ try {
   });
 
   await viteServer.listen();
-  viteServer.printUrls();
+  // viteServer.printUrls();
 } catch (error) {
   await viteServer?.close();
   console.error(error);
