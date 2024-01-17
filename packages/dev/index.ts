@@ -44,7 +44,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  */
 const cwd = path.resolve(__dirname, '..', '..');
 
-logger.info(`starting dev server from cwd:${cwd}`);
+logger.debug(`starting dev server from cwd:${cwd}`);
 
 /**
  * .dev folder for swc compiled files
@@ -79,12 +79,11 @@ try {
     host = isIPv6 ? `[${address?.address}]` : address?.address;
   }
 
-  logger.info(`socket.io listening on http://${host}:${address?.port}`);
+  logger.debug(`socket.io listening on http://${host}:${address?.port}`);
 
   const watchGlob = [
     path.resolve(__dirname, `../../src/**/*.{js,jsx,ts,tsx}`),
     path.resolve(__dirname, `../**/*.{js,jsx,ts,tsx}`),
-    path.join(cwd, 'package.json'),
   ];
 
   /**
@@ -155,7 +154,7 @@ try {
     env: {
       NODE_NO_WARNINGS: '1',
     },
-  })`node --enable-source-maps --loader dynohot ${serverFilePath}`;
+  })`node --enable-source-maps --import dynohot/register ${serverFilePath}`;
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   server.on('message', (message) => {

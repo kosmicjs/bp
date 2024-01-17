@@ -1,5 +1,5 @@
 import type {Context, Next, Middleware} from 'koa';
-import {type InsertableUser, userSchema} from 'src/models/user.js';
+import {type InsertableUser, userSchema} from '../../models/user.js';
 import {db} from '../../db/index.js';
 
 export async function get(ctx: Context, next: Next) {

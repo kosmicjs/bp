@@ -11,3 +11,4 @@ coverage
 .env
 dist
 .dev
+.tsimp
