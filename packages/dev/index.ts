@@ -127,7 +127,7 @@ try {
         await tsbuilder.rebuild();
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     }
   };
 
@@ -168,6 +168,6 @@ try {
   // viteServer.printUrls();
 } catch (error) {
   await viteServer?.close();
-  console.error(error);
+  logger.error(error);
   exitHandler();
 }
