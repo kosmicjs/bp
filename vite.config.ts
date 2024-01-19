@@ -1,5 +1,8 @@
 import path from 'node:path';
-import {type UserConfig} from 'vite';
+import {type UserConfig, createLogger} from 'vite';
+import {pino} from 'pino';
+
+const viteLogger = pino({name: 'vite', transport: {target: 'pino-princess'}});
 
 const config: UserConfig = {
   root: path.join(__dirname, 'src/app'), // eslint-disable-line unicorn/prefer-module,
@@ -8,6 +11,12 @@ const config: UserConfig = {
     rollupOptions: {
       input: path.join(__dirname, 'src/app/scripts/index.ts'), // eslint-disable-line unicorn/prefer-module
     },
+  },
+  customLogger: {
+    ...createLogger(),
+    info: viteLogger.info.bind(viteLogger),
+    warn: viteLogger.warn.bind(viteLogger),
+    error: viteLogger.error.bind(viteLogger),
   },
 };
 

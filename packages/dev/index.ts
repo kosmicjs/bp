@@ -165,7 +165,7 @@ try {
   });
 
   await viteServer.listen();
-  // viteServer.printUrls();
+  viteServer.printUrls();
 } catch (error) {
   await viteServer?.close();
   logger.error(error);
