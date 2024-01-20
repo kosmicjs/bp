@@ -16,7 +16,7 @@ module.exports = {
 	},
 	overrides: [
 		{
-			files: ['src/app/**/*.ts', 'src/app/**/*.tsx'],
+			files: ['src/client/**/*.ts', 'src/client/**/*.tsx'],
 			rules: {
 				'import/no-unassigned-import': 'off',
 			},
