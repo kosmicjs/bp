@@ -1,4 +1,5 @@
 import {type Middleware} from 'koa';
+import {type Props} from '../views/admin.jsx';
 
 export const useGet: Middleware[] = [
   async (ctx, next) => {
@@ -9,5 +10,8 @@ export const useGet: Middleware[] = [
 ];
 
 export const get: Middleware = async (ctx, next) => {
-  await ctx.render('admin', {user: ctx.state.user});
+  if (!ctx.state.user)
+    throw new Error('A validated user is required to view this page');
+
+  await ctx.render<Props>('admin', {user: ctx.state.user});
 };

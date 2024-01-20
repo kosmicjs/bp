@@ -13,6 +13,12 @@ import logger from './logger.js';
 
 const {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET} = process.env;
 
+declare module 'koa' {
+  interface State {
+    user?: SelectableUser;
+  }
+}
+
 // @ts-expect-error crappy 3rd party type
 passport.serializeUser((user: SelectableUser, done) => {
   logger.debug({user}, 'serializing user');
