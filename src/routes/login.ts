@@ -7,13 +7,15 @@ declare module 'koa' {
 }
 
 export async function post(ctx: Context, next: Next) {
+  ctx.log.trace({body: ctx.request.body});
   await passport.authenticate('local', async (error, user, info, status) => {
+    ctx.log.trace({error, user, info, status}); // eslint-disable-line @typescript-eslint/no-unsafe-assignment
     if (user) {
       await ctx.login(user);
       ctx.redirect('/admin');
     } else {
       ctx.status = 400;
-      ctx.body = {status: 'error'};
+      ctx.redirect('/');
     }
   })(ctx, next);
 }

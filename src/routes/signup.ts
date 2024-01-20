@@ -17,14 +17,14 @@ const bodyValidator = userSchema
     last_name: true,
     phone: true,
   })
+  .required({
+    email: true,
+  })
   .extend({
     password: z.string().min(1),
     password_confirm: z.string().min(1),
-  })
-  .required({
-    password: true,
-    email: true,
   });
+
 export async function post(ctx: Context, next: Next) {
   const userData = bodyValidator.parse(ctx.request.body);
 

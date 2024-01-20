@@ -2,6 +2,7 @@ import process from 'node:process';
 import url from 'node:url';
 import path from 'node:path';
 import {pino} from 'pino';
+import session from 'koa-session';
 import {renderMiddleware as jsxRender} from '../packages/render/jsx.middleware.js';
 import {createPinoMiddleware} from '../packages/pino-http/index.js';
 import {Kosmic} from '../packages/core/index.js';
@@ -21,7 +22,8 @@ export const app = new Kosmic()
   .injectLogger(logger)
   .withBodyParser({enableTypes: ['json', 'form', 'text']})
   .withErrorHandler()
-  .injectHttpLoggingMiddleware(createPinoMiddleware({logger}));
+  .injectHttpLoggingMiddleware(createPinoMiddleware({logger}))
+  .withSession();
 
 import.meta.hot?.dispose(async (data) => {
   await app.close();

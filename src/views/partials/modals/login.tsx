@@ -22,6 +22,7 @@ export default function LoginModalBody({isSignup}: Props) {
             </label>
             <input
               type="email"
+              name="email"
               class="form-control"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
@@ -36,6 +37,7 @@ export default function LoginModalBody({isSignup}: Props) {
             </label>
             <input
               type="password"
+              name="password"
               class="form-control"
               id="exampleInputPassword1"
             />

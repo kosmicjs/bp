@@ -4,6 +4,7 @@ import {type ListenOptions} from 'node:net';
 import bodyParser from 'koa-bodyparser';
 import responseTime from 'koa-response-time';
 import type {HttpTerminator} from 'http-terminator';
+import session from 'koa-session';
 import {createHttpTerminator} from 'http-terminator';
 import etag from 'koa-etag';
 import conditional from 'koa-conditional-get';
@@ -45,12 +46,15 @@ export class Kosmic extends Koa {
     withResponseTime: boolean;
     withErrorHandler: boolean;
     withFsRouter: boolean;
+    withSession: boolean;
   };
 
   private _etagOptions?: {weak?: boolean};
   private _responseTimeOptions?: {hrtime?: boolean};
   private _bodyParserOptions?: bodyParser.Options;
   private _httpLoggingMiddleware: Middleware;
+  private _sessionOpts?: session.opts;
+  private readonly _customMiddleware: Middleware[] = [];
 
   constructor(koaOptions: KoaOptions = {}) {
     super(koaOptions);
@@ -58,9 +62,8 @@ export class Kosmic extends Koa {
       withBodyParser: true,
       withEtag: true,
       withResponseTime: true,
-
+      withSession: false,
       withErrorHandler: true,
-
       withFsRouter: false,
     };
 
@@ -85,6 +88,8 @@ export class Kosmic extends Koa {
         }`,
       );
     };
+
+    // this._customMiddleware = [];
   }
 
   withBodyParser(_bodyParserOptions?: bodyParser.Options) {
@@ -123,6 +128,17 @@ export class Kosmic extends Koa {
   withFsRouter(routesDir: string) {
     this.startOptions.withFsRouter = true;
     this.routesDir = routesDir;
+    return this;
+  }
+
+  withSession(sessionOptions?: session.opts) {
+    this.startOptions.withSession = true;
+    this._sessionOpts = sessionOptions;
+    return this;
+  }
+
+  addMiddleware(middleware: Middleware) {
+    this._customMiddleware?.push(middleware);
     return this;
   }
 
@@ -234,6 +250,23 @@ export class Kosmic extends Koa {
     if (this.startOptions.withErrorHandler) {
       this.logger.trace('using error handler');
       this.use(errorHandler(this.logger));
+    }
+
+    if (this.startOptions.withSession) {
+      this.logger.trace('using session');
+      this.keys = ['hurr de heee'];
+      if (this._sessionOpts) {
+        this.use(session(this._sessionOpts, this)); // eslint-disable-line @typescript-eslint/no-unsafe-argument
+      } else {
+        this.use(session(this)); // eslint-disable-line @typescript-eslint/no-unsafe-argument
+      }
+    }
+
+    if (this._customMiddleware?.length > 0) {
+      this.logger.trace('using custom middleware');
+      for (const middleware of this._customMiddleware) {
+        this.use(middleware);
+      }
     }
 
     if (this.startOptions.withFsRouter) {

@@ -20,6 +20,7 @@ passport.serializeUser((user: SelectableUser, done) => {
 });
 
 passport.deserializeUser(async (id: number, done) => {
+  logger.debug({id}, 'deserializing user');
   try {
     const user = await db
       .selectFrom('users')
@@ -27,11 +28,12 @@ passport.deserializeUser(async (id: number, done) => {
       .where('id', '=', id)
       .executeTakeFirst();
 
-    logger.debug({user}, 'deserializing user');
+    logger.debug({user}, 'deserialized user');
 
     if (user) done(null, user);
     else done(null, false);
   } catch (error: unknown) {
+    logger.error(error);
     done(error);
   }
 });
