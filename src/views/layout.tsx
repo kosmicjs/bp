@@ -1,6 +1,6 @@
 import {type ComponentChildren} from 'preact';
-import Footer from './partials/footer.js';
-import Header from './partials/header.js';
+import Footer from './components/footer.js';
+import Header from './components/header.js';
 
 export type Props = {
   readonly children: ComponentChildren;

@@ -1,5 +1,5 @@
 import Layout from './layout.js';
-import SideNav from './partials/side-nav.js';
+import SideNav from './components/side-nav.js';
 
 export type Props = {
   // readonly description: string;

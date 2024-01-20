@@ -4,5 +4,5 @@ module.exports = {
     "npmPkgJsonLint ./package.json",
     "prettier --check --plugin=prettier-plugin-packagejson ./package.json",
   ],
-  "*.{js,ts}": "xo --fix",
+  "*.{js,ts,jsx,tsx}": "xo --fix",
 };

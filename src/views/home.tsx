@@ -1,5 +1,5 @@
 import Layout from './layout.js';
-import Modal from './partials/modal.js';
+import Modal from './components/modal.js';
 import Counter from './islands/counter.js';
 
 export type Props = {
