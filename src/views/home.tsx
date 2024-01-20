@@ -1,6 +1,6 @@
 import Layout from './layout.js';
 import Modal from './components/modal.js';
-import Counter from './islands/counter.js';
+import Counter from './components/islands/counter.js';
 
 export type Props = {
   readonly title: string;
