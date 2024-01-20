@@ -2,7 +2,7 @@ import pkg from 'pg';
 import type {QueryResult, QueryResultRow} from 'pg';
 import type {SQLStatement} from 'sql-template-strings';
 import {Kysely, PostgresDialect} from 'kysely';
-import logger from '../config/logger.js';
+import logger from '../logger.js';
 
 const {Pool} = pkg;
 

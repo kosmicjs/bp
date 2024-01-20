@@ -3,7 +3,7 @@ import {fileURLToPath} from 'node:url';
 import process from 'node:process';
 import fs from 'node:fs/promises';
 import {FileMigrationProvider, Migrator} from 'kysely';
-import logger from '../config/logger.js';
+import logger from '../logger.js';
 import {db} from './index.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));

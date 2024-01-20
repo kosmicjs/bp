@@ -1,5 +1,5 @@
 import {type Middleware, type Context, type Next} from 'koa';
-import {db} from '../../db/index.js';
+import {db} from '../../config/db/index.js';
 import {type UpdatedableUser, userSchema} from '../../models/user.js';
 
 declare module 'koa' {

@@ -2,7 +2,7 @@ import type {Context, Next} from 'koa';
 import argon2 from 'argon2';
 import {z} from 'zod';
 import {userSchema} from '../models/user.js';
-import {db} from '../db/index.js';
+import {db} from '../config/db/index.js';
 
 const bodyValidator = userSchema
   .pick({
