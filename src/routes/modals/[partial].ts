@@ -1,4 +1,3 @@
-import {setTimeout} from 'node:timers/promises';
 import {type Middleware} from 'koa';
 
 declare module 'koa' {
@@ -15,6 +14,5 @@ declare module 'koa' {
 
 export const get: Middleware = async (ctx) => {
   ctx.log.debug(`Rendering partial "${ctx.request.params?.partial}"`);
-  await setTimeout(2000);
   await ctx.render(`partials/modals/${ctx.request.params?.partial}`, {});
 };

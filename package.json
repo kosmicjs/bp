@@ -28,6 +28,7 @@
     "clean": "rimraf -rf ./dist",
     "compile": "tsc -p tsconfig.json",
     "dev": "node --import tsimp/import ./packages/dev/index.ts",
+    "migrate": "node --import tsimp/import ./src/db/migrate up",
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
     "test": "node --import tsimp/import --test ./test/server.ts"

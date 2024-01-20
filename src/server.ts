@@ -11,7 +11,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const routesDir = path.join(__dirname, 'routes');
 
 const logger = pino({
-  level: 'debug',
+  level: 'trace',
   transport: {target: 'pino-princess'},
   name: 'server',
 });
@@ -19,6 +19,8 @@ const logger = pino({
 export const app = new Kosmic()
   .withFsRouter(routesDir)
   .injectLogger(logger)
+  .withBodyParser({enableTypes: ['json', 'form', 'text']})
+  .withErrorHandler()
   .injectHttpLoggingMiddleware(createPinoMiddleware({logger}));
 
 import.meta.hot?.dispose(async (data) => {

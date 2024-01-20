@@ -211,28 +211,37 @@ export class Kosmic extends Koa {
   private async _applyMiddleware() {
     this.use(this._httpLoggingMiddleware);
 
-    if (this.startOptions.withFsRouter) {
-      const {middleware: fsRouterMiddleware} = await createFsRouter(
-        this.routesDir,
-      );
-      this.use(fsRouterMiddleware);
-    }
-
     if (this.startOptions.withResponseTime) {
+      this.logger.trace('using response time');
       this.use(responseTime(this._responseTimeOptions));
     }
 
     if (this.startOptions.withEtag) {
+      this.logger.trace({options: this._etagOptions}, 'using etag');
+
       this.use(conditional());
       this.use(etag(this._etagOptions));
     }
 
     if (this.startOptions.withBodyParser) {
+      this.logger.trace(
+        {options: this._bodyParserOptions},
+        'using body parser',
+      );
       this.use(bodyParser(this._bodyParserOptions));
     }
 
     if (this.startOptions.withErrorHandler) {
+      this.logger.trace('using error handler');
       this.use(errorHandler(this.logger));
+    }
+
+    if (this.startOptions.withFsRouter) {
+      this.logger.trace({routesDir: this.routesDir}, 'using fs router');
+      const {middleware: fsRouterMiddleware} = await createFsRouter(
+        this.routesDir,
+      );
+      this.use(fsRouterMiddleware);
     }
   }
 }

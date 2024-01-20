@@ -5,7 +5,7 @@ export type Props = {
   // readonly description: string;
 };
 
-function Index(props: Props) {
+function Docs(props: Props) {
   return (
     <Layout>
       <div class="row">
@@ -26,4 +26,4 @@ function Index(props: Props) {
   );
 }
 
-export default Index;
+export default Docs;
