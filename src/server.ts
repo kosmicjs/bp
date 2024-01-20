@@ -9,7 +9,7 @@ import {Kosmic} from '../packages/core/index.js';
 import {passport} from './config/passport.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-const routesDir = path.join(__dirname, 'routes');
+const routesDir = path.join(__dirname, 'controllers');
 
 const logger = pino({
   level: 'trace',
