@@ -5,11 +5,11 @@ import {pino} from 'pino';
 const viteLogger = pino({name: 'vite', transport: {target: 'pino-princess'}});
 
 const config: UserConfig = {
-  root: path.join(__dirname, 'src/app'), // eslint-disable-line unicorn/prefer-module,
+  root: path.join(__dirname, 'src/client'), // eslint-disable-line unicorn/prefer-module,
   build: {
     manifest: true,
     rollupOptions: {
-      input: path.join(__dirname, 'src/app/scripts/index.ts'), // eslint-disable-line unicorn/prefer-module
+      input: path.join(__dirname, 'src/client/scripts/index.ts'), // eslint-disable-line unicorn/prefer-module
     },
   },
   customLogger: {
