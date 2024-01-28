@@ -53,11 +53,12 @@ async function createFsRouter(
       })
       .join('/');
 
-  // TODO: how to do ts?
-  // needs to work with ts-node
+  /**
+   * Files can automatically handle ts extensions with no added overhead
+   */
   const files = await globby([
-    `${routesDir}/**/*.{js,ts,cts,mts}`,
-    `!${routesDir}/**/*.d.{js,ts,cts,mts}`,
+    `${routesDir}/**/*.{js,jsx,cjs,mjs,ts,tsx,cts,mts}`,
+    `!${routesDir}/**/*.d.{ts,tsx,cts,mts}`,
   ]);
 
   const routesFromFilesPromises: Array<Promise<RouteDefinition>> = files.map(

@@ -49,20 +49,29 @@ export async function renderMiddleware(viewPath: string) {
         path.join(viewPath, `${viewName}.js`),
       ).toString()}`;
 
-      const {default: component} = (await import(viewFilePath)) as {
-        default: FunctionComponent<ComponentProps<any> & typeof locals>;
-      };
+      if (ctx.accepts('html')) {
+        const {default: component} = (await import(viewFilePath)) as {
+          default: FunctionComponent<ComponentProps<any> & typeof locals>;
+        };
 
-      const app = component({
-        ...locals,
-        ...ctx.locals,
-        ...ctx.response.locals,
-      })!;
+        const app = component({
+          ...locals,
+          ...ctx.locals,
+          ...ctx.response.locals,
+        })!;
 
-      ctx.type = 'html';
+        ctx.type = 'html';
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      ctx.body = render(app);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        ctx.body = render(app);
+      } else if (ctx.accepts('json')) {
+        ctx.type = 'json';
+        ctx.body = {
+          ...locals,
+          ...ctx.locals,
+          ...ctx.response.locals,
+        };
+      }
     };
 
     ctx.response.render = ctx.render;

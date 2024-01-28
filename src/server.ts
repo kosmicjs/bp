@@ -7,15 +7,10 @@ import {renderMiddleware as jsxRender} from '../packages/render/jsx.middleware.j
 import {createPinoMiddleware} from '../packages/pino-http/index.js';
 import {Kosmic} from '../packages/core/index.js';
 import {passport} from './config/passport.js';
+import logger from './config/logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const routesDir = path.join(__dirname, 'controllers');
-
-const logger = pino({
-  level: 'trace',
-  transport: {target: 'pino-princess'},
-  name: 'server',
-});
 
 export const app = new Kosmic()
   .withFsRouter(routesDir)
