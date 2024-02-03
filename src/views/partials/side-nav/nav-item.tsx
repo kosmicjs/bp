@@ -1,5 +1,3 @@
-import {Fragment, type Component} from 'preact';
-
 export type Props = {
   readonly dropdownItems: Array<{
     readonly title: string;

@@ -2,6 +2,7 @@ export type Props = {
   readonly isSignup: boolean;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function LoginModalBody({isSignup}: Props) {
   return (
     <>

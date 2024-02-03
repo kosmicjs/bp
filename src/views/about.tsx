@@ -1,4 +1,3 @@
-import {type FunctionComponent} from 'preact';
 import Layout from './layout.js';
 import Modal from './components/modal.js';
 

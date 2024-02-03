@@ -4,7 +4,7 @@ import process from 'node:process';
 import path from 'node:path';
 import {type Middleware, type Context} from 'koa';
 import {globby} from 'globby';
-import {match as createMatchFn, type MatchFunction} from 'path-to-regexp';
+import {match as createMatchFn} from 'path-to-regexp';
 import compose from 'koa-compose';
 import {routeModuleSchema} from './schema.js';
 import {

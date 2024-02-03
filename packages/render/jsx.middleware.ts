@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import path from 'node:path';
-import {fileURLToPath, pathToFileURL} from 'node:url';
+import {pathToFileURL} from 'node:url';
 import {type Context, type Next, type Locals} from 'koa';
 import {render} from 'preact-render-to-string';
 import {type ComponentProps, type FunctionComponent} from 'preact';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 declare module 'koa' {
   /**

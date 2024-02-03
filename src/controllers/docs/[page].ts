@@ -1,4 +1,3 @@
-import {setTimeout} from 'node:timers/promises';
 import {type Middleware} from 'koa';
 
 declare module 'koa' {

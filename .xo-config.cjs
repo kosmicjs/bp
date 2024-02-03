@@ -8,11 +8,12 @@ module.exports = {
 		'@typescript-eslint/consistent-type-definitions': 'off',
 		'@typescript-eslint/naming-convention': 'off',
 		'capitalized-comments': 'off',
-		'unicorn/no-array-reduce': 'off',
-		'no-warning-comments': 'off',
 		'import/extensions': 'off',
-    'react/react-in-jsx-scope': 'off',
+		'no-warning-comments': 'off',
+		'unicorn/no-array-reduce': 'off',
     'react/no-unknown-property': 'off',
+    'react/react-in-jsx-scope': 'off',
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "next|props" }]
 	},
 	overrides: [
 		{

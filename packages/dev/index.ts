@@ -139,7 +139,8 @@ try {
         resolve(undefined);
       })
       .on('change', handleFileChanges)
-      .on('add', handleFileChanges);
+      .on('add', handleFileChanges)
+      .on('error', reject);
   });
 
   process.on('SIGINT', exitHandler);
