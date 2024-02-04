@@ -1,13 +1,14 @@
+import {type Locals} from 'koa';
 import Layout from './layout.js';
 import SideNav from './components/side-nav.js';
 
 export type Props = {
   // readonly description: string;
-};
+} & Locals;
 
 function Docs(props: Props) {
   return (
-    <Layout>
+    <Layout ctx={props.ctx}>
       <div class="row">
         <div class="col-2">
           <SideNav />

@@ -12,3 +12,5 @@ coverage
 dist
 .dev
 .tsimp
+src/public/assets
+src/public/.vite

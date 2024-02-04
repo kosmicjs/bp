@@ -1,3 +1,4 @@
+import {type Locals} from 'koa';
 import Layout from './layout.js';
 import Modal from './components/modal.js';
 import Counter from './components/islands/counter.js';
@@ -5,11 +6,11 @@ import Counter from './components/islands/counter.js';
 export type Props = {
   readonly title: string;
   readonly description: string;
-};
+} & Locals;
 
 function Index(props: Props) {
   return (
-    <Layout>
+    <Layout ctx={props.ctx}>
       <h1>Kosmic TS</h1>
       <p>Less abstractions, all the same features!</p>
       <p>

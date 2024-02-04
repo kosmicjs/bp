@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-module */
 import path from 'node:path';
 import {type UserConfig, createLogger} from 'vite';
 import {pino} from 'pino';
@@ -5,12 +6,14 @@ import {pino} from 'pino';
 const viteLogger = pino({name: 'vite', transport: {target: 'pino-princess'}});
 
 const config: UserConfig = {
-  root: path.join(__dirname, 'src/client'), // eslint-disable-line unicorn/prefer-module,
+  root: path.join(__dirname, 'src', 'client'),
   build: {
     manifest: true,
     rollupOptions: {
-      input: path.join(__dirname, 'src/client/scripts/index.ts'), // eslint-disable-line unicorn/prefer-module
+      input: path.join(__dirname, 'src', 'client', 'scripts', 'index.ts'),
     },
+    outDir: path.join(__dirname, 'dist', 'src', 'public'),
+    emptyOutDir: true,
   },
   customLogger: {
     ...createLogger(),

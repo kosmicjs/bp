@@ -7,13 +7,14 @@ module.exports = {
 	rules: {
 		'@typescript-eslint/consistent-type-definitions': 'off',
 		'@typescript-eslint/naming-convention': 'off',
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "next|props" }],
 		'capitalized-comments': 'off',
 		'import/extensions': 'off',
 		'no-warning-comments': 'off',
 		'unicorn/no-array-reduce': 'off',
+    'no-console': 'error',
     'react/no-unknown-property': 'off',
     'react/react-in-jsx-scope': 'off',
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "next|props" }]
 	},
 	overrides: [
 		{

@@ -1,6 +1,9 @@
 import http from 'node:http';
 import type {Server} from 'node:http';
 import {type ListenOptions} from 'node:net';
+import fs from 'node:fs/promises';
+import process from 'node:process';
+import path from 'node:path';
 import bodyParser from 'koa-bodyparser';
 import responseTime from 'koa-response-time';
 import type {HttpTerminator} from 'http-terminator';
@@ -25,6 +28,18 @@ declare module 'koa' {
     log: Logger;
   }
 
+  interface Locals {
+    manifest?: Record<
+      string,
+      {
+        css: string[];
+        file: string;
+        isEntry: boolean;
+        src: string;
+      }
+    >;
+  }
+
   interface Response {
     log: Logger;
   }
@@ -47,6 +62,7 @@ export class Kosmic extends Koa {
     withErrorHandler: boolean;
     withFsRouter: boolean;
     withSession: boolean;
+    withStaticFiles: boolean;
   };
 
   private _etagOptions?: {weak?: boolean};
@@ -54,6 +70,7 @@ export class Kosmic extends Koa {
   private _bodyParserOptions?: bodyParser.Options;
   private _httpLoggingMiddleware: Middleware;
   private _sessionOpts?: session.opts;
+  private _staticFilesOptions?: Parameters<typeof serve>;
   private readonly _customMiddleware: Middleware[] = [];
 
   constructor(koaOptions: KoaOptions = {}) {
@@ -65,6 +82,7 @@ export class Kosmic extends Koa {
       withSession: false,
       withErrorHandler: true,
       withFsRouter: false,
+      withStaticFiles: false,
     };
 
     this.server = http.createServer(this.callback());
@@ -134,6 +152,12 @@ export class Kosmic extends Koa {
   withSession(sessionOptions?: session.opts) {
     this.startOptions.withSession = true;
     this._sessionOpts = sessionOptions;
+    return this;
+  }
+
+  withStaticFiles(...args: Parameters<typeof serve>) {
+    this.startOptions.withStaticFiles = true;
+    this._staticFilesOptions = [...args];
     return this;
   }
 
@@ -225,6 +249,11 @@ export class Kosmic extends Koa {
   }
 
   private async _applyMiddleware() {
+    this.use(async (ctx, next) => {
+      if (!ctx.locals) ctx.locals = {ctx};
+      return next();
+    });
+
     this.use(this._httpLoggingMiddleware);
 
     if (this.startOptions.withResponseTime) {
@@ -266,6 +295,36 @@ export class Kosmic extends Koa {
       this.logger.trace('using custom middleware');
       for (const middleware of this._customMiddleware) {
         this.use(middleware);
+      }
+    }
+
+    if (this.startOptions.withStaticFiles && this._staticFilesOptions?.[0]) {
+      this.logger.trace('using static files');
+      this.use(serve(...this._staticFilesOptions));
+      if (process.env.NODE_ENV !== 'development') {
+        this.use(async (ctx, next) => {
+          const manifest = JSON.parse(
+            await fs.readFile(
+              path.join(
+                this._staticFilesOptions?.[0] ?? '',
+                '.vite',
+                'manifest.json',
+              ),
+              'utf8',
+            ),
+          ) as Record<
+            string,
+            {
+              css: string[];
+              file: string;
+              isEntry: boolean;
+              src: string;
+            }
+          >;
+          if (!ctx.locals) ctx.locals = {ctx};
+          ctx.locals.manifest = manifest;
+          await next();
+        });
       }
     }
 

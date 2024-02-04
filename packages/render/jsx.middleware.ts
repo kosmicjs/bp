@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {type Context, type Next, type Locals} from 'koa';
@@ -11,11 +10,13 @@ declare module 'koa' {
    * When calling `ctx.render`, the locals object is merged with the passed in locals.
    * Extend this object to indicate to the typescript compiler what locals are available.
    */
-  interface Locals {}
+  interface Locals {
+    ctx: Context;
+  }
   /**
    * render a jsx component template
    */
-  type Render = <L extends Record<string, unknown> = Record<string, unknown>>(
+  type Render = <L extends Locals = Locals>(
     viewName: string,
     locals?: Omit<L, keyof Locals>,
   ) => Promise<void>;
@@ -37,9 +38,7 @@ declare module 'koa' {
 
 export async function renderMiddleware(viewPath: string) {
   return async (ctx: Context, next: Next) => {
-    ctx.render = async <
-      L extends Record<string, unknown> = Record<string, unknown>,
-    >(
+    ctx.render = async <L extends Locals = Locals>(
       viewName: string,
       locals?: Omit<L, keyof Locals>,
     ) => {

@@ -154,6 +154,7 @@ try {
     stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
     env: {
       NODE_NO_WARNINGS: '1',
+      NODE_ENV: 'development',
     },
   })`node --enable-source-maps --import dynohot/register ${serverFilePath}`;
 

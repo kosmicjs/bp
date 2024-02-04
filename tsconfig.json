@@ -10,10 +10,10 @@
       "@kosmic/koa": ["./node_modules/koa/dist/esm/application.d.mts"],
       "koa": [
         // "./node_modules/koa/dist/esm/application"
-        "./node_modules/koa/dist/esm/application.d.mts"
+        "./node_modules/koa/dist/esm/application.d.mts",
       ],
       "koa-compose": ["./node_modules/koa-compose/dist/index.d.mts"],
-      "views/*": ["./src/views/*"]
+      "views/*": ["./src/views/*"],
     },
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -23,7 +23,13 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES2022",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "packages/**/*", "test/**/*"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "packages/**/*",
+    "test/**/*",
+    "src/public/**/*",
+  ],
 }

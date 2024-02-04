@@ -25,12 +25,13 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "clean": "rimraf -rf ./dist",
+    "clean": "rimraf -rf ./dist & rimraf -rf ./src/public/assets & rimraf -rf ./src/public/.vite",
     "compile": "tsc -p tsconfig.json && vite build",
     "dev": "node --import tsimp/import ./packages/dev/index.ts",
     "migrate": "node --import tsimp/import ./src/db/migrate up",
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
+    "start": "NODE_ENV=production node dist/src/index.js",
     "test": "node --import tsimp/import --test ./test/server.ts"
   },
   "prettier": {
@@ -120,7 +121,7 @@
     "lint-staged": "^15.2.1",
     "npm-package-json-lint": "^7.1.0",
     "npm-package-json-lint-config-default": "^6.0.0",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "prettier-plugin-packagejson": "^2.4.10",
     "rimraf": "^5.0.5",
     "sass": "^1.70.0",

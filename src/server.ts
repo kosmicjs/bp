@@ -12,13 +12,10 @@ export const app = new Kosmic()
   .injectLogger(logger)
   .withBodyParser({enableTypes: ['json', 'form', 'text']})
   .withErrorHandler()
+  .withStaticFiles(path.join(__dirname, 'public'))
   .injectHttpLoggingMiddleware(createPinoMiddleware({logger}))
   .withSession();
 
 import.meta.hot?.dispose(async () => {
   await app.close();
-});
-
-import.meta.hot?.on('message', (data) => {
-  logger.info(data);
 });
