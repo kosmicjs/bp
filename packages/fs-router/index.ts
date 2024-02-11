@@ -15,7 +15,6 @@ import {
 } from './types.js';
 
 declare module 'koa' {
-  // eslint-disable-next-line unicorn/prevent-abbreviations
   interface Params extends Record<string, string | undefined> {}
   interface Request {
     params?: Params;

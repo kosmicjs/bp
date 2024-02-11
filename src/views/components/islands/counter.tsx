@@ -1,4 +1,3 @@
-// eslint-disable-next-line n/file-extension-in-import
 import {useState} from 'preact/hooks';
 
 export default function Counter() {
