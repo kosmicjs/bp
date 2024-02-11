@@ -6,9 +6,9 @@ export type Props = {
   // readonly description: string;
 } & Locals;
 
-function Docs(props: Props) {
+function Docs(properties: Props) {
   return (
-    <Layout ctx={props.ctx}>
+    <Layout ctx={properties.ctx}>
       <div class="row">
         <div class="col-2">
           <SideNav />

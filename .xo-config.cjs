@@ -15,6 +15,7 @@ module.exports = {
     'no-console': 'error',
     'react/no-unknown-property': 'off',
     'react/react-in-jsx-scope': 'off',
+    'unicorn/prevent-abbreviations': 'off',
 	},
 	overrides: [
 		{

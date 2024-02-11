@@ -26,7 +26,6 @@ passport.serializeUser((user: SelectableUser, done) => {
 });
 
 passport.deserializeUser(async (id: number, done) => {
-  logger.debug({id}, 'deserializing user');
   try {
     const user = await db
       .selectFrom('users')
@@ -46,35 +45,39 @@ passport.deserializeUser(async (id: number, done) => {
 
 passport.use(
   'local',
-  new LocalStrategy(async (username, password, done) => {
-    logger.debug({username, password}, 'passsport authenticating');
-    try {
-      if (!username) {
-        throw new Error('Username is required');
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+    async (email, password, done) => {
+      try {
+        if (!email) {
+          throw new Error('Username is required');
+        }
+
+        if (!password) {
+          throw new Error('Password is required');
+        }
+
+        const user = await db
+          .selectFrom('users')
+          .selectAll()
+          .where('email', '=', email)
+          .executeTakeFirst();
+
+        if (user?.hash && !(await argon2.verify(user?.hash, password))) {
+          throw new Error('Invalid email or password');
+        }
+
+        if (user) done(null, user);
+        else done(null, false);
+      } catch (error: unknown) {
+        logger.error(error);
+        done(null, false);
       }
-
-      if (!password) {
-        throw new Error('Password is required');
-      }
-
-      const user = await db
-        .selectFrom('users')
-        .selectAll()
-        .where('email', '=', username)
-        .executeTakeFirst();
-
-      if (user?.hash && !(await argon2.verify(user?.hash, password))) {
-        logger.debug('throwing invalid username error');
-        throw new Error('Invalid username or password');
-      }
-
-      if (user) done(null, user);
-      else done(null, false);
-    } catch (error: unknown) {
-      logger.error(error);
-      done(error);
-    }
-  }),
+    },
+  ),
 );
 
 // passport.use(

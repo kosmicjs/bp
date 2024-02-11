@@ -2,7 +2,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {type Context, type Next, type Locals} from 'koa';
 import {render} from 'preact-render-to-string';
-import {type ComponentProps, type FunctionComponent} from 'preact';
+import {type VNode, type ComponentProps, type FunctionComponent} from 'preact';
 
 declare module 'koa' {
   /**
@@ -37,8 +37,8 @@ declare module 'koa' {
 }
 
 export async function renderMiddleware(viewPath: string) {
-  return async (ctx: Context, next: Next) => {
-    ctx.render = async <L extends Locals = Locals>(
+  return async (context: Context, next: Next) => {
+    context.render = async <L extends Locals = Locals>(
       viewName: string,
       locals?: Omit<L, keyof Locals>,
     ) => {
@@ -46,32 +46,38 @@ export async function renderMiddleware(viewPath: string) {
         path.join(viewPath, `${viewName}.js`),
       ).toString()}`;
 
-      if (ctx.accepts('html')) {
+      if (context.accepts('html')) {
         const {default: component} = (await import(viewFilePath)) as {
           default: FunctionComponent<ComponentProps<any> & typeof locals>;
         };
 
         const app = component({
           ...locals,
-          ...ctx.locals,
-          ...ctx.response.locals,
+          ...context.locals,
+          ...context.response.locals,
         })!;
 
-        ctx.type = 'html';
+        context.type = 'text/html';
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        ctx.body = render(app);
-      } else if (ctx.accepts('json')) {
-        ctx.type = 'json';
-        ctx.body = {
+        context.body = render(app);
+      } else if (context.accepts('json')) {
+        context.type = 'json';
+        context.body = {
           ...locals,
-          ...ctx.locals,
-          ...ctx.response.locals,
+          ...context.locals,
+          ...context.response.locals,
         };
       }
     };
 
-    ctx.response.render = ctx.render;
+    context.renderRaw = async (component: VNode) => {
+      context.type = 'text/html';
+      context.body = render(component);
+    };
+
+    context.response.render = context.render;
+    context.response.renderRaw = context.renderRaw;
     await next();
   };
 }

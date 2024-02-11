@@ -1,5 +1,4 @@
-import pkg from 'pg';
-import type {QueryResult, QueryResultRow} from 'pg';
+import pkg, {type QueryResult, type QueryResultRow} from 'pg';
 import type {SQLStatement} from 'sql-template-strings';
 import logger from '../logger.js';
 

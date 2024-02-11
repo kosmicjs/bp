@@ -1,7 +1,6 @@
 import {type Middleware} from 'koa';
 
 declare module 'koa' {
-  // eslint-disable-next-line unicorn/prevent-abbreviations
   interface Params {
     /**
      * The partial to render.

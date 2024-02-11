@@ -9,7 +9,7 @@ import {passport} from '../config/passport.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export const use: Use = [
-  passport.initialize({userProperty: 'user'}),
+  passport.initialize({userProperty: 'email'}),
   passport.session(),
   await jsxRender(path.join(__dirname, '..', 'views')),
 ];

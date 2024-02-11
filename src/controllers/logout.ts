@@ -5,6 +5,7 @@ declare module 'koa' {
 }
 
 export async function get(ctx: Context, next: Next) {
-  ctx.logout();
+  ctx.log.debug('logging out');
+  await ctx.logout();
   ctx.redirect('/');
 }

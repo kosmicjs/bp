@@ -1,6 +1,8 @@
-export type Props = Record<string, unknown>;
+import {type Locals} from 'koa';
 
-export default function Nav() {
+export type Props = Record<string, unknown> & Locals;
+
+export default function Nav({ctx}: Props) {
   return (
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
@@ -37,30 +39,43 @@ export default function Nav() {
             </li>
           </ul>
           <div>
-            <button
-              class="btn btn-outline-success"
-              type="button"
-              hx-get="/modals/login"
-              hx-target="#modal-content"
-              hx-indicator="#modal-content"
-              hx-swap="innerHTML"
-              data-bs-toggle="modal"
-              data-bs-target="#modal"
-            >
-              Login
-            </button>
-            <button
-              class="btn btn-outline-success"
-              type="button"
-              hx-get="/modals/signup"
-              hx-target="#modal-content"
-              hx-indicator="#modal-content"
-              hx-swap="innerHTML"
-              data-bs-toggle="modal"
-              data-bs-target="#modal"
-            >
-              Signup
-            </button>
+            {ctx.state.user?.email ? (
+              <a
+                data-barba-prevent
+                class="btn btn-outline-success"
+                type="button"
+                href="/logout"
+              >
+                Logout
+              </a>
+            ) : (
+              <>
+                <button
+                  class="btn btn-outline-success"
+                  type="button"
+                  hx-get="/modals/login"
+                  hx-target="#modal-content"
+                  hx-indicator="#modal-content"
+                  hx-swap="innerHTML"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modal"
+                >
+                  Login
+                </button>
+                <button
+                  class="btn btn-outline-success"
+                  type="button"
+                  hx-get="/modals/signup"
+                  hx-target="#modal-content"
+                  hx-indicator="#modal-content"
+                  hx-swap="innerHTML"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modal"
+                >
+                  Signup
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

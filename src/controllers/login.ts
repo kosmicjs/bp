@@ -1,5 +1,5 @@
 import {type Next, type Context} from 'koa';
-import {passport} from '../config/passport.js';
+import passport from 'koa-passport';
 
 // TODO: fix this so it happens under the hood.
 declare module 'koa' {
@@ -7,15 +7,8 @@ declare module 'koa' {
 }
 
 export async function post(ctx: Context, next: Next) {
-  ctx.log.trace({body: ctx.request.body});
-  await passport.authenticate('local', async (error, user, info, status) => {
-    ctx.log.trace({error, user, info, status}); // eslint-disable-line @typescript-eslint/no-unsafe-assignment
-    if (user) {
-      await ctx.login(user);
-      ctx.redirect('/admin');
-    } else {
-      ctx.status = 400;
-      ctx.redirect('/');
-    }
+  return passport.authenticate('local', {
+    successRedirect: '/admin',
+    failureRedirect: '/',
   })(ctx, next);
 }

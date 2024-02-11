@@ -3,6 +3,7 @@ import {type ComponentChildren} from 'preact';
 import {type Locals} from 'koa';
 import Footer from './components/footer.js';
 import Header from './components/header.js';
+import Modal from './components/modal.js';
 
 export type Props = {
   readonly children: ComponentChildren;
@@ -62,11 +63,12 @@ export default function Layout({
         data-barba-namespace="default"
         data-bs-theme="dark"
       >
-        <Header />
+        <Header ctx={ctx} />
         <main className="container h-75" data-barba="container">
           {children}
         </main>
         <Footer />
+        <Modal />
       </body>
     </html>
   );

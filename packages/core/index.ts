@@ -1,14 +1,12 @@
-import http from 'node:http';
-import type {Server} from 'node:http';
+import http, {type Server} from 'node:http';
 import {type ListenOptions} from 'node:net';
 import fs from 'node:fs/promises';
 import process from 'node:process';
 import path from 'node:path';
 import bodyParser from 'koa-bodyparser';
 import responseTime from 'koa-response-time';
-import type {HttpTerminator} from 'http-terminator';
+import {createHttpTerminator, type HttpTerminator} from 'http-terminator';
 import session from 'koa-session';
-import {createHttpTerminator} from 'http-terminator';
 import etag from 'koa-etag';
 import conditional from 'koa-conditional-get';
 import Koa, {type Middleware, type Options as KoaOptions} from 'koa';
@@ -250,7 +248,7 @@ export class Kosmic extends Koa {
 
   private async _applyMiddleware() {
     this.use(async (ctx, next) => {
-      if (!ctx.locals) ctx.locals = {ctx};
+      ctx.locals ??= {ctx};
       return next();
     });
 
@@ -321,7 +319,7 @@ export class Kosmic extends Koa {
               src: string;
             }
           >;
-          if (!ctx.locals) ctx.locals = {ctx};
+          ctx.locals ??= {ctx};
           ctx.locals.manifest = manifest;
           await next();
         });

@@ -1,6 +1,5 @@
 import {type Locals} from 'koa';
 import Layout from './layout.js';
-import Modal from './components/modal.js';
 import Counter from './components/islands/counter.js';
 
 export type Props = {
@@ -45,7 +44,6 @@ function Index(props: Props) {
           <Counter />
         </div>
       </div>
-      <Modal />
     </Layout>
   );
 }

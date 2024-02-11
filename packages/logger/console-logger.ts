@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {type Logger} from './logger.interface.js';
 
 export class ConsoleLogger implements Logger {
