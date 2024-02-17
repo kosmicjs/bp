@@ -8,7 +8,7 @@ export default function SideNav() {
         data-bs-target="#home-collapse"
         aria-expanded="false"
       >
-        Getting Started
+        Docs
       </button>
       <div class="collapse" id="home-collapse">
         <div class="list-group list-group-flush">
@@ -17,8 +17,9 @@ export default function SideNav() {
             class="list-group-item list-group-item-action text-end"
             hx-get="/docs/getting-started"
             hx-target="#docs-content"
+            hx-push-url="true"
           >
-            Installation
+            Getting started
           </button>
         </div>
       </div>

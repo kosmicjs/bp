@@ -10,7 +10,7 @@ import '@popperjs/core';
 import 'bootstrap';
 import 'htmx.org';
 import '../styles/styles.scss';
-import './barba.js';
+// import './barba.js';
 import './query.js';
 import './islands.js';
 import './socket.js';

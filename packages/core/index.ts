@@ -72,7 +72,7 @@ export class Kosmic extends Koa {
   private readonly _customMiddleware: Middleware[] = [];
 
   constructor(koaOptions: KoaOptions = {}) {
-    super(koaOptions);
+    super({...koaOptions, asyncLocalStorage: true});
     this.startOptions = {
       withBodyParser: true,
       withEtag: true,
