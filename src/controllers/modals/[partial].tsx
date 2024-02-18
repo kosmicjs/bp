@@ -1,4 +1,5 @@
 import {type Middleware} from 'koa';
+import {type JSX} from 'preact';
 
 declare module 'koa' {
   interface Params {
@@ -13,5 +14,12 @@ declare module 'koa' {
 
 export const get: Middleware = async (ctx) => {
   ctx.log.debug(`Rendering partial "${ctx.request.params?.partial}"`);
-  await ctx.render(`partials/modals/${ctx.request.params?.partial}`, {});
+
+  const {default: Modal} = (await import(
+    '../../components/partials/modals/' +
+      (ctx.request.params?.partial ?? '') +
+      '.js'
+  )) as {default: () => JSX.Element};
+
+  await ctx.renderRaw(<Modal />);
 };

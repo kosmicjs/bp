@@ -1,6 +1,6 @@
 export default function SideNav() {
   return (
-    <div class="list-group list-group-flush">
+    <div class="list-group list-group-flush" hx-select="#docs-content">
       <button
         type="button"
         class="list-group-item list-group-item-action"

@@ -37,11 +37,6 @@ export default function Nav({ctx}: Props) {
                 Docs
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/docs">
-                Test
-              </a>
-            </li>
           </ul>
           <div>
             {ctx.state.user?.email ? (
