@@ -18,6 +18,7 @@ export const get: Middleware = async (ctx) => {
   ctx.log.debug(`Rendering partial "${ctx.request.params?.page}"`);
 
   const {default: Doc} = (await import(
+    /* @vite-ignore */
     '../../components/partials/docs/' + (ctx.request.params?.page ?? '') + '.js'
   )) as {default: () => JSX.Element};
 

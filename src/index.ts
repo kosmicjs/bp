@@ -1,4 +1,4 @@
-import process from 'node:process';
+// import process from 'node:process';
 import {app} from './server.js';
 import {config} from './config/index.js';
 
@@ -7,6 +7,6 @@ await app.start({
   port: config.port,
 });
 
-import.meta.hot?.accept(() => {
-  process?.send?.('reload');
-});
+// import.meta.hot?.accept(() => {
+//   process?.send?.('reload');
+// });

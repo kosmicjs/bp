@@ -52,7 +52,9 @@ export async function renderMiddleware(viewPath: string) {
       ).toString()}`;
 
       if (context.accepts('html')) {
-        const {default: component} = (await import(viewFilePath)) as {
+        const {default: component} = (await import(
+          /* @vite-ignore */ viewFilePath
+        )) as {
           default: FunctionComponent<ComponentProps<any> & typeof locals>;
         };
 

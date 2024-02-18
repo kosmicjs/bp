@@ -22,6 +22,6 @@ export const getCtx = () => {
   return ctx;
 };
 
-import.meta.hot?.dispose(async () => {
-  await app.close();
-});
+// import.meta.hot?.dispose(async () => {
+//   await app.close();
+// });

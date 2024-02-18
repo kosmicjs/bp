@@ -16,6 +16,7 @@ export const get: Middleware = async (ctx) => {
   ctx.log.debug(`Rendering partial "${ctx.request.params?.partial}"`);
 
   const {default: Modal} = (await import(
+    /* @vite-ignore */
     '../../components/partials/modals/' +
       (ctx.request.params?.partial ?? '') +
       '.js'

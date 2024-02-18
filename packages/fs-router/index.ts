@@ -65,6 +65,7 @@ async function createFsRouter(
       const uriPath = getUriPathFromFilePath(filePath);
 
       const module: RouteModule | undefined = (await import(
+        /* @vite-ignore */
         filePath
       )) as RouteModule;
 
