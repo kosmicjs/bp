@@ -9,7 +9,11 @@ import {createHttpTerminator, type HttpTerminator} from 'http-terminator';
 import session from 'koa-session';
 import etag from 'koa-etag';
 import conditional from 'koa-conditional-get';
-import Koa, {type Middleware, type Options as KoaOptions} from 'koa';
+import Koa, {
+  type Middleware,
+  type Options as KoaOptions,
+  type Context,
+} from 'koa';
 import serve from 'koa-static';
 import createFsRouter from '../fs-router/index.js';
 import {type Logger} from '../logger/logger.interface.js';
@@ -45,6 +49,18 @@ declare module 'koa' {
 
 let requestId = 0;
 
+export let getCtx: () => Context; // eslint-disable-line import/no-mutable-exports
+
+function _getCtx(this: Kosmic) {
+  const ctx = this.currentContext;
+
+  if (!ctx) {
+    throw new Error('No context found');
+  }
+
+  return ctx;
+}
+
 export class Kosmic extends Koa {
   public static bodyParser = bodyParser;
   public static static = serve;
@@ -73,6 +89,9 @@ export class Kosmic extends Koa {
 
   constructor(koaOptions: KoaOptions = {}) {
     super({...koaOptions, asyncLocalStorage: true});
+
+    getCtx = _getCtx.bind(this);
+
     this.startOptions = {
       withBodyParser: true,
       withEtag: true,
@@ -297,7 +316,10 @@ export class Kosmic extends Koa {
     }
 
     if (this.startOptions.withStaticFiles && this._staticFilesOptions?.[0]) {
-      this.logger.trace('using static files');
+      this.logger.trace(
+        {options: this._staticFilesOptions},
+        'using static files',
+      );
       this.use(serve(...this._staticFilesOptions));
       if (process.env.NODE_ENV !== 'development') {
         this.use(async (ctx, next) => {

@@ -1,15 +1,23 @@
-import {type Locals} from 'koa';
-import Layout from './layout.js';
-import Counter from './components/islands/counter.js';
+import url from 'node:url';
+import path from 'node:path';
+import {type Middleware} from 'koa';
+import Layout from '../components/layout.js';
+import Counter from '../components/islands/counter.js';
+import {type Use} from '../../packages/fs-router/types.js';
+import {renderMiddleware as jsxRender} from '../../packages/render/jsx.middleware.js';
+import {passport} from '../config/passport.js';
 
-export type Props = {
-  readonly title: string;
-  readonly description: string;
-} & Locals;
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-function Index(props: Props) {
-  return (
-    <Layout ctx={props.ctx}>
+export const use: Use = [
+  passport.initialize({userProperty: 'email'}),
+  passport.session(),
+  await jsxRender(path.join(__dirname, '..', 'views')),
+];
+
+export const get: Middleware = async function (ctx) {
+  await ctx.renderRaw(
+    <Layout>
       <h1>Kosmic TS</h1>
       <p>Less abstractions, all the same features!</p>
       <p>
@@ -21,8 +29,8 @@ function Index(props: Props) {
         web-development, but still have all the same features that React server
         components promise.
       </p>
-      <p>{props.title}</p>
-      <p>{props.description}</p>
+      <p>Home</p>
+      <p>Kosmic is the coolest</p>
       <button
         className="btn btn-sm btn-secondary"
         type="button"
@@ -44,8 +52,6 @@ function Index(props: Props) {
           <Counter />
         </div>
       </div>
-    </Layout>
+    </Layout>,
   );
-}
-
-export default Index;
+};

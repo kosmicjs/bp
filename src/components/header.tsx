@@ -1,11 +1,13 @@
-import {type Locals} from 'koa';
+import {getCtx} from '../server.js';
 import Nav from './nav.js';
 
 export type Props = {
   readonly title?: string;
-} & Locals;
+};
 
-export default function Header({title, ctx}: Props) {
+export default function Header({title}: Props) {
+  const ctx = getCtx();
+
   return (
     <header className="w-100">
       <Nav ctx={ctx} />

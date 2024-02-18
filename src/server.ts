@@ -16,6 +16,12 @@ export const app = new Kosmic()
   .injectHttpLoggingMiddleware(createPinoMiddleware({logger}))
   .withSession();
 
+export const getCtx = () => {
+  const ctx = app.currentContext;
+  if (!ctx) throw new Error('No context found');
+  return ctx;
+};
+
 import.meta.hot?.dispose(async () => {
   await app.close();
 });

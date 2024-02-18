@@ -20,11 +20,15 @@ declare module 'koa' {
     viewName: string,
     locals?: Omit<L, keyof Locals>,
   ) => Promise<void>;
+
   /**
    * render a jsx component template
    */
+  type RenderRaw = (component: VNode) => Promise<void>;
+
   interface Context {
     render: Render;
+    renderRaw: RenderRaw;
     locals: Locals;
   }
   /**
@@ -32,6 +36,7 @@ declare module 'koa' {
    */
   interface Response {
     render: Render;
+    renderRaw: RenderRaw;
     locals: Locals;
   }
 }

@@ -110,6 +110,16 @@ try {
 
   await tsbuilder.rebuild();
 
+  await fs.mkdir(path.join(devFolder, 'src', 'public'), {recursive: true});
+  await fs.cp(
+    path.join(cwd, 'src', 'public'),
+    path.join(devFolder, 'src', 'public'),
+    {
+      recursive: true,
+      force: true,
+    },
+  );
+
   const handleFileChanges = async (file: string) => {
     try {
       if (file.endsWith('package.json')) {

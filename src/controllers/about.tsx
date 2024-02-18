@@ -1,20 +1,14 @@
-import {type Locals} from 'koa';
+import {type Context} from 'koa';
 import Layout from '../components/layout.js';
-import Modal from '../components/modal.js';
 
-export type Props = {
-  readonly title: string;
-  readonly description: string;
-} & Locals;
-
-function Index(props: Props) {
-  return (
+export async function get(ctx: Context) {
+  await ctx.renderRaw(
     <Layout>
       <h2>Welcome to My ABOUT PAGE</h2>
       <p>This is my first Pug template!</p>
       <p>You are on the homepage</p>
-      <p>{props.title}</p>
-      <p>{props.description}</p>
+      <p>About</p>
+      <p>This is the about page!</p>
       <button
         className="btn btn-sm btn-secondary"
         type="button"
@@ -27,9 +21,6 @@ function Index(props: Props) {
       >
         Launch demo modal
       </button>
-      <Modal />
-    </Layout>
+    </Layout>,
   );
 }
-
-export default Index;

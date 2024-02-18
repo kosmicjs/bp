@@ -1,6 +1,6 @@
 import {hydrate} from 'preact';
 import camelcase from 'camelcase';
-import * as Islands from '../../views/components/islands/index.js';
+import * as Islands from '../../components/islands/index.js';
 import {$$} from './query.js';
 
 /**
