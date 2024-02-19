@@ -21,7 +21,3 @@ export const getCtx = () => {
   if (!ctx) throw new Error('No context found');
   return ctx;
 };
-
-// import.meta.hot?.dispose(async () => {
-//   await app.close();
-// });

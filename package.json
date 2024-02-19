@@ -27,7 +27,7 @@
     "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist & rimraf -rf ./src/public/assets & rimraf -rf ./src/public/.vite",
     "compile": "tsc -p tsconfig.json && vite build",
-    "dev": "node --import tsimp/import ./packages/dev/v2.ts",
+    "dev": "node --import tsimp/import ./packages/dev/index.ts",
     "migrate": "node --import tsimp/import ./src/db/migrate up",
     "prepare": "husky",
     "prepublishOnly": "npm run build",
