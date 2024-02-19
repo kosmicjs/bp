@@ -29,7 +29,7 @@ passport.deserializeUser(async (id: number, done) => {
   try {
     const user = await db
       .selectFrom('users')
-      .selectAll()
+      .select(['id', 'email', 'first_name', 'last_name'])
       .where('id', '=', id)
       .executeTakeFirst();
 
@@ -62,7 +62,7 @@ passport.use(
 
         const user = await db
           .selectFrom('users')
-          .selectAll()
+          .select(['id', 'email', 'first_name', 'last_name', 'hash'])
           .where('email', '=', email)
           .executeTakeFirst();
 
