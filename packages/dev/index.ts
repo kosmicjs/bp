@@ -19,7 +19,7 @@ let isExiting = false;
 const logger = pino({
   level: 'info',
   transport: {target: 'pino-princess'},
-  name: 'dev:::',
+  name: 'devsvr',
 });
 
 const exitHandler = (err?: Error | undefined) => {

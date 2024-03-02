@@ -9,6 +9,7 @@ export type Props = {
   readonly children: ComponentChildren;
   readonly title?: string;
   readonly env?: string;
+  readonly ctx?: ReturnType<typeof getCtx>;
 };
 
 function Css({files}: {readonly files?: string[]}) {
@@ -31,9 +32,8 @@ export default function Layout({
   children,
   title,
   env = process.env.NODE_ENV,
+  ctx = getCtx(),
 }: Props) {
-  const ctx = getCtx();
-
   const foundManifest = ctx.locals.manifest?.['scripts/index.ts'];
 
   return (
@@ -82,6 +82,7 @@ export default function Layout({
         data-barba="wrapper"
         data-barba-namespace="default"
         data-bs-theme="dark"
+        hx-boost="true"
       >
         <Header />
         <main className="container h-75" data-barba="container">

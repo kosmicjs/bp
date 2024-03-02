@@ -16,14 +16,12 @@ import {$$} from './query.js';
  * for client side interactions. If you start reaching for this too much, you should consider
  * using a more robust front-end metaframework like next or remix.
  */
-export const hydrateIslands = () => {
-  const $islands = $$<HTMLElement>('[data-island]');
+const $islands = $$<HTMLElement>('[data-island]');
 
-  for (const $island of $islands) {
-    const islandName = camelcase($island.dataset?.island ?? '', {
-      pascalCase: true,
-    });
-    const Component = Islands[islandName as keyof typeof Islands];
-    if (Component) hydrate(<Component />, $island);
-  }
-};
+for (const $island of $islands) {
+  const islandName = camelcase($island.dataset?.island ?? '', {
+    pascalCase: true,
+  });
+  const Component = Islands[islandName as keyof typeof Islands];
+  if (Component) hydrate(<Component />, $island);
+}

@@ -23,12 +23,12 @@ export const get: Middleware = async (ctx) => {
   )) as {default: () => JSX.Element};
 
   await ctx.renderRaw(
-    <Layout>
+    <Layout ctx={ctx}>
       <div class="row">
         <div class="col-2">
-          <SideNav />
+          <SideNav ctx={ctx} />
         </div>
-        <div id="docs-content" class="col-10 p-5">
+        <div class="col-10 p-5">
           <Doc />
         </div>
       </div>

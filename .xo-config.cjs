@@ -16,6 +16,7 @@ module.exports = {
     'react/no-unknown-property': 'off',
     'react/react-in-jsx-scope': 'off',
     'unicorn/prevent-abbreviations': 'off',
+    'react/jsx-key': 'off',
 	},
 	overrides: [
 		{

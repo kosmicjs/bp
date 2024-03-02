@@ -3,7 +3,10 @@ import path from 'node:path';
 import {type UserConfig, createLogger} from 'vite';
 import {pino} from 'pino';
 
-const viteLogger = pino({name: 'vite', transport: {target: 'pino-princess'}});
+const viteLogger = pino({
+  name: 'devsvr',
+  transport: {target: 'pino-princess'},
+});
 
 const config: UserConfig = {
   root: path.join(__dirname, 'src', 'client'),
