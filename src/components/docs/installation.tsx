@@ -1,20 +1,11 @@
+import ActiveDevWarning from '../active-dev-warning.js';
+
 export default function GettingStartedContent() {
   return (
     <div>
       <h1 class="mb-5">Getting Started</h1>
 
-      <figure class="text-center mb-5">
-        <blockquote class="blockquote">
-          <p>
-            <strong>IMPORTANT:</strong>Kosmic is currently under active
-            development
-          </p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-          Love from{' '}
-          <cite title="Source Title">Spencer and the Kosmic dev team</cite>
-        </figcaption>
-      </figure>
+      <ActiveDevWarning />
 
       <section>
         <h2 class="mb-5">Installation</h2>

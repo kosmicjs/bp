@@ -19,7 +19,7 @@ export const get: Middleware = async (ctx) => {
 
   const {default: Doc} = (await import(
     /* @vite-ignore */
-    '../../components/partials/docs/' + (ctx.request.params?.page ?? '') + '.js'
+    `../../components/docs/${ctx.request.params?.page ?? 'installation'}.js`
   )) as {default: () => JSX.Element};
 
   await ctx.renderRaw(
