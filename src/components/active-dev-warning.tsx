@@ -1,6 +1,6 @@
 export default function ActiveDevWarning() {
   return (
-    <figure class="mb-5">
+    <figure class="mb-5 p-3 border rounded">
       <blockquote class="blockquote">
         <p>
           <strong>IMPORTANT:</strong>Kosmic is currently under active

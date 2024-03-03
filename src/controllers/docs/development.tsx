@@ -1,5 +1,5 @@
 import {type Middleware} from 'koa';
-import DocsLayout from '../../components/docs-layout.js';
+import DocsLayout from '../../components/docs/docs-layout.js';
 
 export const get: Middleware = async (ctx) => {
   await ctx.renderRaw(
