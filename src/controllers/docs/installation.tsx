@@ -13,7 +13,7 @@ export const get: Middleware = async (ctx) => {
         </div>
         <div class="col-10 p-5">
           <div>
-            <h1 class="mb-5">Getting Started</h1>
+            <h1 class="mb-5">Installation</h1>
 
             <ActiveDevWarning />
 

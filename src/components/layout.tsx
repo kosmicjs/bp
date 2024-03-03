@@ -78,16 +78,12 @@ export default function Layout({
         )}
       </head>
       <body
-        className="container-fluid w-100 min-vh-100"
-        data-barba="wrapper"
-        data-barba-namespace="default"
+        class="container-fluid container-fluid-max"
         data-bs-theme="dark"
         hx-boost="true"
       >
         <Header />
-        <main className="container h-75" data-barba="container">
-          {children}
-        </main>
+        <main>{children}</main>
         <Footer />
         <Modal />
       </body>

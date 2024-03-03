@@ -40,12 +40,7 @@ export default function Nav({ctx}: Props) {
           </ul>
           <div>
             {ctx.state.user?.email ? (
-              <a
-                data-barba-prevent
-                class="btn btn-outline-success"
-                type="button"
-                href="/logout"
-              >
+              <a class="btn btn-outline-success" type="button" href="/logout">
                 Logout
               </a>
             ) : (

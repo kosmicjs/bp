@@ -48,7 +48,6 @@
     ]
   },
   "dependencies": {
-    "@barba/core": "^2.9.7",
     "@popperjs/core": "^2.11.8",
     "argon2": "^0.40.1",
     "bootstrap": "^5.3.3",
@@ -56,12 +55,15 @@
     "chokidar": "^3.6.0",
     "clsx": "^2.1.0",
     "copy-to-clipboard": "^3.3.3",
+    "dedent": "^1.5.1",
     "dotenv": "^16.4.5",
+    "escape-goat": "^4.0.0",
     "eslint-config-xo-react": "^0.27.0",
     "execa": "^8.0.1",
     "fast-glob": "^3.3.2",
     "globby": "^14.0.1",
     "got": "^14.2.0",
+    "highlight.js": "^11.9.0",
     "htmx.org": "^1.9.10",
     "http-terminator": "^3.2.0",
     "kcors": "^2.2.2",

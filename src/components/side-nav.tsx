@@ -5,7 +5,11 @@ import clsx from 'clsx';
 const buttonList = [
   {
     href: '/docs/installation',
-    text: 'Getting started',
+    text: 'Installation',
+  },
+  {
+    href: '/docs/basic-setup',
+    text: 'Basic Setup',
   },
   {
     href: '/docs/cli',
@@ -23,7 +27,7 @@ export default function SideNav({ctx}: {readonly ctx: Context}) {
       {buttonList.map((button) => (
         <a
           role="button"
-          class={clsx('list-group-item list-group-item-action text-end', {
+          class={clsx('list-group-item list-group-item-action', {
             'list-group-item-dark':
               ctx.params?.page === path.basename(button.href),
           })}

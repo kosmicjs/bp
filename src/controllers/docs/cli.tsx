@@ -19,7 +19,7 @@ export const get: Middleware = async (ctx) => {
 
             <section>
               <h2 class="mb-5">
-                <CodeBlock code="kosmic dev" />
+                <CodeBlock language="bash" code="kosmic dev" />
               </h2>
               <h2 class="mb-5">
                 <CodeBlock code="kosmic build" />

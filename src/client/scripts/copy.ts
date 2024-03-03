@@ -9,7 +9,7 @@ export function initializeCodeCopy($el: Element) {
     if (!($el instanceof HTMLElement)) continue;
     let copiedTimeout: NodeJS.Timeout;
     $el.on('click', () => {
-      if (!$el.textContent) {
+      if (!$el.dataset.code) {
         return;
       }
 
@@ -17,7 +17,7 @@ export function initializeCodeCopy($el: Element) {
         clearTimeout(copiedTimeout);
       }
 
-      copyToClipboard($el.textContent.trim().slice(1).trim());
+      copyToClipboard($el.dataset.code?.trim?.());
       const previousTooltip = Tooltip.getOrCreateInstance($el);
       previousTooltip.dispose();
       const copiedTip = new Tooltip($el, {

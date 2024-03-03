@@ -9,6 +9,8 @@ import 'vite/modulepreload-polyfill';
 import '@popperjs/core';
 import 'bootstrap';
 import '../styles/styles.scss';
+// eslint-disable-next-line import/order
+import 'highlight.js/styles/base16/dracula.css';
 // We can then use query syntax in other scripts
 import './htmx.js';
 import './socket.js';
