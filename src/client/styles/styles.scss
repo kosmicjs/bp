@@ -1,2 +1,9 @@
 @import "./bootstrap";
-@import "./tailwind";
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.code-tooltip {
+  background-color: black;
+}

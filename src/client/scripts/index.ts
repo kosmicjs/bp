@@ -8,8 +8,7 @@
 import 'vite/modulepreload-polyfill';
 import '@popperjs/core';
 import 'bootstrap';
-import 'htmx.org';
 import '../styles/styles.scss';
-import './query.js';
-import './islands.js';
+// We can then use query syntax in other scripts
+import './htmx.js';
 import './socket.js';

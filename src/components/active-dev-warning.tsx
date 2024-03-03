@@ -8,8 +8,7 @@ export default function ActiveDevWarning() {
         </p>
       </blockquote>
       <figcaption class="blockquote-footer">
-        Love from{' '}
-        <cite title="Source Title">Spencer and the Kosmic dev team</cite>
+        Love from <cite title="Source Title">The Kosmic dev team</cite>
       </figcaption>
     </figure>
   );

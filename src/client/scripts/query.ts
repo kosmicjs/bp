@@ -45,8 +45,10 @@ Node.prototype.on = function (name: string, selector, fn) {
 /**
  * An alias for document.querySelector
  */
-export const $ = document.querySelector.bind(document);
+export const $ = (s: string, c?: Element) =>
+  (c ?? document).querySelector.bind(document ?? c)(s);
 /**
  * An alias for document.querySelectorAll
  */
-export const $$ = document.querySelectorAll.bind(document);
+export const $$ = (s: string, c?: Element) =>
+  (c ?? document).querySelectorAll.bind(c ?? document)(s);
