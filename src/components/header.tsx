@@ -9,7 +9,7 @@ export default function Header({title}: Props) {
   const ctx = getCtx();
 
   return (
-    <header className="w-100">
+    <header className="w-100 mb-5">
       <Nav ctx={ctx} />
       <h1>{title}</h1>
     </header>

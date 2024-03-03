@@ -1,5 +1,4 @@
 import path from 'node:path';
-import type {Context} from 'koa';
 import clsx from 'clsx';
 
 const buttonList = [
@@ -21,15 +20,18 @@ const buttonList = [
   },
 ];
 
-export default function SideNav({ctx}: {readonly ctx: Context}) {
+type Props = {
+  readonly pageName: string;
+};
+
+export default function SideNav({pageName}: Props) {
   return (
     <div class="list-group list-group-flush">
       {buttonList.map((button) => (
         <a
           role="button"
-          class={clsx('list-group-item list-group-item-action', {
-            'list-group-item-dark':
-              ctx.params?.page === path.basename(button.href),
+          class={clsx('list-group-item list-group-item-action ', {
+            'list-group-item-dark': pageName === path.basename(button.href),
           })}
           href={button.href}
         >

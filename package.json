@@ -66,6 +66,7 @@
     "highlight.js": "^11.9.0",
     "htmx.org": "^1.9.10",
     "http-terminator": "^3.2.0",
+    "humanize-string": "^3.0.0",
     "kcors": "^2.2.2",
     "koa": "npm:@kosmic/koa@latest",
     "koa-404-handler": "^0.1.0",
@@ -95,6 +96,7 @@
     "socket.io": "^4.7.4",
     "socket.io-client": "^4.7.4",
     "sql-template-strings": "^2.2.2",
+    "titleize": "^4.0.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

@@ -12,7 +12,7 @@ export type Props = {
   readonly ctx?: ReturnType<typeof getCtx>;
 };
 
-function Css({files}: {readonly files?: string[]}) {
+function Css({files}: {readonly files?: string[] | undefined}) {
   if (!files) return null;
   return (
     <>
@@ -23,7 +23,7 @@ function Css({files}: {readonly files?: string[]}) {
   );
 }
 
-function Script({file}: {readonly file?: string}) {
+function Script({file}: {readonly file?: string | undefined}) {
   if (!file) return null;
   return <script type="module" src={file} />;
 }
@@ -31,7 +31,7 @@ function Script({file}: {readonly file?: string}) {
 export default function Layout({
   children,
   title,
-  env = process.env.NODE_ENV,
+  env = process.env.NODE_ENV ?? 'development',
   ctx = getCtx(),
 }: Props) {
   const foundManifest = ctx.locals.manifest?.['scripts/index.ts'];
@@ -83,7 +83,7 @@ export default function Layout({
         hx-boost="true"
       >
         <Header />
-        <main>{children}</main>
+        <main class="vh-100">{children}</main>
         <Footer />
         <Modal />
       </body>

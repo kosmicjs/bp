@@ -22,7 +22,7 @@ export function initializeIslands($content: Element) {
   for (const $island of $islands) {
     if (!($island instanceof HTMLElement)) continue;
 
-    const islandName = camelcase($island.dataset?.island ?? '', {
+    const islandName = camelcase($island.dataset.island ?? '', {
       pascalCase: true,
     });
 
