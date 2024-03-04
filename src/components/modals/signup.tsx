@@ -10,7 +10,7 @@ export default function SignupModalBody() {
           aria-label="Close"
         />
       </div>
-      <form action="/signup" method="post">
+      <form hx-boost="true" action="/signup" method="post">
         <div class="modal-body">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">
@@ -24,7 +24,7 @@ export default function SignupModalBody() {
               aria-describedby="emailHelp"
             />
             <div id="emailHelp" class="form-text">
-              {`We'll never share your email with anyone else.`}
+              We&apos;ll never share your email with anyone else.
             </div>
           </div>
 

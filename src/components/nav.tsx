@@ -1,13 +1,44 @@
 import {type Locals} from 'koa';
+import clsx from 'clsx';
 
 export type Props = Record<string, unknown> & Locals;
+
+const NavItems = [
+  {
+    name: 'Home',
+    href: '/',
+    matchType: 'exact',
+  },
+  {
+    name: 'About',
+    href: '/about',
+    matchType: 'startsWith',
+  },
+  {
+    name: 'Docs',
+    href: '/docs',
+    matchType: 'startsWith',
+  },
+  {
+    name: 'Admin',
+    href: '/admin',
+    matchType: 'startsWith',
+    protected: true,
+  },
+];
 
 export default function Nav({ctx}: Props) {
   return (
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">
-          **LOGO**
+          <img
+            src="/favicon-32x32.png"
+            alt="logo"
+            width="30"
+            height="24"
+            class="d-inline-block align-text-top"
+          />
         </a>
         <button
           class="navbar-toggler"
@@ -22,21 +53,41 @@ export default function Nav({ctx}: Props) {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about">
-                About
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/docs">
-                Docs
-              </a>
-            </li>
+            {NavItems.map((item) =>
+              item.protected ? (
+                ctx.isAuthenticated() ? (
+                  <li class="nav-item">
+                    <a
+                      class={clsx('nav-link', {
+                        active:
+                          item.matchType === 'exact'
+                            ? ctx?.path === item.href
+                            : ctx?.path?.startsWith(item.href),
+                      })}
+                      aria-current="page"
+                      href={item.href}
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ) : null
+              ) : (
+                <li class="nav-item">
+                  <a
+                    class={clsx('nav-link', {
+                      active:
+                        item.matchType === 'exact'
+                          ? ctx?.path === item.href
+                          : ctx?.path?.startsWith(item.href),
+                    })}
+                    aria-current="page"
+                    href={item.href}
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              ),
+            )}
           </ul>
           <div>
             {ctx.state.user?.email ? (
@@ -46,12 +97,11 @@ export default function Nav({ctx}: Props) {
             ) : (
               <>
                 <button
-                  class="btn btn-outline-success"
+                  class="btn btn-outline-success mx-2"
                   type="button"
                   hx-get="/modals/login"
                   hx-target="#modal-content"
                   hx-indicator="#modal-content"
-                  hx-swap="innerHTML"
                   data-bs-toggle="modal"
                   data-bs-target="#modal"
                 >
@@ -63,7 +113,6 @@ export default function Nav({ctx}: Props) {
                   hx-get="/modals/signup"
                   hx-target="#modal-content"
                   hx-indicator="#modal-content"
-                  hx-swap="innerHTML"
                   data-bs-toggle="modal"
                   data-bs-target="#modal"
                 >

@@ -83,7 +83,7 @@ export default function Layout({
         hx-boost="true"
       >
         <Header />
-        <main class="vh-100">{children}</main>
+        <main class="min-vh-100">{children}</main>
         <Footer />
         <Modal />
       </body>

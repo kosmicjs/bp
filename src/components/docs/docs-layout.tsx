@@ -17,9 +17,9 @@ export default function DocsLayout({pageName, children}: Props) {
 
   if (!ctx) throw new Error('No context found');
 
-  if (!ctx.originalUrl) throw new Error('No url found');
+  if (!ctx.path) throw new Error('No req.path');
 
-  const page = path.basename(ctx.originalUrl);
+  const page = path.basename(ctx.path);
 
   const formattedPageName = titleize(humanize(pageName ?? page));
 

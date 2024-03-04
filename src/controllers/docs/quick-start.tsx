@@ -5,6 +5,7 @@ import CodeBlock from '../../components/code-block.js';
 export const get: Middleware = async (ctx) => {
   await ctx.renderRaw(
     <DocsLayout>
+      <h3 class="my-5">Scaffold a Kosmic starter project</h3>
       <p>
         After Installation, you can create a new Kosmic app by running the CLI.
         <CodeBlock language="bash" code="npx kosmic create my-app" />
@@ -21,9 +22,9 @@ export const get: Middleware = async (ctx) => {
         a lot of built in and custom functionality designed to make your Koa app
         awesome to work with.
       </p>
+      <h3 class="my-5">A guided tour of the app</h3>
       <p>
-        Create a new file called <code>server.js</code> and add the following
-        code:
+        First let&apos;s take a look at a file called <code>server.js</code>
       </p>
       <CodeBlock
         isMultiline

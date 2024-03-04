@@ -37,7 +37,6 @@ export const get: Middleware = async function (ctx) {
         hx-get="/modals/login"
         hx-target="#modal-content"
         hx-indicator="#modal-content"
-        hx-swap="innerHTML"
         data-bs-toggle="modal"
         data-bs-target="#modal"
       >
