@@ -4,7 +4,7 @@ import humanizeString from 'humanize-string';
 
 const pageList = [
   {name: 'installation'},
-  {name: 'basic-setup'},
+  {name: 'quick-start'},
   {name: 'cli'},
   {name: 'development'},
 ];

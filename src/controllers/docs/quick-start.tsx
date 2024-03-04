@@ -5,32 +5,52 @@ import CodeBlock from '../../components/code-block.js';
 export const get: Middleware = async (ctx) => {
   await ctx.renderRaw(
     <DocsLayout>
-      <h2 class="mb-5">Typescript</h2>
       <p>
-        Kosmic is built with TypeScript. This means you can use TypeScript in
-        your Kosmic app without any additional setup.
+        After Installation, you can create a new Kosmic app by running the CLI.
+        <CodeBlock language="bash" code="npx kosmic create my-app" />
       </p>
-      <h2 class="my-5">Setup</h2>
+      <p>
+        Under the hood, Kosmic is built on top of Koa, a popular web framework.
+        Using Koa as the base for Kosmic means you can use any Koa middleware in
+        your Kosmic app. Kosmic gets a built in community of battletested
+        packages.
+      </p>
+      <p>
+        However, Kosmic provides a lot more than just a simple Koa wrapper.
+        Kosmic makes setting up a production ready Koa server a breeze and ships
+        a lot of built in and custom functionality designed to make your Koa app
+        awesome to work with.
+      </p>
       <p>
         Create a new file called <code>server.js</code> and add the following
         code:
       </p>
       <CodeBlock
         isMultiline
-        filename="server.js"
+        filename="src/server.js"
         code={`
           import url from 'node:url';
           import path from 'node:path';
-          import {Kosmic} from '../packages/core/index.js';
+          import {Kosmic} from '@kosmic';
 
           const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+          /**
+           * Name the directory where your routes are located
+           * This is the directory of the filesystem router that Kosmic uses
+           */
           const routesDir = path.join(__dirname, 'controllers');
+
+          /**
+           * Name the directory where your static files are located
+           */
+          const staticDir = path.join(__dirname, 'public');
 
           export const app = new Kosmic()
             .withFsRouter(routesDir)
             .withBodyParser({enableTypes: ['json', 'form', 'text']})
             .withErrorHandler()
-            .withStaticFiles(path.join(__dirname, 'public'))
+            .withStaticFiles(staticDir);
 
           export const getCtx = () => {
             const ctx = app.currentContext;

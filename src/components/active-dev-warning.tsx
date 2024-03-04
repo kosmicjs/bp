@@ -1,10 +1,11 @@
 export default function ActiveDevWarning() {
   return (
-    <figure class="mb-5 p-3 border rounded">
+    <figure class="mb-5 p-3 rounded border border-warning">
       <blockquote class="blockquote">
         <p>
-          <strong>IMPORTANT:</strong>Kosmic is currently under active
-          development
+          <strong>IMPORTANT:</strong> Kosmic is currently under active
+          development and is subject to breaking changes often. Please use at
+          your own risk.
         </p>
       </blockquote>
       <figcaption class="blockquote-footer">
