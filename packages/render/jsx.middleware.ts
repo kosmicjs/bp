@@ -65,8 +65,6 @@ export async function renderMiddleware(viewPath: string) {
         })!;
 
         context.type = 'text/html';
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         context.body = render(app);
       } else if (context.accepts('json')) {
         context.type = 'json';
