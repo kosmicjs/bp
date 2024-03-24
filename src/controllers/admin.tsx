@@ -16,22 +16,45 @@ export const get: Middleware = async (ctx, next) => {
   await ctx.renderRaw(
     <Layout>
       <div class="row">
-        <div id="docs-content" class="col-10 p-5">
+        <div class="col-10 p-5">
           <div className="d-flex justify-content-center">
             <h2>Admin</h2>
           </div>
           <p>Welcome to your future admin panel, {ctx.state.user.email}</p>
-          <form>
+          <form action={`/users/${ctx.state.user.id}`} method="put">
             <div class="mb-3">
               <label for="first_name" class="form-label">
-                First Name
+                Email:
+              </label>
+              <input
+                disabled
+                type="text"
+                value={ctx.state.user.email}
+                class="form-control form-control-disabled"
+                name="email"
+                id="email"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="first_name" class="form-label">
+                First Name:
               </label>
               <input
                 type="text"
-                placeholder={ctx.state.user.first_name}
+                value={ctx.state.user.first_name}
                 class="form-control"
                 name="first_name"
-                id="first_name"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="first_name" class="form-label">
+                Last Name:
+              </label>
+              <input
+                type="text"
+                value={ctx.state.user.last_name}
+                class="form-control"
+                name="last_name"
               />
             </div>
             <button type="submit" class="btn btn-primary">
@@ -42,19 +65,4 @@ export const get: Middleware = async (ctx, next) => {
       </div>
     </Layout>,
   );
-};
-
-export const post: Middleware = async (ctx, next) => {
-  if (!ctx.state.user)
-    throw new Error('A validated user is required to view this page');
-
-  // const {first_name} = ctx.request.body;
-
-  // if (first_name) {
-  //   ctx.state.user.first_name = first_name;
-  //   await ctx.state.user.save();
-  // }
-
-  ctx.redirect('/admin');
-  await next();
 };

@@ -14,30 +14,32 @@ export const use: Middleware[] = [
   },
 ];
 
-export const get: Middleware = async (ctx, next) => {
-  return ctx.render('users', {id: ctx.params?.id});
-};
+export const put = async (ctx: Context, next: Next) => {
+  if (!ctx.params?.id) throw new Error('id is required');
 
-export const put = async (ctx: Context<{params: {id: number}}>, next: Next) => {
-  if (!ctx.state.params?.id) throw new Error('id is required');
+  ctx.log.debug(ctx.request.body, 'updating user');
 
   const userData: UpdatedableUser = userSchema
     .pick({
       first_name: true,
       last_name: true,
       phone: true,
-      email: true,
     })
     .parse(ctx.request.body);
 
   const user = await db
     .updateTable('users')
-    .set(userData)
-    .where('id', '=', ctx.state.params.id)
+    .set({
+      ...ctx.state.user,
+      ...userData,
+    })
+    .where('id', '=', Number.parseInt(ctx.params.id, 10))
     .returningAll()
     .executeTakeFirstOrThrow();
 
   ctx.req.log.info(user, 'updated user');
 
-  ctx.body = user;
+  ctx.status = 303;
+
+  ctx.redirect(`/admin`);
 };
