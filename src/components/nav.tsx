@@ -9,11 +9,11 @@ const NavItems = [
     href: '/',
     matchType: 'exact',
   },
-  {
-    name: 'About',
-    href: '/about',
-    matchType: 'startsWith',
-  },
+  // {
+  //   name: 'About',
+  //   href: '/about',
+  //   matchType: 'startsWith',
+  // },
   {
     name: 'Docs',
     href: '/docs',
@@ -91,13 +91,13 @@ export default function Nav({ctx}: Props) {
           </ul>
           <div>
             {ctx.state.user?.email ? (
-              <a class="btn btn-outline-success" type="button" href="/logout">
+              <a class="btn btn-outline-warning" type="button" href="/logout">
                 Logout
               </a>
             ) : (
               <>
                 <button
-                  class="btn btn-outline-success mx-2"
+                  class="btn btn-outline-warning mx-2"
                   type="button"
                   hx-get="/modals/login"
                   hx-target="#modal-content"
@@ -108,7 +108,7 @@ export default function Nav({ctx}: Props) {
                   Login
                 </button>
                 <button
-                  class="btn btn-outline-success"
+                  class="btn btn-outline-warning"
                   type="button"
                   hx-get="/modals/signup"
                   hx-target="#modal-content"

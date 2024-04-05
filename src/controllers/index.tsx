@@ -18,36 +18,19 @@ export const use: Use = [
 export const get: Middleware = async function (ctx) {
   await ctx.renderRaw(
     <Layout>
-      <h1>Kosmic TS</h1>
-      <p>Less abstractions, all the same features!</p>
-      <p>
-        Kosmic is all about getting back to the roots of web-development. React
-        server components are a cool idea, but honestly, they are full of magic
-        and are very hard to understand. Their development has taken _years_ and
-        the initial delivery of them has been lack luster, full of bugs, and
-        difficulties for developers. Kosmic is a way to get back to the roots of
-        web-development, but still have all the same features that React server
-        components promise.
-      </p>
-      <p>Home</p>
-      <p>Kosmic is the coolest</p>
-      <button
-        className="btn btn-sm btn-secondary"
-        type="button"
-        hx-get="/modals/login"
-        hx-target="#modal-content"
-        hx-indicator="#modal-content"
-        data-bs-toggle="modal"
-        data-bs-target="#modal"
-      >
-        Launch demo modal
-      </button>
-      <div class="border border-rounded p-2 mt-2">
-        <div>
+      <div class="d-flex flex-column align-items-center mb-5">
+        <h1>Kosmic</h1>
+        <p class="text-secondary text-bg-warning p-2">
+          Less abstractions, better features!
+        </p>
+      </div>
+
+      <div class="border rounded border-warning p-2 mt-2">
+        <div class="p-2">
           Hello from Preact! This is a small island of Preact that is hydrated
           and given interactivity on the client side.
         </div>
-        <div data-island="counter">
+        <div class="p-2" data-island="counter">
           <Counter />
         </div>
       </div>

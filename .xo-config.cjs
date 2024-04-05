@@ -13,10 +13,10 @@ module.exports = {
 		'no-warning-comments': 'off',
 		'unicorn/no-array-reduce': 'off',
     'no-console': 'error',
+    'react/jsx-key': 'off',
     'react/no-unknown-property': 'off',
     'react/react-in-jsx-scope': 'off',
     'unicorn/prevent-abbreviations': 'off',
-    'react/jsx-key': 'off',
 	},
 	overrides: [
 		{

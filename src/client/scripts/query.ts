@@ -37,7 +37,7 @@ Node.prototype.on = function (name: string, selector, fn) {
       event.target instanceof Element &&
       event.target?.matches(selector)
     ) {
-      return fn.apply(event.target, arguments);
+      return fn.apply(event.target, [...arguments]);
     }
   });
 };
