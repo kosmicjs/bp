@@ -1,19 +1,11 @@
 {
+  "extends": "./node_modules/@kosmic/types/tsconfig.kosmic",
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "Node16",
     "outDir": "./dist",
-    "paths": {
-      "@kosmic/compose": ["./node_modules/koa-compose/dist/index.d.mts"],
-      "@kosmic/koa": ["./node_modules/koa/dist/esm/application.d.mts"],
-      "koa": [
-        // "./node_modules/koa/dist/esm/application"
-        "./node_modules/koa/dist/esm/application.d.mts"
-      ],
-      "koa-compose": ["./node_modules/koa-compose/dist/index.d.mts"]
-    },
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
@@ -22,7 +14,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES2022",
-    "types": ["vite/client"]
+    "types": ["vite/client", "typed-htmx"]
   },
   "include": [
     "src/**/*.ts",

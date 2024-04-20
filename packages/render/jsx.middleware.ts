@@ -10,9 +10,9 @@ declare module 'koa' {
    * When calling `ctx.render`, the locals object is merged with the passed in locals.
    * Extend this object to indicate to the typescript compiler what locals are available.
    */
-  interface Locals {
-    ctx: Context;
-  }
+  // interface Locals {
+  // ctx: Context;
+  // }
   /**
    * render a jsx component template
    */

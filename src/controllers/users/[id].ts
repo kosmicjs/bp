@@ -2,10 +2,6 @@ import {type Middleware, type Context, type Next} from 'koa';
 import {db} from '../../config/db/index.js';
 import {type UpdatedableUser, userSchema} from '../../models/user.js';
 
-declare module 'koa' {
-  interface Context extends ExtendableContext {}
-}
-
 export const use: Middleware[] = [
   async (ctx, next) => {
     if (!ctx.isAuthenticated())

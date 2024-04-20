@@ -83,7 +83,7 @@ export class Kosmic extends Koa {
   private _responseTimeOptions?: {hrtime?: boolean};
   private _bodyParserOptions?: bodyParser.Options;
   private _httpLoggingMiddleware: Middleware;
-  private _sessionOpts?: session.opts;
+  private _sessionOpts?: session.Config;
   private _staticFilesOptions?: Parameters<typeof serve>;
   private readonly _customMiddleware: Middleware[] = [];
 
@@ -166,7 +166,7 @@ export class Kosmic extends Koa {
     return this;
   }
 
-  withSession(sessionOptions?: session.opts) {
+  withSession(sessionOptions?: session.Config) {
     this.startOptions.withSession = true;
     this._sessionOpts = sessionOptions;
     return this;
@@ -302,9 +302,9 @@ export class Kosmic extends Koa {
       this.logger.trace('using session');
       this.keys = ['hurr de heee'];
       if (this._sessionOpts) {
-        this.use(session(this._sessionOpts, this)); // eslint-disable-line @typescript-eslint/no-unsafe-argument
+        this.use(session(this._sessionOpts, this));
       } else {
-        this.use(session(this)); // eslint-disable-line @typescript-eslint/no-unsafe-argument
+        this.use(session(this));
       }
     }
 
