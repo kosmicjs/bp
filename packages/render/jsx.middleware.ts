@@ -1,25 +1,17 @@
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {type Context, type Next, type Locals} from 'koa';
+import type Koa from 'koa';
 import {render} from 'preact-render-to-string';
 import {type VNode, type ComponentProps, type FunctionComponent} from 'preact';
 
 declare module 'koa' {
-  /**
-   * A global locals object that gets passed along the middleware chain.
-   * When calling `ctx.render`, the locals object is merged with the passed in locals.
-   * Extend this object to indicate to the typescript compiler what locals are available.
-   */
-  // interface Locals {
-  // ctx: Context;
-  // }
+  interface Locals {
+    ctx: Koa.Context; // eslint-disable-line @typescript-eslint/no-unnecessary-qualifier
+  }
   /**
    * render a jsx component template
    */
-  type Render = <L extends Locals = Locals>(
-    viewName: string,
-    locals?: Omit<L, keyof Locals>,
-  ) => Promise<void>;
+  type Render = (viewName: string, locals?: Locals) => Promise<void>;
 
   /**
    * render a jsx component template
@@ -29,6 +21,11 @@ declare module 'koa' {
   interface Context {
     render: Render;
     renderRaw: RenderRaw;
+    /**
+     * A global locals object that gets passed along the middleware chain.
+     * When calling `ctx.render`, the locals object is merged with the passed in locals.
+     * Extend this object to indicate to the typescript compiler what locals are available.
+     */
     locals: Locals;
   }
   /**
@@ -42,11 +39,8 @@ declare module 'koa' {
 }
 
 export async function renderMiddleware(viewPath: string) {
-  return async (context: Context, next: Next) => {
-    context.render = async <L extends Locals = Locals>(
-      viewName: string,
-      locals?: Omit<L, keyof Locals>,
-    ) => {
+  return async (context: Koa.Context, next: Koa.Next) => {
+    context.render = async (viewName: string, locals?: Koa.Locals) => {
       const viewFilePath = `${pathToFileURL(
         path.join(viewPath, `${viewName}.js`),
       ).toString()}`;
@@ -55,7 +49,7 @@ export async function renderMiddleware(viewPath: string) {
         const {default: component} = (await import(
           /* @vite-ignore */ viewFilePath
         )) as {
-          default: FunctionComponent<ComponentProps<any> & typeof locals>;
+          default: FunctionComponent<ComponentProps<any>>;
         };
 
         const app = component({
