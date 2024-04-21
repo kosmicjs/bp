@@ -10,3 +10,10 @@ htmx.onLoad(function ($content) {
   initializeIslands($content);
   initializeProgressBar($content);
 });
+
+// htmx.logger = function (elt, event, data) {
+//   if (console && ['htmx:afterSettle', 'htmx:beforeSend'].includes(event)) {
+//     // eslint-disable-next-line no-console
+//     console.log(event, elt, data);
+//   }
+// };

@@ -90,7 +90,7 @@ export default function Layout({
           aria-valuemin={0}
           aria-valuemax={100}
         >
-          <div class="progress-bar .progress-bar-animated bg-warning" />
+          <div class="progress-bar progress-bar-animated bg-warning" />
         </div>
         <Header />
 
