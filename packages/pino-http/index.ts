@@ -1,8 +1,8 @@
+import {type UUID, randomUUID} from 'node:crypto';
 import process from 'node:process';
 import {pinoHttp, type Options} from 'pino-http';
 import {type DestinationStream} from 'pino';
 import {type Middleware} from 'koa';
-import shortUUID, {type SUUID} from 'short-uuid';
 
 const XRID_HEADER = 'x-request-id';
 
@@ -11,7 +11,7 @@ export function createPinoMiddleware(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   stream?: DestinationStream,
 ): Middleware {
-  let id: SUUID | number = 0;
+  let id: UUID | number = 0;
   options.genReqId ??= function (request, response) {
     const existingId = request.id ?? request.headers[XRID_HEADER];
     if (existingId) return existingId;
@@ -19,8 +19,7 @@ export function createPinoMiddleware(
     if (process.env.NODE_ENV !== 'production' && typeof id === 'number') {
       id++;
     } else {
-      const uid = shortUUID();
-      id = uid.generate();
+      id = randomUUID();
     }
 
     response.setHeader(XRID_HEADER, id);

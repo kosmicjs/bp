@@ -82,7 +82,18 @@ export default function Layout({
         data-bs-theme="dark"
         hx-boost="true"
       >
+        <div
+          class="progress nav-progress"
+          role="progressbar"
+          aria-label="Basic example"
+          aria-valuenow={0}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div class="progress-bar .progress-bar-animated bg-warning" />
+        </div>
         <Header />
+
         <main class="min-vh-100">{children}</main>
         <Footer />
         <Modal />
