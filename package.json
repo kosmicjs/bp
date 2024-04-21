@@ -71,7 +71,7 @@
     "koa": "^2.15.3",
     "koa-404-handler": "^0.1.0",
     "koa-bodyparser": "^4.4.1",
-    "koa-compose": "npm:@kosmic/compose@latest",
+    "koa-compose": "^4.1.0",
     "koa-conditional-get": "^3.0.0",
     "koa-etag": "^4.0.0",
     "koa-json": "^2.0.2",
@@ -102,7 +102,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.2.2",
     "@commitlint/config-conventional": "^19.2.2",
-    "@kosmic/types": "^0.0.2",
+    "@kosmic/types": "file:../types",
     "@prettier/plugin-pug": "^3.0.0",
     "@types/bootstrap": "^5.2.10",
     "@types/kcors": "^2",

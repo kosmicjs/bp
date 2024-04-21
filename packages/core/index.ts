@@ -5,7 +5,6 @@ import process from 'node:process';
 import path from 'node:path';
 import bodyParser from 'koa-bodyparser';
 import responseTime from 'koa-response-time';
-import {createHttpTerminator, type HttpTerminator} from 'http-terminator';
 import session from 'koa-session';
 import etag from 'koa-etag';
 import conditional from 'koa-conditional-get';
@@ -65,7 +64,6 @@ export class Kosmic extends Koa {
   public static bodyParser = bodyParser;
   public static static = serve;
   public server: Server;
-  public terminator?: HttpTerminator;
   public logger: Logger;
   private routesDir?: string;
 
@@ -104,7 +102,6 @@ export class Kosmic extends Koa {
 
     this.server = http.createServer(this.callback());
     this.close = this.close.bind(this);
-    this.terminator = undefined;
     this.logger = new ConsoleLogger();
     this._httpLoggingMiddleware = async (ctx, next) => {
       ctx.id = requestId++;
@@ -223,8 +220,6 @@ export class Kosmic extends Koa {
 
       _server
         .once('listening', () => {
-          this.terminator = createHttpTerminator({server: this.server});
-
           const address = _server.address();
 
           if (typeof address === 'string') {
@@ -252,14 +247,9 @@ export class Kosmic extends Koa {
         resolve(undefined);
       });
     });
-    /**
-     * Close HTTP server connections
-     * and properly cleanup and destroy them
-     * and then close the server (handled internally by http-terminator)
-     */
-    if (this.terminator) {
-      await this.terminator.terminate();
-    }
+
+    this.server.closeAllConnections();
+    this.server.close();
 
     /** ensure the server has completely closed before returning */
     await serverClosedPromise;

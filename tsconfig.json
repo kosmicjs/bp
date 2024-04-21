@@ -16,11 +16,5 @@
     "target": "ES2022",
     "types": ["vite/client", "typed-htmx"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "packages/**/*",
-    "test/**/*",
-    "src/public/**/*"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "packages/**/*"]
 }
