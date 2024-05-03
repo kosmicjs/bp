@@ -77,13 +77,9 @@ export default function Layout({
           </>
         )}
       </head>
-      <body
-        class="container-fluid container-fluid-max"
-        data-bs-theme="dark"
-        hx-boost="true"
-      >
+      <body data-bs-theme="dark" hx-boost="true">
         <div
-          class="progress nav-progress"
+          class="progress nav-progress w-100"
           role="progressbar"
           aria-label="Basic example"
           aria-valuenow={0}
@@ -92,11 +88,13 @@ export default function Layout({
         >
           <div class="progress-bar progress-bar-animated bg-warning" />
         </div>
-        <Header />
+        <div class="container-fluid container-fluid-max">
+          <Header />
 
-        <main class="min-vh-100">{children}</main>
-        <Footer />
-        <Modal />
+          <main class="min-vh-100">{children}</main>
+          <Footer />
+          <Modal />
+        </div>
       </body>
     </html>
   );
