@@ -8,12 +8,12 @@ const bodyValidator = userSchema
   .pick({
     first_name: true,
     last_name: true,
-    password_confirm: true,
     phone: true,
     email: true,
   })
   .partial({
     first_name: true,
+    password_confirm: true,
     last_name: true,
     phone: true,
   })

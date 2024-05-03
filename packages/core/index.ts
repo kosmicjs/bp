@@ -261,12 +261,45 @@ export class Kosmic extends Koa {
       return next();
     });
 
-    this.use(this._httpLoggingMiddleware);
-
     if (this.startOptions.withResponseTime) {
       this.logger.trace('using response time');
       this.use(responseTime(this._responseTimeOptions));
     }
+
+    if (this.startOptions.withStaticFiles && this._staticFilesOptions?.[0]) {
+      this.logger.trace(
+        {options: this._staticFilesOptions},
+        'using static files',
+      );
+      this.use(serve(...this._staticFilesOptions));
+      if (process.env.NODE_ENV !== 'development') {
+        this.use(async (ctx, next) => {
+          const manifest = JSON.parse(
+            await fs.readFile(
+              path.join(
+                this._staticFilesOptions?.[0] ?? '',
+                '.vite',
+                'manifest.json',
+              ),
+              'utf8',
+            ),
+          ) as Record<
+            string,
+            {
+              css: string[];
+              file: string;
+              isEntry: boolean;
+              src: string;
+            }
+          >;
+          ctx.locals ??= {ctx};
+          ctx.locals.manifest = manifest;
+          await next();
+        });
+      }
+    }
+
+    this.use(this._httpLoggingMiddleware);
 
     if (this.startOptions.withEtag) {
       this.logger.trace({options: this._etagOptions}, 'using etag');
