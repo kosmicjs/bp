@@ -15,11 +15,6 @@
     "url": "https://spencersnyder.io"
   },
   "type": "module",
-  "imports": {
-    "#kosmic/render": "./packages/render/middleware.js",
-    "#kosmic/logger": "./packages/logger/console-logger.js",
-    "#kosmic/*": "./packages/*/index.js"
-  },
   "main": "dist/src/index.js",
   "source": "./src/app/client/main.ts",
   "types": "dist/src/index.d.ts",
@@ -50,6 +45,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@stripe/stripe-js": "^3.3.0",
     "argon2": "^0.40.1",
     "bootstrap": "^5.3.3",
     "camelcase": "^8.0.0",
@@ -95,6 +91,7 @@
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "sql-template-strings": "^2.2.2",
+    "stripe": "^15.5.0",
     "titleize": "^4.0.0",
     "zod": "^3.23.6"
   },

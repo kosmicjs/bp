@@ -10,6 +10,10 @@ export type Props = {
   readonly title?: string;
   readonly env?: string;
   readonly ctx?: ReturnType<typeof getCtx>;
+  readonly scripts?: Array<{
+    readonly src: string;
+    readonly type?: string;
+  }>;
 };
 
 function Css({files}: {readonly files?: string[] | undefined}) {
@@ -31,6 +35,7 @@ function Script({file}: {readonly file?: string | undefined}) {
 export default function Layout({
   children,
   title,
+  scripts = [],
   env = process.env.NODE_ENV ?? 'development',
   ctx = getCtx(),
 }: Props) {
@@ -69,6 +74,9 @@ export default function Layout({
               type="module"
               src="http://localhost:5173/scripts/index.ts"
             />
+            {scripts.map(({src}) => (
+              <script type="module" src={`http://localhost:5173/${src}`} />
+            ))}
           </>
         ) : (
           <>

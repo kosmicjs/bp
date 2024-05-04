@@ -8,4 +8,7 @@ export const config = {
   db: {
     host: process.env.DB_HOST ?? 'localhost',
   },
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET_KEY ?? '',
+  },
 } as const;

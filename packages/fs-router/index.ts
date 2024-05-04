@@ -91,6 +91,12 @@ async function createFsRouter(
           : 1,
   );
 
+  const routesByUriPath: Record<string, RouteDefinition> = {};
+
+  for (const route of routes) {
+    routesByUriPath[route.uriPath] = route;
+  }
+
   // After sorting, we can pre-compose the middleware for each route
   for (const route of routes) {
     const collectedMiddleware: Record<HttpVerbsAll, Middleware[]> = {
@@ -108,13 +114,17 @@ async function createFsRouter(
     for (const {module, uriPath} of routes) {
       // function condition
       if (typeof module.use === 'function') {
-        collectedMiddleware.all.push(module.use);
+        if (route.uriPath.includes(uriPath)) {
+          collectedMiddleware.all.push(module.use);
+        }
         // array condition
       } else if (Array.isArray(module.use)) {
         for (const use of module.use) {
           // function condition in array
           if (typeof use === 'function') {
-            collectedMiddleware.all.push(use);
+            if (route.uriPath.includes(uriPath)) {
+              collectedMiddleware.all.push(use);
+            }
             // object condition in array
           } else if (typeof use === 'object') {
             for (const verb of verbsWithAll) {
@@ -162,8 +172,6 @@ async function createFsRouter(
 
     route.collectedMiddleware = collectedMiddleware;
   }
-
-  // console.log('routes', routes);
 
   const middleware: Middleware = async function (ctx: Context, next) {
     const matchedRoute = routes.find((route) => {
