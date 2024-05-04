@@ -13,13 +13,10 @@ export const get: Middleware = async (ctx) => {
             $10 per month for unlimited access to all of our features.
           </p>
         </div>
-        <div
-          class="d-flex justify-content-around flex-wrap"
-          style="height: 30rem;"
-        >
+        <div class="d-flex justify-content-around flex-wrap">
           <div
             class="card m-2 text-center border-warning"
-            style="width: 18rem;"
+            style="width: 18rem;height:30rem;"
           >
             <img src="/favicon-32x32.png" class="card-img-top" alt="..." />
             <div class="card-body">
@@ -31,8 +28,8 @@ export const get: Middleware = async (ctx) => {
             </div>
           </div>
           <div
-            class="card m-2 text-center border-warning"
-            style="width: 18rem;"
+            class="card m-2 text-center border-warning mt-5"
+            style="width: 18rem;height:30rem;"
           >
             <img src="/favicon-32x32.png" class="card-img-top" alt="..." />
             <div class="card-body">
@@ -45,7 +42,7 @@ export const get: Middleware = async (ctx) => {
           </div>
           <div
             class="card m-2 text-center border-warning"
-            style="width: 18rem;"
+            style="width: 18rem;height:30rem;"
           >
             <img src="/favicon-32x32.png" class="card-img-top" alt="..." />
             <div class="card-body">
