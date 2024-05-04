@@ -5,7 +5,7 @@ import {Kosmic} from '../packages/core/index.js';
 import logger from './config/logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-const routesDir = path.join(__dirname, 'controllers');
+const routesDir = path.join(__dirname, 'routes');
 
 export const app = new Kosmic()
   .withFsRouter(routesDir)
