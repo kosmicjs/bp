@@ -24,8 +24,8 @@ export const use: Use = [
         },
       ],
       mode: 'subscription',
-      success_url: `${YOUR_DOMAIN}/success`,
-      cancel_url: `${YOUR_DOMAIN}/cancel`,
+      success_url: `${YOUR_DOMAIN}/`,
+      cancel_url: `${YOUR_DOMAIN}/`,
     });
 
     ctx.state.session = session;

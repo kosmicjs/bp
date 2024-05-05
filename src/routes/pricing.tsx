@@ -22,7 +22,11 @@ export const get: Middleware = async (ctx) => {
             <div class="card-body">
               <h5 class="card-title text-center">Free</h5>
               <p class="card-text h1">$10</p>
-              <a href="#" class="btn btn-warning">
+              <a
+                hx-boost="false"
+                href="/checkout/standard"
+                class="btn btn-warning"
+              >
                 Go somewhere
               </a>
             </div>
@@ -35,7 +39,7 @@ export const get: Middleware = async (ctx) => {
             <div class="card-body">
               <h5 class="card-title text-center">Pro</h5>
               <p class="card-text h1">$10</p>
-              <a href="#" class="btn btn-warning">
+              <a href="/checkout/standard" class="btn btn-warning">
                 Go somewhere
               </a>
             </div>
@@ -48,7 +52,7 @@ export const get: Middleware = async (ctx) => {
             <div class="card-body">
               <h5 class="card-title text-center">Executive</h5>
               <p class="card-text h1">$10</p>
-              <a href="#" class="btn btn-warning">
+              <a href="/checkout/standard" class="btn btn-warning">
                 Go somewhere
               </a>
             </div>

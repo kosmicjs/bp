@@ -10,5 +10,6 @@ export const config = {
   },
   stripe: {
     secretKey: process.env.STRIPE_SECRET_KEY ?? '',
+    endpointSecret: process.env.STRIPE_ENDPOINT_SECRET ?? '',
   },
 } as const;
