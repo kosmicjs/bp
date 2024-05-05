@@ -13,7 +13,6 @@ const bodyValidator = userSchema
   })
   .partial({
     first_name: true,
-    password_confirm: true,
     last_name: true,
     phone: true,
   })
