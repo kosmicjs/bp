@@ -17,6 +17,10 @@ module.exports = {
     'react/no-unknown-property': 'off',
     'react/react-in-jsx-scope': 'off',
     'unicorn/prevent-abbreviations': 'off',
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": false
+    }],
 	},
 	overrides: [
 		{
