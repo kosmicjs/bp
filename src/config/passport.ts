@@ -33,7 +33,7 @@ passport.deserializeUser(async (id: number, done) => {
       .where('id', '=', id)
       .executeTakeFirst();
 
-    logger.debug({user}, 'deserialized user');
+    logger.trace({user}, 'deserialized user');
 
     if (user) done(null, user);
     else done(null, false);

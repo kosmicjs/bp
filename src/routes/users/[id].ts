@@ -1,6 +1,6 @@
 import {type Middleware, type Context, type Next} from 'koa';
 import {db} from '../../config/db/index.js';
-import {type UpdatedableUser, userSchema} from '../../models/user.js';
+import * as User from '../../models/user.js';
 
 export const use: Middleware[] = [
   async (ctx, next) => {
@@ -15,7 +15,7 @@ export const put = async (ctx: Context, next: Next) => {
 
   ctx.log.debug(ctx.request.body, 'updating user');
 
-  const userData: UpdatedableUser = userSchema
+  const userData: User.UpdatedableUser = User.schema
     .pick({
       first_name: true,
       last_name: true,
@@ -30,7 +30,7 @@ export const put = async (ctx: Context, next: Next) => {
       ...userData,
     })
     .where('id', '=', Number.parseInt(ctx.params.id, 10))
-    .returningAll()
+    .returning(['id', 'first_name', 'last_name', 'phone', 'email'])
     .executeTakeFirstOrThrow();
 
   ctx.req.log.info(user, 'updated user');

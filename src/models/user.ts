@@ -1,7 +1,7 @@
 import type {Generated, Insertable, Selectable, Updateable} from 'kysely';
 import zod from 'zod';
 
-export const userSchema = zod.object({
+export const schema = zod.object({
   id: zod.number().int().positive().optional(),
   first_name: zod.string().max(255).optional(),
   last_name: zod.string().max(255).optional(),
