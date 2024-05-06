@@ -1,7 +1,7 @@
-import {type UserTable} from './user.js';
+import {type User} from './user.js';
 
 export type Database = {
-  users: UserTable;
+  users: User;
 };
 
-export {type UserTable} from './user.js';
+export {type User} from './user.js';

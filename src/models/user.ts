@@ -12,7 +12,7 @@ export const schema = zod.object({
   google_refresh_token: zod.string().max(255).optional(),
 });
 
-export type UserTable = {
+export type User = {
   id: Generated<number>;
   first_name?: string;
   last_name?: string;
@@ -23,8 +23,8 @@ export type UserTable = {
   google_refresh_token?: string;
 };
 
-export type SelectableUser = Selectable<UserTable>;
+export type SelectableUser = Selectable<User>;
 
-export type InsertableUser = Insertable<UserTable>;
+export type InsertableUser = Insertable<User>;
 
-export type UpdatedableUser = Updateable<UserTable>;
+export type UpdatedableUser = Updateable<User>;
