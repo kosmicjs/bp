@@ -1,17 +1,14 @@
 import pkg, {type QueryResult, type QueryResultRow} from 'pg';
 import type {SQLStatement} from 'sql-template-strings';
 import logger from '../logger.js';
+import {config} from '../index.js';
 
 const {Pool} = pkg;
 
 export * from 'sql-template-strings';
 
 export const pool = new Pool({
-  host: 'localhost',
-  database: 'spencer',
-  max: 10,
-  idleTimeoutMillis: 30_000,
-  connectionTimeoutMillis: 2000,
+  ...config.pg,
 });
 
 pool.on('connect', () => {
