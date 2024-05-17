@@ -98,7 +98,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@kosmic/types": "file:../types",
+    "@kosmic/types": "^0.0.3",
     "@prettier/plugin-pug": "^3.0.0",
     "@types/bootstrap": "^5.2.10",
     "@types/kcors": "^2",
