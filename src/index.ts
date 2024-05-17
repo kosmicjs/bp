@@ -3,7 +3,7 @@ import {app} from './server.js';
 import {config} from './config/index.js';
 
 await app.start({
-  host: 'localhost',
+  host: config.host,
   port: config.port,
 });
 
