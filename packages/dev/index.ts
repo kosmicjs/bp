@@ -18,7 +18,9 @@ let isExiting = false;
 
 const logger = pino({
   level: 'info',
-  transport: {target: 'pino-princess'},
+  ...(process.env.NODE_ENV === 'production'
+    ? {}
+    : {transport: {target: 'pino-princess'}}),
   name: 'devsvr',
 });
 

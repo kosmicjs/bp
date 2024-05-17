@@ -14,6 +14,7 @@ declare global {
 }
 
 export const envSchema = z.object({
+  NODE_ENV: z.string().default('development'),
   PORT: z.coerce.number().default(3000),
   DB_HOST: z.string().default('localhost'),
   DB_DATABASE: z.string(),
@@ -24,6 +25,7 @@ export const envSchema = z.object({
 const env = envSchema.parse(process.env);
 
 export const config = {
+  env: env.NODE_ENV,
   port: env.PORT,
   stripe: {
     secretKey: env.STRIPE_SECRET_KEY,
