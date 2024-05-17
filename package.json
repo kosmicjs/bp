@@ -25,7 +25,7 @@
     "compile": "tsc -p tsconfig.json && vite build && cp -rp src/public ./dist/src",
     "dev": "vite-node ./packages/dev/index.ts",
     "migrate": "vite-node ./src/db/migrate up",
-    "prepare": "husky",
+    "prepare": "husky || true",
     "prepublishOnly": "npm run build",
     "start": "NODE_ENV=production node dist/src/index.js",
     "test": "node --import tsimp/import --test ./test/server.ts"
