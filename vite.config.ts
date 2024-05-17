@@ -1,11 +1,14 @@
 /* eslint-disable unicorn/prefer-module */
+import process from 'node:process';
 import path from 'node:path';
 import {type UserConfig, createLogger} from 'vite';
 import {pino} from 'pino';
 
 const viteLogger = pino({
   name: 'devsvr',
-  transport: {target: 'pino-princess'},
+  ...(process.env.NODE_ENV === 'production'
+    ? {}
+    : {transport: {target: 'pino-princess'}}),
 });
 
 const config: UserConfig = {
