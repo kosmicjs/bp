@@ -14,16 +14,27 @@ declare global {
 }
 
 export const envSchema = z.object({
-  NODE_ENV: z.string().default('development'),
+  NODE_ENV: z.enum(['development', 'production']).default('development'),
   PORT: z.coerce.number().default(3000),
   SERVER_HOST: z.string().default('127.0.0.1'),
-  DB_HOST: z.string().default('localhost'),
-  DB_DATABASE: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_ENDPOINT_SECRET: z.string(),
 });
 
-const env = envSchema.parse(process.env);
+export const envDbSchema = z
+  .object({
+    DB_HOST: z.string().default('localhost'),
+    DB_DATABASE: z.string(),
+    DB_USER: z.string().optional(),
+    DB_PASSWORD: z.string().optional(),
+  })
+  .or(
+    z.object({
+      DB_CONNECTION_STRING: z.string(),
+    }),
+  );
+
+const env = z.intersection(envSchema, envDbSchema).parse(process.env);
 
 export const config = {
   env: env.NODE_ENV,
@@ -34,8 +45,16 @@ export const config = {
     endpointSecret: env.STRIPE_ENDPOINT_SECRET,
   },
   pg: {
-    host: env.DB_HOST,
-    database: env.DB_DATABASE,
+    ...('DB_CONNECTION_STRING' in env
+      ? {
+          connectionString: env.DB_CONNECTION_STRING,
+        }
+      : {
+          user: env.DB_USER,
+          database: env.DB_DATABASE,
+          password: env.DB_PASSWORD,
+          host: env.DB_HOST,
+        }),
     max: 10,
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 2000,
