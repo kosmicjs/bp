@@ -58,7 +58,7 @@
     "execa": "^9.1.0",
     "fast-glob": "^3.3.2",
     "globby": "^14.0.1",
-    "got": "^14.2.1",
+    "got": "^14.3.0",
     "highlight.js": "^11.9.0",
     "htmx.org": "^1.9.12",
     "humanize-string": "^3.0.0",

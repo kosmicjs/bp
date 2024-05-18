@@ -8,7 +8,7 @@ import {Strategy as LocalStrategy} from 'passport-local';
 // } from 'passport-google-oauth20';
 import argon2 from 'argon2';
 import {type SelectableUser} from '../models/user.js';
-import {db} from './db/index.js';
+import {db} from '../db/index.js';
 import logger from './logger.js';
 
 // const {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET} = process.env;

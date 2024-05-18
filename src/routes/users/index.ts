@@ -1,6 +1,6 @@
 import type {Context, Next, Middleware} from 'koa';
 import {type InsertableUser, schema} from '../../models/user.js';
-import {db} from '../../config/db/index.js';
+import {db} from '../../db/index.js';
 
 export async function get(ctx: Context, next: Next) {
   const users = await db.selectFrom('users').selectAll().execute();

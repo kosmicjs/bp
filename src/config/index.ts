@@ -21,18 +21,17 @@ export const envSchema = z.object({
   STRIPE_ENDPOINT_SECRET: z.string(),
 });
 
-export const envDbSchema = z
-  .object({
+export const envDbSchema = z.union([
+  z.object({
     DB_HOST: z.string().default('localhost'),
     DB_DATABASE: z.string(),
     DB_USER: z.string().optional(),
     DB_PASSWORD: z.string().optional(),
-  })
-  .or(
-    z.object({
-      DB_CONNECTION_STRING: z.string(),
-    }),
-  );
+  }),
+  z.object({
+    DB_CONNECTION_STRING: z.string(),
+  }),
+]);
 
 const env = z.intersection(envSchema, envDbSchema).parse(process.env);
 

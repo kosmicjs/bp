@@ -3,7 +3,7 @@ import path from 'node:path';
 import {createPinoMiddleware} from '../packages/pino-http/index.js';
 import {Kosmic} from '../packages/core/index.js';
 import logger from './config/logger.js';
-import {query, SQL} from './config/db/pool.js';
+import {query, SQL} from './db/pool.js';
 
 await query(SQL`SELECT now()`);
 
