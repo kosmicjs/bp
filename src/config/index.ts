@@ -14,7 +14,9 @@ declare global {
 }
 
 export const envSchema = z.object({
-  NODE_ENV: z.enum(['development', 'production']).default('development'),
+  NODE_ENV: z
+    .enum(['development', 'production', 'test'])
+    .default('development'),
   PORT: z.coerce.number().default(3000),
   SERVER_HOST: z.string().default('127.0.0.1'),
   STRIPE_SECRET_KEY: z.string(),

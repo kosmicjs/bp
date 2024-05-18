@@ -19,6 +19,18 @@ pool.on('error', (error) => {
   logger.error(error);
 });
 
+pool.on('release', () => {
+  logger.debug('postgres acquired');
+});
+
+pool.on('remove', () => {
+  logger.debug('postgres removed');
+});
+
+pool.on('acquire', () => {
+  logger.trace('postgres acquired');
+});
+
 export async function query<T extends QueryResultRow>(
   q: string | SQLStatement,
 ): Promise<QueryResult<T>> {

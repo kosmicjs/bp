@@ -67,7 +67,12 @@ export default function Layout({
           href="/favicon-16x16.png"
         />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        {env === 'development' ? (
+        {env === 'production' ? (
+          <>
+            <Script file={foundManifest?.file} />
+            <Css files={foundManifest?.css} />
+          </>
+        ) : (
           <>
             <script type="module" src="http://localhost:5173/@vite/client" />
             <script
@@ -77,11 +82,6 @@ export default function Layout({
             {scripts.map(({src}) => (
               <script type="module" src={`http://localhost:5173/${src}`} />
             ))}
-          </>
-        ) : (
-          <>
-            <Script file={foundManifest?.file} />
-            <Css files={foundManifest?.css} />
           </>
         )}
       </head>

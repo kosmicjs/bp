@@ -272,7 +272,7 @@ export class Kosmic extends Koa {
         'using static files',
       );
       this.use(serve(...this._staticFilesOptions));
-      if (process.env.NODE_ENV !== 'development') {
+      if (process.env.NODE_ENV === 'production') {
         this.use(async (ctx, next) => {
           const manifest = JSON.parse(
             await fs.readFile(

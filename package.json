@@ -25,22 +25,15 @@
     "compile": "tsc -p tsconfig.json && vite build && cp -rp src/public ./dist/src",
     "dev": "vite-node ./packages/dev/index.ts",
     "migrate": "vite-node ./src/db/migrate up",
+    "migrate:down": "vite-node ./src/db/migrate down",
     "prepare": "husky || true",
     "prepublishOnly": "npm run build",
     "start": "NODE_ENV=production node dist/src/index.js",
-    "test": "node --import tsimp/import --test ./test/server.ts"
+    "test": "vitest test/server.test.ts"
   },
   "prettier": {
     "plugins": [
       "prettier-plugin-packagejson"
-    ]
-  },
-  "ava": {
-    "extensions": [
-      "ts"
-    ],
-    "require": [
-      "ts-node/register"
     ]
   },
   "dependencies": {
@@ -131,6 +124,7 @@
     "vite": "^5.2.11",
     "vite-bundle-visualizer": "^1.2.1",
     "vite-node": "^1.6.0",
+    "vitest": "^1.6.0",
     "xo": "^0.58.0"
   }
 }
