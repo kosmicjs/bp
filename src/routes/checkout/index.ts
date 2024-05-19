@@ -1,8 +1,10 @@
 import Stripe from 'stripe';
-import {config} from '../../config/index.js';
 import {type Use} from '../../../packages/fs-router/types.js';
+import {config, stripeSchema} from '#config';
 
-const stripe = new Stripe(config.stripe.secretKey);
+const stripeConfig = stripeSchema.parse(config.stripe);
+
+const stripe = new Stripe(stripeConfig.secretKey);
 
 declare module 'koa' {
   interface State {

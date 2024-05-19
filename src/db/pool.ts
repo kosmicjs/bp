@@ -1,7 +1,7 @@
 import pkg, {type QueryResult, type QueryResultRow} from 'pg';
 import type {SQLStatement} from 'sql-template-strings';
 import logger from '../config/logger.js';
-import {config} from '../config/index.js';
+import {config} from '#config';
 
 const {Pool} = pkg;
 

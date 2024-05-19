@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 import {type Middleware} from 'koa';
 import Stripe from 'stripe';
-import {config} from '../../config/index.js';
+import {config, stripeSchema} from '#config';
 
-const stripe = new Stripe(config.stripe.secretKey);
+const stripeConfig = stripeSchema.parse(config.stripe);
+
+const stripe = new Stripe(stripeConfig.secretKey);
 
 export const post: Middleware = async (ctx, next) => {
   // Only verify the event if you have an endpoint secret defined.
@@ -22,7 +24,7 @@ export const post: Middleware = async (ctx, next) => {
   const event = stripe.webhooks.constructEvent(
     ctx.request.rawBody,
     signature,
-    config.stripe.endpointSecret,
+    stripeConfig.endpointSecret,
   );
 
   if (!event) {

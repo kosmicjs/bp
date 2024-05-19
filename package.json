@@ -15,12 +15,17 @@
     "url": "https://spencersnyder.io"
   },
   "type": "module",
+  "imports": {
+    "#config": "./src/config/index.js"
+  },
   "main": "dist/src/index.js",
   "source": "./src/app/client/main.ts",
   "types": "dist/src/index.d.ts",
   "scripts": {
     "analyze": "vite-bundle-visualizer",
     "build": "npm run clean && npm run compile",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "check:watch": "tsc -p tsconfig.json --noEmit --watch",
     "clean": "rimraf -rf ./dist & rimraf -rf ./src/public/assets & rimraf -rf ./src/public/.vite",
     "compile": "tsc -p tsconfig.json && vite build && cp -rp src/public ./dist/src",
     "dev": "vite-node ./packages/dev/index.ts",
@@ -46,6 +51,7 @@
     "clsx": "^2.1.1",
     "copy-to-clipboard": "^3.3.3",
     "dedent": "^1.5.3",
+    "defaults": "^3.0.0",
     "dotenv": "^16.4.5",
     "escape-goat": "^4.0.0",
     "execa": "^9.1.0",
