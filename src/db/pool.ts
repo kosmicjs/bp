@@ -20,7 +20,7 @@ pool.on('error', (error) => {
 });
 
 pool.on('release', () => {
-  logger.debug('postgres acquired');
+  logger.trace('postgres release');
 });
 
 pool.on('remove', () => {

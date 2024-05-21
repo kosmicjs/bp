@@ -1,6 +1,6 @@
 import process from 'node:process';
 import {pino} from 'pino';
-import {config} from '#config';
+import {config} from './index.js';
 
 const logger = pino({
   name: 'server',

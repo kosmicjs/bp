@@ -34,7 +34,7 @@
     "prepare": "husky || true",
     "prepublishOnly": "npm run build",
     "start": "NODE_ENV=production node dist/src/index.js",
-    "test": "vitest test/server.test.ts"
+    "test": "vitest test/server.test."
   },
   "prettier": {
     "plugins": [

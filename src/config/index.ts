@@ -1,10 +1,15 @@
 import process from 'node:process';
+import path from 'node:path';
 import dotenv from 'dotenv';
 import z from 'zod';
 import defaults from 'defaults';
 
-dotenv.config();
-
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface ProcessEnv extends z.infer<typeof envSchema> {}
+  }
+}
 const nodeEnv = z
   .enum(['development', 'production', 'test'])
   .default('development')
@@ -15,12 +20,9 @@ const kosmicEnv = z
   .default('development')
   .parse(process.env.KOSMIC_ENV);
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace NodeJS {
-    interface ProcessEnv extends z.infer<typeof envSchema> {}
-  }
-}
+dotenv.config({
+  path: path.join(import.meta.dirname, '..', '..', `.env.${nodeEnv}`),
+});
 
 export const envSchema = z
   .object({
@@ -43,11 +45,18 @@ export const stripeSchema = z.object({
   endpointSecret: z.string(),
 });
 
+/**
+ * The configuration schema for the application
+ */
 export const configSchema = z.object({
-  nodeEnv: z.literal(nodeEnv),
   kosmicEnv: z.literal(kosmicEnv),
+  /** The validated value of the NODE_ENV env var */
+  nodeEnv: z.literal(nodeEnv),
+  /** The port the server is started on, defaults to 3000 */
   port: z.coerce.number().default(3000),
+  /** The host the server is started on, defaults to 127.0.0.1 */
   host: z.string().default('127.0.0.1'),
+  /** Passed directly to the postgres pool */
   pg: z.intersection(
     z.object({
       max: z.number().optional(),
@@ -72,8 +81,8 @@ export const configSchema = z.object({
 const configByEnv = {
   default: {
     ...env,
-    nodeEnv,
     kosmicEnv,
+    nodeEnv,
     port: env.PORT,
     host: env.SERVER_HOST,
     pg: {
