@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import {type Use} from '../../../packages/fs-router/types.js';
-import {config, stripeSchema} from '#config';
+import {config, stripeSchema} from '../../config/index.js';
 
 const stripeConfig = stripeSchema.parse(config.stripe);
 

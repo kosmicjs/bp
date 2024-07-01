@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import process from 'node:process';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 import meow from 'meow';
 import z from 'zod';
 import {$} from 'execa';
@@ -10,8 +12,18 @@ const cli = meow(
     $ kosmic
 
   Options
-    --production, -p  Run in production mode
-    --cwd             Working directory for the command
+    analyze           Analyze the project
+      --cwd             Working directory for the command
+    build             Build the project
+      --cwd             Working directory for the command
+    dev               Run in development mode
+      --cwd             Working directory for the command
+    migrate           Run migrations
+      --down            Run down migrations
+      --production, -p  Run in production mode
+      --cwd             Working directory for the command
+    start             Start the project
+      --cwd             Working directory for the command
 `,
   {
     importMeta: import.meta,
@@ -49,9 +61,15 @@ const $$$ = $$({env: {NODE_ENV: 'production'}});
 
 const clean = async () =>
   Promise.all([
-    $$`rimfaf dist`,
-    $$`rimraf src/public/assets`,
-    $$`rimraf src/public/.vite`,
+    fs.rm(path.join(cli.flags.cwd, 'dist'), {recursive: true, force: true}),
+    fs.rm(path.join(cli.flags.cwd, 'src/public/assets'), {
+      recursive: true,
+      force: true,
+    }),
+    fs.rm(path.join(cli.flags.cwd, 'src/public/.vite'), {
+      recursive: true,
+      force: true,
+    }),
   ]);
 
 const compile = async () => {
@@ -70,9 +88,9 @@ if (input === 'start') {
 }
 
 if (input === 'migrate') {
-  await (cli.flags.production
-    ? $$$({env: {KOSMIC_ENV: 'migration'}})`node dist/src/migrate.js`
-    : $$({env: {KOSMIC_ENV: 'migration'}})`vite-node src/db/migrate.ts`);
+  await (cli.flags.production ? $$$ : $$$)({
+    env: {KOSMIC_ENV: 'migration'},
+  })`vite-node src/db/migrate.ts ${cli.flags.down ? 'down' : 'up'}`;
 }
 
 if (input === 'build') {

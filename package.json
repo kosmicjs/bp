@@ -15,9 +15,6 @@
     "url": "https://spencersnyder.io"
   },
   "type": "module",
-  "imports": {
-    "#config": "./src/config/index.js"
-  },
   "main": "dist/src/index.js",
   "source": "./src/app/client/main.ts",
   "types": "dist/src/index.d.ts",
@@ -30,8 +27,9 @@
     "check": "tsc -p tsconfig.json --noEmit",
     "check:watch": "tsc -p tsconfig.json --noEmit --watch",
     "clean": "rimraf -rf ./dist & rimraf -rf ./src/public/assets & rimraf -rf ./src/public/.vite",
+    "cli": "vite-node ./packages/dev/cli",
     "compile": "tsc -p tsconfig.json && vite build && cp -rp src/public ./dist/src",
-    "dev": "kosmic dev",
+    "dev": "npm run cli dev",
     "migrate": "vite-node ./src/db/migrate up",
     "migrate:down": "vite-node ./src/db/migrate down",
     "prepare": "husky || true",

@@ -81,7 +81,7 @@ export class Kosmic extends Koa {
   private _responseTimeOptions?: {hrtime?: boolean};
   private _bodyParserOptions?: bodyParser.Options;
   private _httpLoggingMiddleware: Middleware;
-  private _sessionOpts?: session.Config;
+  private _sessionOpts?: Partial<session.Config>;
   private _staticFilesOptions?: Parameters<typeof serve>;
   private readonly _customMiddleware: Middleware[] = [];
 
@@ -163,7 +163,7 @@ export class Kosmic extends Koa {
     return this;
   }
 
-  withSession(sessionOptions?: session.Config) {
+  withSession(sessionOptions?: Partial<session.Config>) {
     this.startOptions.withSession = true;
     this._sessionOpts = sessionOptions;
     return this;
