@@ -12,9 +12,42 @@ export const use: Use = [
   await jsxRender(path.join(import.meta.dirname, '..', 'views')),
 ];
 
+declare module 'koa-session' {
+  interface Session {
+    messages: string[];
+  }
+}
+
 export const get: Middleware = async function (ctx) {
+  const messages = ctx.session?.messages ?? [];
+
+  if (ctx.session) {
+    ctx.session.messages = [];
+    ctx.session.save();
+  }
+
   await ctx.renderRaw(
     <Layout>
+      <div class="text-center d-flex align-items-center justify-content-center margin-bottom-5 w-100 pb-5">
+        <div
+          class={`toast border-danger w-100 w-md-75 ${messages.length > 0 ? 'show' : ''}`}
+        >
+          <div class="toast-header border-danger-subtle">
+            <strong class="m-auto">Oops!:</strong>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="toast"
+            ></button>
+          </div>
+          <div class="toast-body">
+            {messages.map((message: string) => (
+              <p>{message}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div class="d-flex flex-column align-items-center mb-5">
         {['Koa', 'HTMX', 'Postgres'].map((tech, idx) => (
           <>

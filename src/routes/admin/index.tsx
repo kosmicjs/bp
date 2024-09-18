@@ -1,5 +1,5 @@
 import {type Middleware} from 'koa';
-import Layout from '../components/layout.js';
+import Layout from '../../components/layout.js';
 
 export const useGet: Middleware[] = [
   async (ctx, next) => {

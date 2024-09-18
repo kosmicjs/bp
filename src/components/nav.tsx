@@ -25,6 +25,12 @@ const NavItems = [
     matchType: 'startsWith',
     protected: true,
   },
+  {
+    name: 'Admin - Accounts',
+    href: '/admin/accounts',
+    matchType: 'startsWith',
+    protected: true,
+  },
 ];
 
 export default function Nav({ctx}: Props) {

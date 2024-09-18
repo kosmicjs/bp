@@ -5,5 +5,6 @@ export async function post(ctx: Context, next: Next) {
   return passport.authenticate('local', {
     successRedirect: '/admin',
     failureRedirect: '/',
+    failureMessage: true,
   })(ctx, next);
 }

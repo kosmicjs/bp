@@ -25,7 +25,29 @@ const bodyValidator = User.schema
   });
 
 export async function post(ctx: Context, next: Next) {
-  const userData = bodyValidator.parse(ctx.request.body);
+  let userData: z.infer<typeof bodyValidator> = {
+    email: '',
+    password: '',
+    password_confirm: '',
+  };
+
+  try {
+    userData = bodyValidator.parse(ctx.request.body);
+  } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
+      ctx.req.log.error(error);
+
+      if (ctx.session) {
+        ctx.session.messages = error.issues.map((issue) => issue.message);
+        ctx.session.save();
+      }
+
+      ctx.redirect('/');
+      return;
+    }
+
+    throw error;
+  }
 
   const {
     password,
@@ -37,6 +59,13 @@ export async function post(ctx: Context, next: Next) {
     ctx.req.log.error(
       new Error('Password and password confirmation do not match'),
     );
+    if (ctx.session) {
+      ctx.session.messages = [
+        'Password and password confirmation do not match',
+      ];
+      ctx.session.save();
+    }
+
     ctx.redirect('/');
   }
 

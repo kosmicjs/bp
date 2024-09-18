@@ -39,7 +39,7 @@ async function createFsRouter(
   const getUriPathFromFilePath = (filePath: string): string =>
     filePath
       .replaceAll(
-        new RegExp(`(${routesDir})|(.(j|t)sx?)|(/index)|(/*$)`, 'g'),
+        new RegExp(`(${routesDir})|(\\.(j|t)sx?)|(\\/index)|(\\/*$)`, 'g'),
         '',
       )
       .split(path.sep)
