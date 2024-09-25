@@ -19,7 +19,7 @@ let isExiting = false;
 const logger = pino({
   level: 'info',
   ...(process.env.NODE_ENV === 'production'
-    ? {}
+    ? {transport: {target: 'pino-princess'}}
     : {transport: {target: 'pino-princess'}}),
   name: 'devsvr',
 });
@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
 io.listen(2222);
 
 // @ts-expect-error private property
-const address: AddressInfo = io.httpServer.address(); // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+const address: AddressInfo = io.httpServer.address();
 
 let host;
 if (typeof address === 'string') {
@@ -105,6 +105,7 @@ await Promise.all([
         root: cwd,
         configFile: false,
         server: {
+          host: process.env.SERVER_HOST ?? 'localhost',
           port: 5174,
           hmr: true,
         },

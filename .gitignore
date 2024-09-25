@@ -16,3 +16,4 @@ dist
 src/public/assets
 src/public/.vite
 .vite-node
+data
