@@ -39,7 +39,8 @@ declare module 'koa' {
 }
 
 export async function renderMiddleware(viewPath: string) {
-  return async (context: Koa.Context, next: Koa.Next) => {
+  // eslint-disable-next-line func-names
+  return async function renderJsx(context: Koa.Context, next: Koa.Next) {
     context.render = async (viewName: string, locals?: Koa.Locals) => {
       const viewFilePath = `${pathToFileURL(
         path.join(viewPath, `${viewName}.js`),

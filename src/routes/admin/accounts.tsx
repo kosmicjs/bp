@@ -1,13 +1,12 @@
 import {type Middleware} from 'koa';
+import {type Use} from 'packages/fs-router/types.js';
 import Layout from '../../components/layout.js';
 
-export const useGet: Middleware[] = [
-  async (ctx, next) => {
-    if (!ctx.isAuthenticated())
-      throw new Error('Must be authenticated to view this information');
-    await next();
-  },
-];
+export const use: Use = async (ctx, next) => {
+  if (!ctx.isAuthenticated())
+    throw new Error('Must be authenticated to view this information');
+  await next();
+};
 
 export const get: Middleware = async (ctx, next) => {
   await ctx.renderRaw(

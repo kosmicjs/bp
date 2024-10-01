@@ -29,7 +29,7 @@ const verbs: HttpVerb[] = ['get', 'post', 'put', 'patch', 'delete'];
 
 const verbsWithAll: HttpVerbsAll[] = [...verbs, 'all'];
 
-async function createFsRouter(
+export async function createFsRouter(
   routesDir = path.join(process.cwd(), 'routes'),
 ): Promise<{middleware: Middleware; routes: RouteDefinition[]}> {
   /**
@@ -141,13 +141,6 @@ async function createFsRouter(
           const useVerb = module.use[verb];
           if (useVerb && typeof useVerb === 'function') {
             collectedMiddleware[verb].push(useVerb);
-          } else if (Array.isArray(useVerb)) {
-            for (const use of useVerb) {
-              // function condition in array
-              if (typeof use === 'function') {
-                collectedMiddleware.all.push(use);
-              }
-            }
           }
         }
       }
@@ -184,6 +177,10 @@ async function createFsRouter(
 
       return match;
     });
+
+    // eslint-disable-next-line no-console
+    console.log(matchedRoute);
+
     if (!matchedRoute) return next();
     const fn = matchedRoute?.[ctx.method?.toLowerCase() as HttpVerb];
     if (!fn || typeof fn !== 'function') return next();

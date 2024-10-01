@@ -59,41 +59,68 @@ const input = inputSchema.parse(cli.input[0]);
 const $$ = $({cwd: cli.flags.cwd, stdio: 'inherit'});
 const $$$ = $$({env: {NODE_ENV: 'production'}});
 
-const clean = async () =>
-  Promise.all([
-    fs.rm(path.join(cli.flags.cwd, 'dist'), {recursive: true, force: true}),
-    fs.rm(path.join(cli.flags.cwd, 'src/public/assets'), {
-      recursive: true,
-      force: true,
-    }),
-    fs.rm(path.join(cli.flags.cwd, 'src/public/.vite'), {
-      recursive: true,
-      force: true,
-    }),
-  ]);
+const abortController = new AbortController();
 
-const compile = async () => {
-  await $$`tsc`;
-  await $$`vite build`;
-};
+process.on('SIGINT', () => {
+  abortController.abort();
+});
+process.on('SIGTERM', () => {
+  abortController.abort();
+});
+process.on('SIGQUIT', () => {
+  abortController.abort();
+});
+process.on('SIGHUP', () => {
+  abortController.abort();
+});
+process.on('exit', () => {
+  abortController.abort();
+});
 
-const dev = async () => $$`vite-node ./packages/dev/index.ts`;
+try {
+  const clean = async () =>
+    Promise.all([
+      fs.rm(path.join(cli.flags.cwd, 'dist'), {recursive: true, force: true}),
+      fs.rm(path.join(cli.flags.cwd, 'src/public/assets'), {
+        recursive: true,
+        force: true,
+      }),
+      fs.rm(path.join(cli.flags.cwd, 'src/public/.vite'), {
+        recursive: true,
+        force: true,
+      }),
+    ]);
 
-if (input === 'dev') {
-  await dev();
-}
+  const compile = async () => {
+    await $$`tsc`;
+    await $$`vite build`;
+  };
 
-if (input === 'start') {
-  await (cli.flags.production ? $$$`node dist/src/index.js` : dev());
-}
+  const dev = async () =>
+    $$({
+      cancelSignal: abortController.signal,
+    })`vite-node ./packages/dev/index.ts`;
 
-if (input === 'migrate') {
-  await (cli.flags.production ? $$$ : $$$)({
-    env: {KOSMIC_ENV: 'migration'},
-  })`vite-node src/db/migrate.ts ${cli.flags.down ? 'down' : 'up'}`;
-}
+  if (input === 'dev') {
+    await dev();
+  }
 
-if (input === 'build') {
-  await clean();
-  await compile();
+  if (input === 'start') {
+    await (cli.flags.production ? $$$`node dist/src/index.js` : dev());
+  }
+
+  if (input === 'migrate') {
+    await (cli.flags.production ? $$$ : $$$)({
+      env: {KOSMIC_ENV: 'migration'},
+    })`vite-node src/db/migrate.ts ${cli.flags.down ? 'down' : 'up'}`;
+  }
+
+  if (input === 'build') {
+    await clean();
+    await compile();
+  }
+} catch (error) {
+  // eslint-disable-next-line no-console
+  console.error(error);
+  process.exit(1);
 }
