@@ -1,7 +1,7 @@
 import path from 'node:path';
 import {type Middleware} from 'koa';
 import Layout from '../components/layout.js';
-// import Counter from '../components/islands/counter.js';
+import Counter from '../components/islands/counter.js';
 import {type Use} from '../../packages/fs-router/types.js';
 import {renderMiddleware as jsxRender} from '../../packages/render/jsx.middleware.js';
 import {passport} from '../config/passport.js';
@@ -73,15 +73,19 @@ export const get: Middleware = async function (ctx) {
         ))}
       </div>
 
-      {/* <div class="border rounded border-warning p-2 mt-2">
+      <div class="border rounded border-warning p-2 mt-2">
         <div class="p-2">
           Hello from Preact! This is a small island of Preact that is hydrated
           and given interactivity on the client side.
         </div>
-        <div class="p-2" data-island="counter">
-          <Counter />
+        <div
+          class="p-2"
+          data-island="counter"
+          data-props={JSON.stringify({initialCount: 2})}
+        >
+          <Counter {...{initialCount: 2}} />
         </div>
-      </div> */}
+      </div>
     </Layout>,
   );
 };

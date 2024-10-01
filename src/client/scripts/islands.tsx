@@ -3,6 +3,13 @@ import camelcase from 'camelcase';
 import * as Islands from '../../components/islands/index.js';
 import {$$} from './query.js';
 
+declare global {
+  interface DOMStringMap {
+    island?: string;
+    props?: string;
+  }
+}
+
 /**
  * If you want to use your jsx views as preact components on the front end
  * you can easily implement an islands like architecture with preact.hydrate
@@ -28,6 +35,20 @@ export function initializeIslands($content: Element) {
 
     const Component = Islands[islandName as keyof typeof Islands];
 
-    if (Component) hydrate(<Component />, $island);
+    if (Component) {
+      let hydrationData: Record<string, unknown> = {};
+
+      try {
+        hydrationData = JSON.parse($island.dataset.props ?? '') as Record<
+          string,
+          unknown
+        >;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+
+      hydrate(<Component {...hydrationData} />, $island);
+    }
   }
 }

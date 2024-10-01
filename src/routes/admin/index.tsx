@@ -3,7 +3,7 @@ import {type Use} from 'packages/fs-router/types.js';
 import Layout from '../../components/layout.js';
 
 export const use: Use = async (ctx, next) => {
-  if (!ctx.state.user) throw new Error('cleep blah blo dee ');
+  if (!ctx.state.user) throw new Error('Admin routes are protected');
   await next();
 };
 

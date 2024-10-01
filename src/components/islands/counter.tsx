@@ -1,7 +1,11 @@
 import {useState} from 'preact/hooks';
 
-export default function Counter() {
-  const [count, setCount] = useState(0);
+export default function Counter({
+  initialCount = 0,
+}: {
+  readonly initialCount?: number;
+}) {
+  const [count, setCount] = useState(initialCount);
 
   return (
     <button
