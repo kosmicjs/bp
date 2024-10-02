@@ -16,7 +16,7 @@ export type Use = Middleware | Middleware[] | UseObject | UseObject[];
  * The zod validated typescript type of the module exported from a route file
  */
 export type RouteModule = {
-  [key in HttpVerb]?: Middleware;
+  [key in HttpVerb | 'del']?: Middleware;
 } & {
   use?: Use;
 };

@@ -26,8 +26,8 @@ const NavItems = [
     protected: true,
   },
   {
-    name: 'Admin - Accounts',
-    href: '/admin/accounts',
+    name: 'Entities',
+    href: '/admin/entities',
     matchType: 'startsWith',
     protected: true,
   },

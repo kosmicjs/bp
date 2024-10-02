@@ -69,6 +69,10 @@ export async function createFsRouter(
         filePath
       )) as RouteModule;
 
+      if (module.del) {
+        module.delete = module.del;
+      }
+
       routeModuleSchema.parse(module);
 
       return {

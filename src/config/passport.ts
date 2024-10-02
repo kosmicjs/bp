@@ -7,7 +7,7 @@ import {Strategy as LocalStrategy} from 'passport-local';
 //   type VerifyCallback,
 // } from 'passport-google-oauth20';
 import argon2 from 'argon2';
-import {type SelectableUser} from '../models/user.js';
+import {type SelectableUser} from '../models/users.js';
 import {db} from '../db/index.js';
 import logger from './logger.js';
 
