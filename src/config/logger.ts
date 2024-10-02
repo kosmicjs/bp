@@ -2,7 +2,7 @@ import process from 'node:process';
 import {pino} from 'pino';
 import {config} from './index.js';
 
-const logger = pino({
+export const logger = pino({
   name: 'server',
   level: process.env.LOG_LEVEL ?? 'debug',
   ...(config.nodeEnv === 'production'

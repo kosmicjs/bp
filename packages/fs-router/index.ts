@@ -6,6 +6,7 @@ import {type Middleware, type Context} from 'koa';
 import {globby} from 'globby';
 import {match as createMatchFn} from 'path-to-regexp';
 import compose from 'koa-compose';
+import {logger} from '../../src/config/logger.js';
 import {routeModuleSchema} from './schema.js';
 import {
   type HttpVerb,
@@ -182,8 +183,7 @@ export async function createFsRouter(
       return match;
     });
 
-    // eslint-disable-next-line no-console
-    console.log(matchedRoute);
+    logger.trace(matchedRoute);
 
     if (!matchedRoute) return next();
     const fn = matchedRoute?.[ctx.method?.toLowerCase() as HttpVerb];

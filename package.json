@@ -60,6 +60,7 @@
     "fast-glob": "^3.3.2",
     "globby": "^14.0.2",
     "got": "^14.4.2",
+    "helmet": "^8.0.0",
     "highlight.js": "^11.10.0",
     "htmx.org": "^1.9.12",
     "humanize-string": "^3.0.0",

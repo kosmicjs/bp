@@ -6,7 +6,7 @@ export const del = async (ctx: Context, next: Next) => {
 
   ctx.log.debug(
     {...(ctx.params as Record<string, unknown>)},
-    'deleting user...',
+    'deleting entity...',
   );
 
   await db
@@ -14,7 +14,7 @@ export const del = async (ctx: Context, next: Next) => {
     .where('id', '=', Number.parseInt(ctx.params.id, 10))
     .execute();
 
-  ctx.req.log.info({id: ctx.params.id}, 'deleted user');
+  ctx.req.log.info({id: ctx.params.id}, 'deleted entity');
 
   ctx.status = 200;
   ctx.body = 'ok';

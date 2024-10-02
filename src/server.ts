@@ -1,5 +1,7 @@
 import url from 'node:url';
 import path from 'node:path';
+import {promisify} from 'node:util';
+import helmet from 'helmet';
 import {createPinoMiddleware} from '../packages/pino-http/index.js';
 import {Kosmic} from '../packages/core/index.js';
 import logger from './config/logger.js';
@@ -18,6 +20,31 @@ export const app = new Kosmic()
   .withStaticFiles(path.join(__dirname, 'public'))
   .injectHttpLoggingMiddleware(createPinoMiddleware({logger}))
   .withSession();
+
+app.use(async (ctx, next) => {
+  const helmetPromise = promisify(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          'script-src': [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            'http://localhost:5173',
+          ],
+          'connect-src': [
+            "'self'",
+            'http://127.0.0.1:2222',
+            'ws://127.0.0.1:2222',
+            'ws://localhost:5173',
+          ],
+        },
+      },
+    }),
+  );
+  await helmetPromise(ctx.req, ctx.res);
+  await next();
+});
 
 export const getCtx = () => {
   const ctx = app.currentContext;
