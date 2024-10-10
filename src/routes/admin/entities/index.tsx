@@ -31,14 +31,14 @@ export const get: Middleware = async (ctx, next) => {
           hx-swap="beforebegin"
         >
           <div class="mb-3">
-            <label for="first_name" class="form-label">
+            <label for="name" class="form-label">
               Name:
             </label>
             <input
+              autoComplete="false"
               type="text"
               class="form-control form-control-disabled"
               name="name"
-              id="name"
             />
           </div>
           <button type="submit" class="btn btn-primary">

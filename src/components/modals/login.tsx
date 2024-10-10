@@ -18,14 +18,14 @@ export default function LoginModalBody({isSignup}: Props) {
       <form action="/login" method="post">
         <div class="modal-body">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">
+            <label for="modal-email" class="form-label">
               Email address
             </label>
             <input
               type="email"
               name="email"
+              id="modal-email"
               class="form-control"
-              id="exampleInputEmail1"
               aria-describedby="emailHelp"
             />
             <div id="emailHelp" class="form-text">
@@ -33,14 +33,14 @@ export default function LoginModalBody({isSignup}: Props) {
             </div>
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">
+            <label for="modal-password" class="form-label">
               Password
             </label>
             <input
               type="password"
               name="password"
               class="form-control"
-              id="exampleInputPassword1"
+              id="modal-password"
             />
           </div>
 

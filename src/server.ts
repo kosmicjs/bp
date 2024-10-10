@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import {createPinoMiddleware} from '../packages/pino-http/index.js';
 import {Kosmic} from '../packages/core/index.js';
 import logger from './config/logger.js';
+import {config} from './config/index.js';
 import {query, SQL} from './db/pool.js';
 
 await query(SQL`SELECT now()`);
@@ -26,6 +27,8 @@ app.use(async (ctx, next) => {
     helmet({
       contentSecurityPolicy: {
         directives: {
+          'upgrade-insecure-requests':
+            config.kosmicEnv === 'development' ? null : [],
           'script-src': [
             "'self'",
             "'unsafe-inline'",

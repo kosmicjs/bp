@@ -24,7 +24,7 @@ pool.on('release', () => {
 });
 
 pool.on('remove', () => {
-  logger.debug('postgres removed');
+  logger.trace('postgres removed');
 });
 
 pool.on('acquire', () => {

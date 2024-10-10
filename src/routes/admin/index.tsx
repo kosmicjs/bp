@@ -20,7 +20,7 @@ export const get: Middleware = async (ctx, next) => {
           <p>Welcome to your future admin panel, {ctx.state.user.email}</p>
           <form action={`/users/${ctx.state.user.id}`} method="put">
             <div class="mb-3">
-              <label for="first_name" class="form-label">
+              <label for="email" class="form-label">
                 Email:
               </label>
               <input
@@ -30,6 +30,7 @@ export const get: Middleware = async (ctx, next) => {
                 class="form-control form-control-disabled"
                 name="email"
                 id="email"
+                autoComplete="email"
               />
             </div>
             <div class="mb-3">
@@ -41,10 +42,12 @@ export const get: Middleware = async (ctx, next) => {
                 value={ctx.state.user.first_name}
                 class="form-control"
                 name="first_name"
+                id="first_name"
+                autoComplete="given_name"
               />
             </div>
             <div class="mb-3">
-              <label for="first_name" class="form-label">
+              <label for="last_name" class="form-label">
                 Last Name:
               </label>
               <input
@@ -52,6 +55,8 @@ export const get: Middleware = async (ctx, next) => {
                 value={ctx.state.user.last_name}
                 class="form-control"
                 name="last_name"
+                id="last_name"
+                autoComplete="family-name"
               />
             </div>
             <button type="submit" class="btn btn-primary">

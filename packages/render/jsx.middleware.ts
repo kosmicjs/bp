@@ -73,7 +73,7 @@ export async function renderMiddleware(viewPath: string) {
 
     context.renderRaw = async (component: VNode) => {
       context.type = 'text/html';
-      context.body = render(component);
+      context.body = `<!DOCTYPE html>` + render(component);
     };
 
     context.response.render = context.render;
