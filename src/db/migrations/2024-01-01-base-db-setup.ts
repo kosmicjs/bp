@@ -39,7 +39,7 @@ export async function down(db: Kysely<any>): Promise<void> {
   logger.debug('Dropping table users...');
 
   await db.schema.dropTable('users').cascade().execute();
-  await db.schema.dropTable('entity').cascade().execute();
+  await db.schema.dropTable('entities').cascade().execute();
 
   logger.info('Dropped table users');
 }
