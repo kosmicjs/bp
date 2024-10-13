@@ -9,11 +9,11 @@ const NavItems = [
     href: '/',
     matchType: 'exact',
   },
-  {
-    name: 'Pricing',
-    href: '/pricing',
-    matchType: 'startsWith',
-  },
+  // {
+  //   name: 'Pricing',
+  //   href: '/pricing',
+  //   matchType: 'startsWith',
+  // },
   {
     name: 'Docs',
     href: '/docs',

@@ -11,15 +11,21 @@ export function createPinoMiddleware(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   stream?: DestinationStream,
 ): Middleware {
-  let id: UUID | number = 0;
+  let id: UUID | string | number = 0;
   options.genReqId ??= function (request, response) {
     const existingId = request.id ?? request.headers[XRID_HEADER];
     if (existingId) return existingId;
 
-    if (process.env.NODE_ENV !== 'production' && typeof id === 'number') {
-      id++;
-    } else {
+    if (process.env.NODE_ENV === 'production') {
       id = randomUUID();
+    } else {
+      id = Number(id);
+
+      id++;
+
+      if (id < 10) {
+        id = `0${id}`;
+      }
     }
 
     response.setHeader(XRID_HEADER, id);

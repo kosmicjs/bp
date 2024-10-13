@@ -5,7 +5,7 @@ import {type UserConfig, createLogger} from 'vite';
 import {pino} from 'pino';
 
 const viteLogger = pino({
-  name: 'devsvr',
+  name: 'client',
   ...(process.env.NODE_ENV === 'production'
     ? {}
     : {transport: {target: 'pino-princess'}}),

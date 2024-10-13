@@ -12,7 +12,7 @@ export const pool = new Pool({
 });
 
 pool.on('connect', () => {
-  logger.debug('postgres connected');
+  logger.trace('postgres connected');
 });
 
 pool.on('error', (error) => {

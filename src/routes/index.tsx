@@ -1,5 +1,6 @@
 import path from 'node:path';
 import {type Middleware} from 'koa';
+import {clsx} from 'clsx';
 import Layout from '../components/layout.js';
 import Counter from '../components/islands/counter.js';
 import {type Use} from '../../packages/fs-router/types.js';
@@ -28,11 +29,16 @@ export const get: Middleware = async function (ctx) {
 
   await ctx.renderRaw(
     <Layout>
-      <div class="text-center d-flex align-items-center justify-content-center margin-bottom-5 w-100 pb-5">
+      <div class="toast-container text-center d-flex align-items-center justify-content-center margin-bottom-5 w-100 pt-5 px-5 position-relative">
         <div
-          class={`toast border-danger w-100 w-md-75 ${messages.length > 0 ? 'show' : ''}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          class={clsx(`toast border-danger w-100 w-md-75 position-absolute`, {
+            show: messages.length > 0,
+          })}
         >
-          <div class="toast-header border-danger-subtle">
+          <div class="toast-header border-danger-subtle bg-dark-subtle">
             <strong class="m-auto">Oops!:</strong>
             <button
               type="button"
@@ -40,7 +46,7 @@ export const get: Middleware = async function (ctx) {
               data-bs-dismiss="toast"
             ></button>
           </div>
-          <div class="toast-body">
+          <div class="toast-body bg-dark">
             {messages.map((message: string) => (
               <p>{message}</p>
             ))}
