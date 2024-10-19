@@ -7,7 +7,8 @@ await app.start({
   port: config.port,
 });
 
-import.meta.hot?.on('vite:beforeFullReload', async () => {
-  app.logger.trace('vite:beforeFullReload event called: closing app');
+import.meta.hot?.on('vite:beforeFullReload', async (event) => {
+  app.logger.trace({event}, 'vite:beforeFullReload');
   await app.close();
+  await import('./db/index.js');
 });

@@ -65,12 +65,12 @@ export async function createFsRouter(
     async (filePath) => {
       const uriPath = getUriPathFromFilePath(filePath);
 
-      const module: RouteModule | undefined = (await import(
-        /* @vite-ignore */
-        filePath
-      )) as RouteModule;
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      const module = {
+        ...(await import(filePath)),
+      } as RouteModule;
 
-      if (module.del) {
+      if (module?.del) {
         module.delete = module.del;
       }
 

@@ -21,7 +21,7 @@ const kosmicEnv = z
   .parse(process.env.KOSMIC_ENV);
 
 dotenv.config({
-  path: path.join(import.meta.dirname, '..', '..', `.env.${nodeEnv}`),
+  path: path.join(import.meta.dirname, '..', '..', '..', `.env.${nodeEnv}`),
 });
 
 export const envSchema = z

@@ -26,7 +26,7 @@ export default function DocsLayout({pageName, children}: Props) {
   return (
     <Layout title={`Docs - ${formattedPageName}`}>
       <div class="row">
-        <div class="col-2">
+        <div class="col-12 col-md-2 pb-5 pb-md-0">
           <SideNav pageName={page} />
         </div>
         <div class="col-10 ps-5">

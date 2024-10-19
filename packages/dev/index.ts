@@ -5,14 +5,21 @@ import {type AddressInfo} from 'node:net';
 import {pino} from 'pino';
 import {Server} from 'socket.io';
 import * as vite from 'vite';
-import {ViteNodeServer} from 'vite-node/server';
-import {ViteNodeRunner} from 'vite-node/client';
-import {
-  viteNodeHmrPlugin,
-  createHotContext,
-  handleMessage,
-} from 'vite-node/hmr';
-import {installSourcemapsSupport} from 'vite-node/source-map';
+import {$} from 'execa';
+// import {ViteNodeServer} from 'vite-node/server';
+// import {ViteNodeRunner} from 'vite-node/client';
+// import {
+//   viteNodeHmrPlugin,
+//   createHotContext,
+//   handleMessage,
+// } from 'vite-node/hmr';
+// import {installSourcemapsSupport} from 'vite-node/source-map';
+
+/**
+ * NOTE:: Much of this file was copied from the vite-node cli
+ *
+ * https://github.com/vitest-dev/vitest/blob/main/packages/vite-node/src/cli.ts
+ */
 
 let isExiting = false;
 
@@ -73,7 +80,7 @@ logger.debug(`socket.io listening on http://${host}:${address?.port}`);
 /**
  * server path after swc compilation
  */
-const serverFilePath = path.join(cwd, 'src', 'index.ts');
+const serverFilePath = path.join(cwd, 'dist', 'src', 'index.js');
 
 process.on('SIGINT', exitHandler);
 process.on('SIGTERM', exitHandler);
@@ -101,84 +108,84 @@ await Promise.all([
    */
   (async () => {
     try {
-      const viteNodeServer = await vite.createServer({
-        root: cwd,
-        configFile: false,
-        server: {
-          host: process.env.SERVER_HOST ?? 'localhost',
-          port: 5174,
-          hmr: true,
-        },
-        mode: 'development',
-        optimizeDeps: {
-          include: [
-            path.join(cwd, 'src', 'controllers', '**', '*.ts'),
-            path.join(cwd, 'src', 'controllers', '**', '*.tsx'),
-          ],
-        },
-        plugins: [viteNodeHmrPlugin()],
-        customLogger: {
-          ...vite.createLogger(),
-          info: logger.info.bind(logger),
-          warn: logger.warn.bind(logger),
-          error: logger.error.bind(logger),
-        },
-      });
-
-      // this is need to initialize the plugins
-      await viteNodeServer.pluginContainer.buildStart({});
-
-      // create vite-node server
-      const node = new ViteNodeServer(viteNodeServer, {
-        transformMode: {
-          ssr: [/.*/],
-        },
-      });
-
-      // fixes stacktraces in Errors
-      installSourcemapsSupport({
-        getSourceMap: (source) => node.getSourceMap(source),
-      });
-
-      const runner = new ViteNodeRunner({
-        debug: true,
-        root: viteNodeServer.config.root,
-        base: viteNodeServer.config.base,
-        async fetchModule(id) {
-          return node.fetchModule(id, 'ssr');
-        },
-        async resolveId(id, importer) {
-          return node.resolveId(id, importer, 'ssr');
-        },
-        createHotContext(runner, url) {
-          return createHotContext(
-            runner,
-            viteNodeServer.emitter,
-            [serverFilePath],
-            url,
-          );
-        },
-      });
-
-      viteNodeServer.emitter?.on('message', async (payload): Promise<void> => {
-        try {
-          await handleMessage(
-            runner,
-            viteNodeServer.emitter,
-            [serverFilePath],
-            payload,
-          );
-          io.emit('restart', 'restart');
-        } catch (error) {
-          logger.error(error);
-        }
-      });
-
-      // execute the file
-      await runner.executeFile(serverFilePath);
-
+      // const viteNodeServer = await vite.createServer({
+      //   root: cwd,
+      //   configFile: false,
+      //   server: {
+      //     host: process.env.SERVER_HOST ?? 'localhost',
+      //     port: 5174,
+      //     hmr: true,
+      //   },
+      //   mode: 'development',
+      //   optimizeDeps: {
+      //     noDiscovery: true,
+      //     include: undefined,
+      //   },
+      //   plugins: [viteNodeHmrPlugin()],
+      //   customLogger: {
+      //     ...vite.createLogger(),
+      //     info: logger.info.bind(logger),
+      //     warn: logger.warn.bind(logger),
+      //     error: logger.error.bind(logger),
+      //   },
+      // });
+      // // this is need to initialize the plugins
+      // await viteNodeServer.pluginContainer.buildStart({});
+      // // create vite-node server
+      // const node = new ViteNodeServer(viteNodeServer, {
+      //   transformMode: {
+      //     ssr: [/.*/],
+      //   },
+      // });
+      // // fixes stacktraces in Errors
+      // installSourcemapsSupport({
+      //   getSourceMap: (source) => node.getSourceMap(source),
+      // });
+      // const runner = new ViteNodeRunner({
+      //   debug: true,
+      //   root: viteNodeServer.config.root,
+      //   base: viteNodeServer.config.base,
+      //   async fetchModule(id) {
+      //     return node.fetchModule(id, 'ssr');
+      //   },
+      //   async resolveId(id, importer) {
+      //     return node.resolveId(id, importer, 'ssr');
+      //   },
+      //   createHotContext(runner, url) {
+      //     return createHotContext(
+      //       runner,
+      //       viteNodeServer.emitter,
+      //       [serverFilePath],
+      //       url,
+      //     );
+      //   },
+      // });
+      // viteNodeServer.emitter?.on('message', async (payload): Promise<void> => {
+      //   try {
+      //     await handleMessage(
+      //       runner,
+      //       viteNodeServer.emitter,
+      //       [serverFilePath],
+      //       payload,
+      //     );
+      //     io.emit('restart', 'restart');
+      //   } catch (error) {
+      //     logger.error(error);
+      //   }
+      // });
+      // // execute the file
+      // await runner.executeFile(serverFilePath);
       // close the vite server
       // await viteNodeServer.close();
+      await $({
+        cwd: path.dirname(serverFilePath),
+        stdio: 'inherit',
+        env: {
+          ...process.env,
+          NODE_ENV: 'development',
+          KOSMIC_ENV: 'development',
+        },
+      })`node ./index.js`;
     } catch (error) {
       logger.error(error);
     }
