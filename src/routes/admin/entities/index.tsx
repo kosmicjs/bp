@@ -1,7 +1,8 @@
 import {type Middleware} from 'koa';
-import Layout from '../../../components/layout.js';
-import {db} from '../../../db/index.js';
-import * as Entity from '../../../models/entites.js';
+import {db} from '#db/index.js';
+import * as Entity from '#models/entites.js';
+import Layout from '#components/layout.js';
+import {ModalButton} from '#components/modal-button.js';
 
 export const get: Middleware = async (ctx, next) => {
   if (!ctx.state.user) {
@@ -24,28 +25,11 @@ export const get: Middleware = async (ctx, next) => {
             <h2>Entities</h2>
           </div>
         </div>
-
-        <form
-          hx-post="/admin/entities"
-          hx-target="#entity-list"
-          hx-swap="beforebegin"
-        >
-          <div class="mb-3">
-            <label for="name" class="form-label">
-              Name:
-            </label>
-            <input
-              autoComplete="false"
-              type="text"
-              class="form-control form-control-disabled"
-              name="name"
-            />
+        <div class="row">
+          <div class="col-10 p-5">
+            <ModalButton name="add-entity">Add</ModalButton>
           </div>
-          <button type="submit" class="btn btn-primary">
-            Add
-          </button>
-        </form>
-
+        </div>
         <div id="entity-list">
           {entities.map((entity) => (
             <div class="col-10 p-5" id={`entity${entity.id}`}>

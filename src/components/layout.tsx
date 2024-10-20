@@ -4,6 +4,7 @@ import {getCtx} from '../../packages/core/index.js';
 import Footer from './footer.js';
 import Header from './header.js';
 import Modal from './modal.js';
+import Toast from './toast.js';
 
 export type Props = {
   readonly children: ComponentChildren;
@@ -98,7 +99,7 @@ export default function Layout({
         </div>
         <div class="container-fluid container-fluid-max">
           <Header />
-
+          <Toast show={false} />
           <main class="min-vh-100">{children}</main>
           <Footer />
           <Modal />

@@ -15,6 +15,11 @@
     "url": "https://spencersnyder.io"
   },
   "type": "module",
+  "imports": {
+    "#components/*": "./dist/src/components/*",
+    "#models/*": "./dist/src/models/*",
+    "#db/*": "./dist/src/db/*"
+  },
   "main": "dist/src/index.js",
   "source": "./src/app/client/main.ts",
   "types": "dist/src/index.d.ts",
@@ -87,6 +92,7 @@
     "pino": "9.5.0",
     "pino-http": "^10.3.0",
     "pino-princess": "^1.0.0",
+    "pino-std-serializers": "^7.0.0",
     "preact": "^10.24.3",
     "preact-render-to-string": "^6.5.11",
     "short-uuid": "^5.2.0",
@@ -112,7 +118,7 @@
     "@types/koa-response-time": "^2",
     "@types/koa-session": "^6.4.5",
     "@types/koa-static": "^4.0.4",
-    "@types/node": "~22.7.6",
+    "@types/node": "~22.7.7",
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.11.10",
