@@ -3,7 +3,7 @@ import DocsLayout from '../../components/docs/docs-layout.js';
 import CodeBlock from '../../components/code-block.js';
 
 export const get: Middleware = async (ctx) => {
-  await ctx.renderRaw(
+  await ctx.render(
     <DocsLayout>
       <h2 class="my-5">
         <CodeBlock language="bash" code="kosmic dev" />

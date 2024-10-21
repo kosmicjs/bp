@@ -10,7 +10,7 @@ function errorHandler(logger: Logger): Middleware {
       logger.error(error);
       ctx.status = ctx.status.toString().startsWith('4') ? ctx.status : 500;
       if (error instanceof Error) {
-        await ctx.renderRaw(
+        await ctx.render(
           <div class="toast-body bg-dark">
             {JSON.stringify(err(error)).replaceAll('\\"', '"')}
           </div>,

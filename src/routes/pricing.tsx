@@ -30,7 +30,7 @@ import type {Middleware} from 'koa';
 
 export const get: Middleware = async (ctx, next) => {
   await next();
-  // await ctx.renderRaw(
+  // await ctx.render(
   //   <Layout>
   //     <div class="d-flex flex-column justify-content-center">
   //       <h1 class="mb-5 align-self-center">Pricing</h1>

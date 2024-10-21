@@ -17,7 +17,7 @@ export const get: Middleware = async (ctx, next) => {
 
   ctx.log.debug({entities});
 
-  await ctx.renderRaw(
+  await ctx.render(
     <Layout>
       <div class="row">
         <div class="col-10 p-5">
@@ -85,7 +85,7 @@ export const post: Middleware = async (ctx, next) => {
   }
 
   ctx.status = 201;
-  await ctx.renderRaw(
+  await ctx.render(
     <div class="col-10 p-5" id={`entity${entity.id}`}>
       <div class="card">
         <div class="card-body">

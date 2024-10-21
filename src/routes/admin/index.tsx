@@ -10,7 +10,7 @@ export const use: Use = async (ctx, next) => {
 export const get: Middleware = async (ctx, next) => {
   if (!ctx.state.user)
     throw new Error('A validated user is required to view this page');
-  await ctx.renderRaw(
+  await ctx.render(
     <Layout>
       <div class="row">
         <div class="col-10 p-5">

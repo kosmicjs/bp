@@ -1,8 +1,8 @@
 import type {Context, Next} from 'koa';
 import argon2 from 'argon2';
 import {z} from 'zod';
-import * as User from '../models/users.js';
-import {db} from '../db/index.js';
+import * as User from '#models/users.js';
+import {db} from '#db/index.js';
 
 const bodyValidator = User.schema
   .pick({

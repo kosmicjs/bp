@@ -1,16 +1,15 @@
-import path from 'node:path';
 import {type Middleware} from 'koa';
 import {clsx} from 'clsx';
-import Layout from '../components/layout.js';
-import Counter from '../components/islands/counter.js';
 import {type Use} from '../../packages/fs-router/types.js';
 import {renderMiddleware as jsxRender} from '../../packages/render/jsx.middleware.js';
-import {passport} from '../config/passport.js';
+import {passport} from '#config/passport.js';
+import Counter from '#components/islands/counter.js';
+import Layout from '#components/layout.js';
 
 export const use: Use = [
   passport.initialize({userProperty: 'email'}),
   passport.session(),
-  await jsxRender(path.join(import.meta.dirname, '..', 'views')),
+  jsxRender,
 ];
 
 declare module 'koa-session' {
@@ -27,7 +26,7 @@ export const get: Middleware = async function (ctx) {
     ctx.session.save();
   }
 
-  await ctx.renderRaw(
+  await ctx.render(
     <Layout>
       <div class="toast-container text-center d-flex align-items-center justify-content-center margin-bottom-5 w-100 pt-5 px-5 position-relative">
         <div

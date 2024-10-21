@@ -2,7 +2,7 @@ import {type Middleware} from 'koa';
 import DocsLayout from '../../components/docs/docs-layout.js';
 
 export const get: Middleware = async (ctx) => {
-  await ctx.renderRaw(
+  await ctx.render(
     <DocsLayout>
       <h2 class="mb-5">How it works</h2>
 

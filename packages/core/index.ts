@@ -29,7 +29,7 @@ declare module 'koa' {
     log: Logger;
   }
 
-  interface Locals {
+  interface State {
     manifest?: Record<
       string,
       {
@@ -256,11 +256,6 @@ export class Kosmic extends Koa {
   }
 
   private async _applyMiddleware() {
-    this.use(async (ctx, next) => {
-      ctx.locals ??= {ctx};
-      return next();
-    });
-
     if (this.startOptions.withResponseTime) {
       this.logger.trace('using response time');
       this.use(responseTime(this._responseTimeOptions));
@@ -292,8 +287,7 @@ export class Kosmic extends Koa {
               src: string;
             }
           >;
-          ctx.locals ??= {ctx};
-          ctx.locals.manifest = manifest;
+          ctx.state.manifest = manifest;
           await next();
         });
       }
@@ -364,8 +358,7 @@ export class Kosmic extends Koa {
               src: string;
             }
           >;
-          ctx.locals ??= {ctx};
-          ctx.locals.manifest = manifest;
+          ctx.state.manifest = manifest;
           await next();
         });
       }

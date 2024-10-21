@@ -40,7 +40,7 @@ export default function Layout({
   env = process.env.NODE_ENV ?? 'development',
   ctx = getCtx(),
 }: Props) {
-  const foundManifest = ctx.locals.manifest?.['scripts/index.ts'];
+  const foundManifest = ctx.state.manifest?.['scripts/index.ts'];
 
   return (
     <html lang="en">

@@ -24,5 +24,5 @@ export const get: Middleware = async (ctx) => {
     `../../components/modals/${ctx.request.params?.partial}.js`
   )) as {default: () => JSX.Element};
 
-  await ctx.renderRaw(<Modal />);
+  await ctx.render(<Modal />);
 };
