@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {type Middleware} from 'koa';
 import Stripe from 'stripe';
 import {config, stripeSchema} from '../../config/index.js';
@@ -36,7 +35,7 @@ export const post: Middleware = async (ctx, next) => {
   switch (event.type) {
     default: {
       // Unexpected event type
-      console.log(`Unhandled event type ${event.type}.`);
+      ctx.log.warn(`Unhandled event type ${event.type}.`);
     }
   }
 

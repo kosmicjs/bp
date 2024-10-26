@@ -15,6 +15,16 @@ import {
 } from 'kysely';
 
 export class TimestampsPlugin implements KyselyPlugin {
+  createColumnName: string;
+  updateColumnName: string;
+
+  constructor(
+    options: {createColumnName?: string; updateColumnName?: string} = {},
+  ) {
+    this.createColumnName = options.createColumnName ?? 'created_at';
+    this.updateColumnName = options.updateColumnName ?? 'updated_at';
+  }
+
   transformQuery(args: PluginTransformQueryArgs): RootOperationNode {
     const {node: originalNode} = args;
 
@@ -32,8 +42,8 @@ export class TimestampsPlugin implements KyselyPlugin {
         columns: [
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           ...originalNode.columns,
-          ColumnNode.create('created_at'),
-          ColumnNode.create('updated_at'),
+          ColumnNode.create(this.createColumnName),
+          ColumnNode.create(this.updateColumnName),
         ],
       };
 
@@ -64,7 +74,7 @@ export class TimestampsPlugin implements KyselyPlugin {
     ) {
       originalNode.updates.push(
         ColumnUpdateNode.create(
-          ColumnNode.create('updated_at'),
+          ColumnNode.create(this.updateColumnName),
           ValueNode.create(new Date()),
         ),
       );
