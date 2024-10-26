@@ -13,4 +13,3 @@ import '../styles/styles.scss';
 import 'highlight.js/styles/base16/dracula.css';
 // We can then use query syntax in other scripts
 import './htmx.js';
-import './socket.js';

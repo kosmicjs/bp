@@ -1,4 +1,3 @@
-import {getCtx} from '../server.js';
 import Nav from './nav.js';
 
 export type Props = {
@@ -6,11 +5,9 @@ export type Props = {
 };
 
 export default function Header({title}: Props) {
-  const ctx = getCtx();
-
   return (
     <header className="w-100 mb-5">
-      <Nav ctx={ctx} />
+      <Nav />
       <h1>{title}</h1>
     </header>
   );

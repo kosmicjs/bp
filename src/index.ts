@@ -6,9 +6,3 @@ await app.start({
   host: config.host,
   port: config.port,
 });
-
-import.meta.hot?.on('vite:beforeFullReload', async (event) => {
-  app.logger.trace({event}, 'vite:beforeFullReload');
-  await app.close();
-  await import('./db/index.js');
-});

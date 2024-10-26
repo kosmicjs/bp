@@ -15,7 +15,9 @@ class ESMFileMigrationProvider implements MigrationProvider {
     const resolvedPath = path.resolve(__dirname, this.relativePath);
     const files = await fs.readdir(resolvedPath);
 
-    for (const fileName of files) {
+    const jsFiles = files.filter((file) => file.endsWith('.js'));
+
+    for (const fileName of jsFiles) {
       const importPath = path
         .join(this.relativePath, fileName)
         .replaceAll('\\', '/');

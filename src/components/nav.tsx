@@ -1,7 +1,5 @@
-import {type Locals} from 'koa';
 import clsx from 'clsx';
-
-export type Props = Record<string, unknown> & Locals;
+import {getCtx} from '../server.js';
 
 const NavItems = [
   {
@@ -33,7 +31,8 @@ const NavItems = [
   },
 ];
 
-export default function Nav({ctx}: Props) {
+export default function Nav() {
+  const ctx = getCtx();
   return (
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
