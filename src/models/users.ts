@@ -1,41 +1,34 @@
-import type {Generated, Insertable, Selectable, Updateable} from 'kysely';
+import type {Insertable, Selectable, Updateable} from 'kysely';
 import zod from 'zod';
+import {type GeneratedId} from './types.js';
 
-export const schema = zod.object({
-  id: zod.number().int().positive().optional(),
-  first_name: zod.string().max(255).optional(),
-  last_name: zod.string().max(255).optional(),
-  phone: zod.string().max(255).optional(),
-  email: zod.string().max(255).email(),
-  hash: zod.string().max(255).optional(),
-  google_access_token: zod.string().max(255).optional(),
-  google_refresh_token: zod.string().max(255).optional(),
+const schema = zod.object({
+  id: zod.number().int().positive(),
+  first_name: zod.string().max(255).nullable(),
+  last_name: zod.string().max(255).nullable(),
+  phone: zod.string().max(255).nullable(),
+  email: zod.string().max(255).email().nullable(),
+  hash: zod.string().max(255).nullable(),
+  google_access_token: zod.string().max(255).nullable(),
+  google_refresh_token: zod.string().max(255).nullable(),
 });
 
-export class User {
-  id: Generated<number>;
-  first_name?: string;
-  last_name?: string;
-  phone?: string;
-  email: string;
-  hash?: string;
-  google_access_token?: string;
-  google_refresh_token?: string;
-
-  constructor(data: User) {
-    this.id = data.id;
-    this.first_name = data.first_name;
-    this.last_name = data.last_name;
-    this.phone = data.phone;
-    this.email = data.email;
-    this.hash = data.hash;
-    this.google_access_token = data.google_access_token;
-    this.google_refresh_token = data.google_refresh_token;
-  }
-}
+export type User = GeneratedId<zod.infer<typeof schema>>;
 
 export type SelectableUser = Selectable<User>;
 
+export const validateSelectableUser = async (
+  user: unknown,
+): Promise<SelectableUser> => schema.parseAsync(user);
+
 export type InsertableUser = Insertable<User>;
 
+export const validateInsertableUser = async (
+  user: unknown,
+): Promise<InsertableUser> => schema.parseAsync(user);
+
 export type UpdatedableUser = Updateable<User>;
+
+export const validateUpdatedableUser = async (
+  user: unknown,
+): Promise<UpdatedableUser> => schema.parseAsync(user);

@@ -42,6 +42,13 @@ export default function Layout({
 }: Props) {
   const foundManifest = ctx.state.manifest?.['scripts/index.ts'];
 
+  const sessionMessages = ctx.session?.messages ?? [];
+
+  if (ctx.session && sessionMessages.length > 0) {
+    ctx.session.messages = [];
+    ctx.session.save();
+  }
+
   return (
     <html lang="en">
       <head>
@@ -100,6 +107,9 @@ export default function Layout({
         <div class="container-fluid container-fluid-max">
           <Header />
           <Toast show={false} />
+          {sessionMessages.map((message) => (
+            <Toast show> {message} </Toast>
+          ))}
           <main class="min-vh-100">{children}</main>
           <Footer />
           <Modal />

@@ -30,7 +30,9 @@ function Toast({
             data-bs-dismiss="toast"
           ></button>
         </div>
-        <div class="toast-body bg-dark">{children}</div>
+        <div id="error-display-swap-el" class="toast-body bg-dark">
+          {children}
+        </div>
       </div>
     </div>
   );

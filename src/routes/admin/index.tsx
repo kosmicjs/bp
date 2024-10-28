@@ -3,13 +3,19 @@ import {type Use} from 'packages/fs-router/types.js';
 import Layout from '../../components/layout.js';
 
 export const use: Use = async (ctx, next) => {
-  if (!ctx.state.user) throw new Error('Admin routes are protected');
+  if (!ctx.isAuthenticated()) {
+    ctx.status = 401;
+    throw new Error('Unauthorized');
+  }
+
   await next();
 };
 
 export const get: Middleware = async (ctx, next) => {
-  if (!ctx.state.user)
-    throw new Error('A validated user is required to view this page');
+  if (!ctx.state.user) {
+    throw new Error('Unauthorized');
+  }
+
   await ctx.render(
     <Layout>
       <div class="row">
@@ -26,7 +32,7 @@ export const get: Middleware = async (ctx, next) => {
               <input
                 disabled
                 type="text"
-                value={ctx.state.user.email}
+                value={ctx.state.user.email ?? ''}
                 class="form-control form-control-disabled"
                 name="email"
                 id="email"
@@ -39,7 +45,7 @@ export const get: Middleware = async (ctx, next) => {
               </label>
               <input
                 type="text"
-                value={ctx.state.user.first_name}
+                value={ctx.state.user.first_name ?? ''}
                 class="form-control"
                 name="first_name"
                 id="first_name"
@@ -52,7 +58,7 @@ export const get: Middleware = async (ctx, next) => {
               </label>
               <input
                 type="text"
-                value={ctx.state.user.last_name}
+                value={ctx.state.user.last_name ?? ''}
                 class="form-control"
                 name="last_name"
                 id="last_name"

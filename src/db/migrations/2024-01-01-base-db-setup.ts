@@ -6,13 +6,12 @@ export async function up(db: Kysely<any>): Promise<void> {
 
   await db.schema
     .createTable('users')
-    .addColumn('id', 'serial', (col) => col.primaryKey())
+    .addColumn('id', 'uuid', (col) => col.primaryKey().notNull())
     .addColumn('first_name', 'varchar')
     .addColumn('last_name', 'varchar')
     .addColumn('phone', 'varchar')
     .addColumn('email', 'varchar')
-    .addColumn('hash', 'varchar')
-    .addColumn('salt', 'varchar')
+    .addColumn('hash', 'varchar', (col) => col.notNull())
     .addColumn('created_at', 'timestamp')
     .addColumn('updated_at', 'timestamp')
     .addColumn('google_refresh_token', 'varchar')
@@ -28,6 +27,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('id', 'serial', (col) => col.primaryKey())
     .addColumn('user_id', 'integer', (col) => col.references('users.id'))
     .addColumn('name', 'varchar')
+    .addColumn('description', 'varchar')
     .addColumn('created_at', 'timestamp')
     .addColumn('updated_at', 'timestamp')
     .execute();

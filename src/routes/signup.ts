@@ -1,59 +1,20 @@
 import type {Context, Next} from 'koa';
 import argon2 from 'argon2';
-import {z} from 'zod';
+import z from 'zod';
 import * as User from '#models/users.js';
 import {db} from '#db/index.js';
 
-const bodyValidator = User.schema
-  .pick({
-    first_name: true,
-    last_name: true,
-    phone: true,
-    email: true,
-  })
-  .partial({
-    first_name: true,
-    last_name: true,
-    phone: true,
-  })
-  .required({
-    email: true,
-  })
-  .extend({
-    password: z.string().min(1),
-    password_confirm: z.string().min(1),
-  });
-
 export async function post(ctx: Context, next: Next) {
-  let userData: z.infer<typeof bodyValidator> = {
-    email: '',
-    password: '',
-    password_confirm: '',
-  };
+  const userData = await User.validateInsertableUser(ctx.request.body);
 
-  try {
-    userData = bodyValidator.parse(ctx.request.body);
-  } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      ctx.req.log.error(error);
+  const passwords = await z
+    .object({
+      password: z.string().min(8).max(255),
+      password_confirm: z.string().min(8).max(255),
+    })
+    .parseAsync(ctx.request.body);
 
-      if (ctx.session) {
-        ctx.session.messages = error.issues.map((issue) => issue.message);
-        ctx.session.save();
-      }
-
-      ctx.redirect('/');
-      return;
-    }
-
-    throw error;
-  }
-
-  const {
-    password,
-    password_confirm: passwordConfirm,
-    ...insertableUser
-  } = userData;
+  const {password, password_confirm: passwordConfirm} = passwords;
 
   if (!passwordConfirm || passwordConfirm !== password) {
     ctx.req.log.error(
@@ -69,12 +30,12 @@ export async function post(ctx: Context, next: Next) {
     ctx.redirect('/');
   }
 
-  const hash = await argon2.hash(password);
+  const hash = await argon2.hash(passwords.password);
 
   const user = await db
     .insertInto('users')
     .values({
-      ...insertableUser,
+      ...userData,
       hash,
     })
     .returning(['email', 'id'])

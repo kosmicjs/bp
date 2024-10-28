@@ -40,10 +40,10 @@ export const get: Middleware = async (ctx, next) => {
                   <div class="d-flex justify-content-between">
                     <button
                       type="button"
-                      hx-post={`/admin/entities/${entity.id}`}
-                      hx-target="#entity-list"
+                      hx-get={`/admin/entities/${entity.id}`}
+                      hx-target={`#entity${entity.id}`}
                       hx-swap="append"
-                      class="btn btn-primary"
+                      class="btn btn-outline-primary"
                     >
                       Edit
                     </button>
@@ -52,7 +52,7 @@ export const get: Middleware = async (ctx, next) => {
                       hx-delete={`/admin/entities/${entity.id}`}
                       hx-target={`#entity${entity.id}`}
                       hx-swap="delete"
-                      class="btn btn-danger"
+                      class="btn btn-outline-danger"
                     >
                       x
                     </button>
@@ -72,7 +72,7 @@ export const post: Middleware = async (ctx, next) => {
     throw new Error('Not logged in');
   }
 
-  const {name} = Entity.schema.parse(ctx.request.body);
+  const {name} = await Entity.validateInsertableEntity(ctx.request.body);
 
   const entity = await db
     .insertInto('entities')
@@ -97,7 +97,7 @@ export const post: Middleware = async (ctx, next) => {
               hx-post={`/admin/entities/${entity.id}`}
               hx-target="#entity-list"
               hx-swap="append"
-              class="btn btn-primary"
+              class="btn btn-outline-primary"
             >
               Edit
             </button>

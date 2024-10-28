@@ -1,5 +1,5 @@
 import {type Middleware} from 'koa';
-import {clsx} from 'clsx';
+// import {clsx} from 'clsx';
 import {type Use} from '../../packages/fs-router/types.js';
 import {renderMiddleware as jsxRender} from '../../packages/render/jsx.middleware.js';
 import {passport} from '#config/passport.js';
@@ -19,16 +19,16 @@ declare module 'koa-session' {
 }
 
 export const get: Middleware = async function (ctx) {
-  const messages = ctx.session?.messages ?? [];
+  // const messages = ctx.session?.messages ?? [];
 
-  if (ctx.session) {
-    ctx.session.messages = [];
-    ctx.session.save();
-  }
+  // if (ctx.session) {
+  //   ctx.session.messages = [];
+  //   ctx.session.save();
+  // }
 
   await ctx.render(
     <Layout>
-      <div class="toast-container text-center d-flex align-items-center justify-content-center margin-bottom-5 w-100 pt-5 px-5 position-relative">
+      {/* <div class="toast-container text-center d-flex align-items-center justify-content-center margin-bottom-5 w-100 pt-5 px-5 position-relative">
         <div
           role="alert"
           aria-live="assertive"
@@ -51,7 +51,7 @@ export const get: Middleware = async function (ctx) {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div class="d-flex flex-column align-items-center mb-5">
         {['Koa', 'HTMX', 'Postgres'].map((tech, idx) => (
