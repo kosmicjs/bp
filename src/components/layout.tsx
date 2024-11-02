@@ -104,7 +104,7 @@ export default function Layout({
         >
           <div class="progress-bar progress-bar-animated bg-warning" />
         </div>
-        <div class="container-fluid container-fluid-max">
+        <div class="container-fluid">
           <Header />
           <Toast show={false} />
           {sessionMessages.map((message) => (

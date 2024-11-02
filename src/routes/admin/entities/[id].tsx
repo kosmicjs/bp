@@ -33,7 +33,7 @@ export const get = async (ctx: Context, next: Next) => {
 
   ctx.status = 200;
   await ctx.render(
-    <div class="col-10 p-5" id={`entity${entity.id}`}>
+    <div class="col-12 p-5" id={`entity${entity.id}`}>
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">
@@ -55,7 +55,7 @@ export const get = async (ctx: Context, next: Next) => {
               hx-delete={`/admin/entities/${entity.id}`}
               hx-target={`#entity${entity.id}`}
               hx-swap="delete"
-              class="btn btn-danger"
+              class="btn btn-outline-danger"
             >
               x
             </button>

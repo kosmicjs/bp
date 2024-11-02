@@ -2,7 +2,7 @@
 
 // export const get = async (ctx: Context) => {
 //   await ctx.render(
-//     <div class="col-10 p-5" id={`entity${entity.id}`}>
+//     <div class="col-12 p-5" id={`entity${entity.id}`}>
 //       <div class="card">
 //         <div class="card-body">
 //           <h5 class="card-title">{entity.name}</h5>

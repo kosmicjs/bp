@@ -1,6 +1,6 @@
 import {type Middleware, type Context, type Next} from 'koa';
-import {db} from '../../db/index.js';
-import * as User from '../../models/users.js';
+import {db} from '#db/index.js';
+import * as User from '#models/users.js';
 
 export const use: Middleware[] = [
   async (ctx, next) => {

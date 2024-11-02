@@ -7,4 +7,5 @@ export type Database = {
 };
 
 export {type User} from './users.js';
+
 export {type Entity} from './entites.js';

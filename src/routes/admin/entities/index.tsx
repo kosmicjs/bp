@@ -20,19 +20,21 @@ export const get: Middleware = async (ctx, next) => {
   await ctx.render(
     <Layout>
       <div class="row">
-        <div class="col-10 p-5">
+        <div class="col-12 p-5">
           <div className="d-flex justify-content-center">
             <h2>Entities</h2>
           </div>
         </div>
-        <div class="row">
-          <div class="col-10 p-5">
-            <ModalButton name="add-entity">Add</ModalButton>
-          </div>
+      </div>
+      <div class="row">
+        <div class="col-12 p-5">
+          <ModalButton name="add-entity">Add</ModalButton>
         </div>
-        <div id="entity-list">
-          {entities.map((entity) => (
-            <div class="col-10 p-5" id={`entity${entity.id}`}>
+      </div>
+      <div id="entity-list" class="w-100">
+        {entities.map((entity) => (
+          <div class="row">
+            <div class="col-12 p-5" id={`entity${entity.id}`}>
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">{entity.name}</h5>
@@ -60,8 +62,8 @@ export const get: Middleware = async (ctx, next) => {
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </Layout>,
   );
@@ -86,7 +88,7 @@ export const post: Middleware = async (ctx, next) => {
 
   ctx.status = 201;
   await ctx.render(
-    <div class="col-10 p-5" id={`entity${entity.id}`}>
+    <div class="col-12 p-5" id={`entity${entity.id}`}>
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{entity.name}</h5>
@@ -106,7 +108,7 @@ export const post: Middleware = async (ctx, next) => {
               hx-delete={`/admin/entities/${entity.id}`}
               hx-target={`#entity${entity.id}`}
               hx-swap="delete"
-              class="btn btn-danger"
+              class="btn btn-outline-danger"
             >
               x
             </button>
