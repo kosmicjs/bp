@@ -44,7 +44,7 @@ export default function LoginModalBody({isSignup}: Props) {
             />
           </div>
 
-          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+          <button type="submit" class="btn btn-primary">
             Submit
           </button>
         </div>

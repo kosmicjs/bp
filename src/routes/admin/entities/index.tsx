@@ -74,11 +74,13 @@ export const post: Middleware = async (ctx, next) => {
     throw new Error('Not logged in');
   }
 
-  const {name} = await Entity.validateInsertableEntity(ctx.request.body);
+  const {name, description} = await Entity.validateInsertableEntity(
+    ctx.request.body,
+  );
 
   const entity = await db
     .insertInto('entities')
-    .values({name, user_id: ctx.state.user.id})
+    .values({name, description, user_id: ctx.state.user.id})
     .returningAll()
     .executeTakeFirst();
 
@@ -92,7 +94,7 @@ export const post: Middleware = async (ctx, next) => {
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{entity.name}</h5>
-          <p class="card-text">{entity.name}</p>
+          <p class="card-text">{entity.description}</p>
           <div class="d-flex justify-content-between">
             <button
               type="button"

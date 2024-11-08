@@ -6,23 +6,11 @@ import {initializeIslands} from './islands.js';
 import {initializeProgressBar} from './progress-bar.js';
 import {$} from './query.js';
 
-// let isError = false;
-
 htmx.onLoad(function ($content) {
   initializeTooltips($content);
   initializeCodeCopy($content);
   initializeIslands($content);
   initializeProgressBar($content);
-
-  // if (isError) {
-  //   const $toast = $('#toast');
-  //   if ($toast) {
-  //     const toast = new Toast($toast);
-  //     toast.show();
-  //   }
-
-  //   isError = false;
-  // }
 });
 
 declare global {
@@ -37,14 +25,9 @@ declare global {
   }
 }
 
-// htmx.on('htmx:responseError', function (evt) {
-//   const $toast = $('#toast');
-//   if ($toast) {
-//     if (evt.detail) evt.detail.shouldSwap = true;
-//     const toast = new Toast($toast);
-//     toast.show();
-//   }
-// });
+htmx.on('htmx:afterSwap', function (evt) {
+  initializeIslands(evt?.detail?.target ?? $('body')!);
+});
 
 htmx.on('htmx:beforeSwap', function (evt) {
   if (

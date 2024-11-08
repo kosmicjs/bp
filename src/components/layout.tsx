@@ -44,6 +44,8 @@ export default function Layout({
 
   const sessionMessages = ctx.session?.messages ?? [];
 
+  ctx.log.debug({sessionMessages});
+
   if (ctx.session && sessionMessages.length > 0) {
     ctx.session.messages = [];
     ctx.session.save();

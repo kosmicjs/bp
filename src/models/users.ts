@@ -31,4 +31,4 @@ export type UpdatedableUser = Updateable<User>;
 
 export const validateUpdatedableUser = async (
   user: unknown,
-): Promise<UpdatedableUser> => schema.partial().parseAsync(user);
+): Promise<UpdatedableUser> => schema.parseAsync(user);

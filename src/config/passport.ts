@@ -31,7 +31,7 @@ passport.deserializeUser(async (id: number, done) => {
       .selectFrom('users')
       .select(['id', 'email', 'first_name', 'last_name'])
       .where('id', '=', id)
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     logger.trace({user}, 'deserialized user');
 
@@ -39,7 +39,7 @@ passport.deserializeUser(async (id: number, done) => {
     else done(null, false);
   } catch (error: unknown) {
     logger.error(error);
-    done(error);
+    done(error, {message: 'User not found'});
   }
 });
 

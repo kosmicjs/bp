@@ -36,16 +36,18 @@ export function initializeIslands($content: Element) {
     const Component = Islands[islandName as keyof typeof Islands];
 
     if (Component) {
+      $island.setAttribute('hx-boost', 'false');
       let hydrationData: Record<string, unknown> = {};
-
-      try {
-        hydrationData = JSON.parse($island.dataset.props ?? '') as Record<
-          string,
-          unknown
-        >;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
+      if ($island.dataset.props) {
+        try {
+          hydrationData = JSON.parse($island.dataset.props ?? '') as Record<
+            string,
+            unknown
+          >;
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+        }
       }
 
       hydrate(<Component {...hydrationData} />, $island);
