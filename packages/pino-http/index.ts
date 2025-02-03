@@ -32,7 +32,7 @@ export function createPinoMiddleware(
     return id;
   };
 
-  const middleware = pinoHttp(...arguments);
+  const middleware = pinoHttp(...arguments); // eslint-disable-line prefer-rest-params
 
   return async function (ctx, next) {
     middleware(ctx.req, ctx.res);

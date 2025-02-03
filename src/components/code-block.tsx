@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import clsx from 'clsx';
 import hljs from 'highlight.js';
 import dedent from 'dedent';
@@ -25,6 +24,7 @@ export default function CodeBlock({
       ) : null}
       <pre>
         <code
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: dedent`${isMultiline ? '' : '$ '}${hljs.highlight(code.trim(), {language}).value.trim()}`,
           }}

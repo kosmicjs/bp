@@ -1,20 +1,11 @@
-const config = [
-  {
-    // ignores: ['xo.config.ts', 'vite.config.ts'],
-  },
+import {type FlatXoConfig, TS_FILES_GLOB} from 'xo';
+
+const config: FlatXoConfig = [
   {
     space: true,
     prettier: true,
-    parserOptions: {
-      project: './tsconfig.xo.json',
-    },
+    react: true,
     rules: {
-      '@typescript-eslint/consistent-type-definitions': 'off',
-      '@typescript-eslint/naming-convention': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {argsIgnorePattern: 'next|props'},
-      ],
       'capitalized-comments': 'off',
       'import-x/extensions': 'off',
       'no-warning-comments': 'off',
@@ -24,6 +15,17 @@ const config = [
       'react/no-unknown-property': 'off',
       'react/react-in-jsx-scope': 'off',
       'unicorn/prevent-abbreviations': 'off',
+    },
+  },
+  {
+    files: [TS_FILES_GLOB],
+    rules: {
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/naming-convention': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {argsIgnorePattern: 'next|props'},
+      ],
     },
   },
   {

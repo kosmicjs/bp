@@ -37,6 +37,7 @@ Node.prototype.on = function (name: string, selector, fn) {
       event.target instanceof Element &&
       event.target?.matches(selector)
     ) {
+      // eslint-disable-next-line prefer-rest-params
       return fn.apply(event.target, [...arguments]);
     }
   });
@@ -46,9 +47,11 @@ Node.prototype.on = function (name: string, selector, fn) {
  * An alias for document.querySelector
  */
 export const $ = (s: string, c?: Element) =>
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   (c ?? document).querySelector.bind(document ?? c)(s);
 /**
  * An alias for document.querySelectorAll
  */
 export const $$ = (s: string, c?: Element) =>
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   (c ?? document).querySelectorAll.bind(c ?? document)(s);

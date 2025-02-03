@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-empty-file */
 // import {type Context} from 'koa';
 
 // export const get = async (ctx: Context) => {

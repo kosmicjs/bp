@@ -24,11 +24,7 @@ function Toast({
       >
         <div class="toast-header border-danger-subtle bg-dark-subtle">
           <strong class="m-auto">Oops!:</strong>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="toast"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" />
         </div>
         <div id="error-display-swap-el" class="toast-body bg-dark">
           {children}

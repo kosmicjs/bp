@@ -48,7 +48,7 @@ declare module 'koa' {
 
 let requestId = 0;
 
-export let getCtx: () => Context; // eslint-disable-line import/no-mutable-exports
+export let getCtx: () => Context; // eslint-disable-line import-x/no-mutable-exports
 
 function _getCtx(this: Kosmic) {
   const ctx = this.currentContext;
@@ -208,7 +208,7 @@ export class Kosmic extends Koa {
     portOrOptions?: number | string | ListenOptions,
     hostname?: string,
   ): Promise<this> {
-    const server = this.server;
+    const {server} = this;
 
     await this._applyMiddleware();
 

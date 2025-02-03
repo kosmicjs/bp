@@ -16,6 +16,7 @@ import {
 } from './types.js';
 
 declare module 'koa' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface Params extends Record<string, string | undefined> {}
   interface Request {
     params?: Params;

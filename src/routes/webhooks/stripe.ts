@@ -32,6 +32,7 @@ export const post: Middleware = async (ctx, next) => {
   }
 
   // Handle the event
+  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (event.type) {
     default: {
       // Unexpected event type

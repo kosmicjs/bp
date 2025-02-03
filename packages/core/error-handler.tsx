@@ -15,13 +15,15 @@ function errorHandler(logger: Logger): Middleware {
         ctx.status = 400;
         await ctx.render(
           <div class="toast-body bg-dark">
-            {fromZodError(error).toString().replaceAll('\\"', '"')}
+            {fromZodError(error)
+              .toString()
+              .replaceAll(String.raw`\"`, '"')}
           </div>,
         );
       } else if (error instanceof Error) {
         await ctx.render(
           <div class="toast-body bg-dark">
-            {error.toString().replaceAll('\\"', '"')}
+            {error.toString().replaceAll(String.raw`\"`, '"')}
           </div>,
         );
       }

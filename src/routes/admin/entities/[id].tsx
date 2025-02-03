@@ -37,7 +37,7 @@ export const get = async (ctx: Context, next: Next) => {
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">
-            <input placeholder={entity.name ?? ''}></input>
+            <input placeholder={entity.name ?? ''} />
           </h5>
           <p class="card-text">{entity.name}</p>
           <div class="d-flex justify-content-between">

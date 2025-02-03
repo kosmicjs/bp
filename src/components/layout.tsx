@@ -36,13 +36,15 @@ function Script({file}: {readonly file?: string | undefined}) {
 export default function Layout({
   children,
   title,
-  scripts = [],
+  scripts,
   env = process.env.NODE_ENV ?? 'development',
   ctx = getCtx(),
 }: Props) {
   const foundManifest = ctx.state.manifest?.['scripts/index.ts'];
 
   const sessionMessages = ctx.session?.messages ?? [];
+
+  scripts ??= [];
 
   ctx.log.debug({sessionMessages});
 
