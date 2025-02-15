@@ -3,6 +3,7 @@ import path from 'node:path';
 import dotenv from 'dotenv';
 import z from 'zod';
 import defaults from 'defaults';
+import {fromError} from 'zod-validation-error';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -41,11 +42,6 @@ export const envSchema = z
 
 const env = envSchema.parse(process.env);
 
-export const stripeSchema = z.object({
-  secretKey: z.string(),
-  endpointSecret: z.string(),
-});
-
 /**
  * The configuration schema for the application
  */
@@ -66,17 +62,23 @@ export const configSchema = z.object({
     }),
     z.union([
       z.object({
-        host: z.string().default('localhost'),
+        host: z.string().optional(),
         user: z.string().optional(),
-        database: z.string(),
+        database: z.string().optional(),
         password: z.string().optional(),
       }),
       z.object({
-        connectionString: z.string(),
+        connectionString: z.string().default('postgresql://localhost'),
       }),
     ]),
   ),
-  stripe: stripeSchema.partial(),
+  stripe: z
+    .object({
+      secretKey: z.string(),
+      endpointSecret: z.string(),
+    })
+    .partial()
+    .optional(),
 });
 
 const configByEnv = {
@@ -112,6 +114,15 @@ const configByEnv = {
   test: {},
 };
 
-export const config = configSchema.parse(
-  defaults(configByEnv[nodeEnv], configByEnv.default),
-);
+export const config = (() => {
+  try {
+    return configSchema.parse(
+      defaults(configByEnv[nodeEnv], configByEnv.default),
+    );
+  } catch (error) {
+    // too early to use logger
+    // eslint-disable-next-line no-console
+    console.error(fromError(error).toString());
+    throw error;
+  }
+})();

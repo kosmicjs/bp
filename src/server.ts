@@ -6,9 +6,6 @@ import {createPinoMiddleware} from '../packages/pino-http/index.js';
 import {Kosmic} from '../packages/core/index.js';
 import logger from './config/logger.js';
 import {config} from './config/index.js';
-import {query, SQL} from './db/pool.js';
-
-await query(SQL`SELECT now()`);
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const routesDir = path.join(__dirname, 'routes');
