@@ -27,6 +27,19 @@ const config: UserConfig = {
     warn: viteLogger.warn.bind(viteLogger),
     error: viteLogger.error.bind(viteLogger),
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler', // or "modern"
+        silenceDeprecations: [
+          'mixed-decls',
+          'color-functions',
+          'global-builtin',
+          'import',
+        ],
+      },
+    },
+  },
 };
 
 export default config;

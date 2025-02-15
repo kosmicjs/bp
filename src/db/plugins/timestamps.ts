@@ -33,7 +33,9 @@ export class TimestampsPlugin implements KyselyPlugin {
       Array.isArray(originalNode.columns)
     ) {
       // ignore kysely migrations
-      if (originalNode.into?.table.identifier.name === 'kysely_migration') {
+      if (
+        originalNode.into?.table.identifier.name.includes('kysely_migration')
+      ) {
         return originalNode;
       }
 
