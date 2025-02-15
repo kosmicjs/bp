@@ -6,7 +6,6 @@ import {type Middleware, type Context} from 'koa';
 import {globby} from 'globby';
 import {match as createMatchFn} from 'path-to-regexp';
 import compose from 'koa-compose';
-import {logger} from '../../src/config/logger.js';
 import {routeModuleSchema} from './schema.js';
 import {
   type HttpVerb,
@@ -14,6 +13,7 @@ import {
   type RouteModule,
   type RouteDefinition,
 } from './types.js';
+import {logger} from '#config/logger.js';
 
 declare module 'koa' {
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type

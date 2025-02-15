@@ -21,7 +21,6 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "test/**/*",
-    "packages/**/*",
     "vite.config.ts",
     "vitest.config.ts"
   ]

@@ -19,6 +19,7 @@
     "#components/*": "./dist/src/components/*",
     "#config/*": "./dist/src/config/*",
     "#models/*": "./dist/src/models/*",
+    "#middleware/*": "./dist/src/middleware/*",
     "#db/*": "./dist/src/db/*"
   },
   "main": "dist/src/index.js",

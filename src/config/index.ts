@@ -37,6 +37,7 @@ export const envSchema = z
     DB_USER: z.string(),
     DB_PASSWORD: z.string(),
     DB_CONNECTION_STRING: z.string(),
+    SESSION_KEYS: z.string(),
   })
   .partial();
 
@@ -79,6 +80,7 @@ export const configSchema = z.object({
     })
     .partial()
     .optional(),
+  sessionKeys: z.array(z.string()).default(['kosmic-secret-keys']),
 });
 
 const configByEnv = {
@@ -88,6 +90,7 @@ const configByEnv = {
     nodeEnv,
     port: env.PORT,
     host: env.SERVER_HOST,
+    sessionKeys: env.SESSION_KEYS?.split(','),
     pg: {
       connectionString: env.DB_CONNECTION_STRING,
       user: env.DB_USER,
