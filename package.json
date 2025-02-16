@@ -37,7 +37,7 @@
     "compile:cp": "cp -rp src/public ./dist/src",
     "compile:tsc": "tsc -p tsconfig.json",
     "compile:vite": "vite build",
-    "dev": "vite & tsc --watch & sleep 5 && node --enable-source-maps --watch dist/src/index.js",
+    "dev": "vite & tsc --watch & npm run compile:cp && node --enable-source-maps --watch dist/src/index.js",
     "lint": "xo",
     "migrate": "npm run compile:tsc && node ./dist/src/db/migrate up",
     "migrate:down": "npm run compile:tsc && node ./dist/src/db/migrate down",
