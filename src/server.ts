@@ -9,6 +9,7 @@ import etag from 'koa-etag';
 import conditional from 'koa-conditional-get';
 import Koa from 'koa';
 import serve from 'koa-static';
+import {renderMiddleware} from '#middleware/jsx.middleware.js';
 import {helmetMiddleware} from '#middleware/helmet.js';
 import {createPinoMiddleware} from '#middleware/pino-http.js';
 import {errorHandler} from '#middleware/error-handler.js';
@@ -85,12 +86,18 @@ export async function createServer(): Promise<Server> {
   app.use(etag());
   app.use(bodyParser());
 
+  // jsx rendering middleware
+  app.use(renderMiddleware);
+
   // error handler
   app.use(errorHandler());
 
   app.keys = config.sessionKeys;
 
   app.use(session(app));
+  // passport auth
+  app.use(passport.initialize({userProperty: 'email'}));
+  app.use(passport.session());
 
   // add fs routes
   const routesDir = path.join(import.meta.dirname, 'routes');
@@ -99,10 +106,6 @@ export async function createServer(): Promise<Server> {
 
   // security headers
   app.use(helmetMiddleware);
-
-  // passport auth
-  app.use(passport.initialize({userProperty: 'email'}));
-  app.use(passport.session());
 
   const server: Server = http.createServer(app.callback());
 
