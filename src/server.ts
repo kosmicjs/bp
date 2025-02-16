@@ -1,5 +1,4 @@
 import http, {type Server} from 'node:http';
-import {promisify} from 'node:util';
 import fs from 'node:fs/promises';
 import process from 'node:process';
 import path from 'node:path';
@@ -10,9 +9,9 @@ import etag from 'koa-etag';
 import conditional from 'koa-conditional-get';
 import Koa from 'koa';
 import serve from 'koa-static';
-import helmet from 'helmet';
+import {helmetMiddleware} from '#middleware/helmet.js';
 import {createPinoMiddleware} from '#middleware/pino-http.js';
-import errorHandler from '#middleware/error-handler.js';
+import {errorHandler} from '#middleware/error-handler.js';
 import createFsRouter from '#middleware/router/index.js';
 import logger from '#config/logger.js';
 import {config} from '#config/index.js';
@@ -99,32 +98,7 @@ export async function createServer(): Promise<Server> {
 
   app.use(fsRouterMiddleware);
 
-  app.use(async (ctx, next) => {
-    const helmetPromise = promisify(
-      helmet({
-        contentSecurityPolicy: {
-          directives: {
-            'upgrade-insecure-requests':
-              config.kosmicEnv === 'development' ? null : [],
-            'script-src': [
-              "'self'",
-              "'unsafe-inline'",
-              "'unsafe-eval'",
-              'http://localhost:5173',
-            ],
-            'connect-src': [
-              "'self'",
-              'http://127.0.0.1:2222',
-              'ws://127.0.0.1:2222',
-              'ws://localhost:5173',
-            ],
-          },
-        },
-      }),
-    );
-    await helmetPromise(ctx.req, ctx.res);
-    await next();
-  });
+  app.use(helmetMiddleware);
 
   const server: Server = http.createServer(app.callback());
 
