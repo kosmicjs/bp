@@ -2,10 +2,10 @@ import path from 'node:path';
 import {type ComponentChildren} from 'preact';
 import humanize from 'humanize-string';
 import titleize from 'titleize';
-import {getCtx} from '../../server.js';
 import Layout from '../layout.js';
 import ActiveDevWarning from '../active-dev-warning.js';
 import SideNav from './side-nav.js';
+import {getCtx} from '#core';
 
 type Props = {
   readonly pageName?: string;

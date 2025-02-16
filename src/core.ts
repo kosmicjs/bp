@@ -1,5 +1,5 @@
 import http, {type Server} from 'node:http';
-import {type ListenOptions} from 'node:net';
+import {promisify} from 'node:util';
 import fs from 'node:fs/promises';
 import process from 'node:process';
 import path from 'node:path';
@@ -10,6 +10,7 @@ import etag from 'koa-etag';
 import conditional from 'koa-conditional-get';
 import Koa from 'koa';
 import serve from 'koa-static';
+import helmet from 'helmet';
 import {createPinoMiddleware} from '#middleware/pino-http.js';
 import errorHandler from '#middleware/error-handler.js';
 import createFsRouter from '#middleware/router/index.js';
@@ -47,7 +48,7 @@ declare module 'koa' {
   }
 }
 
-const app = new Koa({asyncLocalStorage: true});
+export const app = new Koa({asyncLocalStorage: true});
 
 // add x-response-time header
 app.use(responseTime());
@@ -96,44 +97,37 @@ const routesDir = path.join(__dirname, 'routes');
 const {middleware: fsRouterMiddleware} = await createFsRouter(routesDir);
 app.use(fsRouterMiddleware);
 
-const server: Server = http.createServer(app.callback());
+app.use(async (ctx, next) => {
+  const helmetPromise = promisify(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          'upgrade-insecure-requests':
+            config.kosmicEnv === 'development' ? null : [],
+          'script-src': [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            'http://localhost:5173',
+          ],
+          'connect-src': [
+            "'self'",
+            'http://127.0.0.1:2222',
+            'ws://127.0.0.1:2222',
+            'ws://localhost:5173',
+          ],
+        },
+      },
+    }),
+  );
+  await helmetPromise(ctx.req, ctx.res);
+  await next();
+});
 
-export const start = async (
-  portOrOptions?: number | string | ListenOptions,
-  hostname?: string,
-): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    const _server =
-      typeof portOrOptions === 'number'
-        ? server.listen(portOrOptions, hostname)
-        : server.listen(portOrOptions);
+export const server: Server = http.createServer(app.callback());
 
-    _server
-      .once('listening', () => {
-        const address = _server.address();
-        if (typeof address === 'string') {
-          logger.info(`server started at ${address}`);
-        } else {
-          const isIPv6 = address?.family === 'IPv6';
-          const host = isIPv6 ? `[${address?.address}]` : address?.address;
-          logger.info(`server started at http://${host}:${address?.port}`);
-        }
-
-        resolve();
-      })
-      .once('error', reject);
-  });
-};
-
-export const close = async (): Promise<void> => {
-  const serverClosedPromise = new Promise((resolve) => {
-    server.on('close', () => {
-      resolve(undefined);
-    });
-  });
-
-  server.closeAllConnections();
-  server.close();
-
-  await serverClosedPromise;
+export const getCtx = () => {
+  const ctx = app.currentContext;
+  if (!ctx) throw new Error('No context found');
+  return ctx;
 };

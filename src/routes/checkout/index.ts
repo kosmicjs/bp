@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
-import {type Use} from '../../../packages/fs-router/types.js';
 import {config} from '../../config/index.js';
+import {type Use} from '#middleware/router/types.js';
 
 const stripe = config.stripe?.secretKey
   ? new Stripe(config.stripe.secretKey)

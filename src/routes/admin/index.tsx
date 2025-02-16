@@ -1,6 +1,6 @@
 import {type Middleware} from 'koa';
-import {type Use} from 'packages/fs-router/types.js';
 import Layout from '../../components/layout.js';
+import {type Use} from '#middleware/router/types.js';
 
 export const use: Use = async (ctx, next) => {
   if (!ctx.isAuthenticated()) {

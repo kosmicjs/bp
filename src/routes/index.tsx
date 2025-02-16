@@ -1,7 +1,7 @@
 import {type Middleware} from 'koa';
 // import {clsx} from 'clsx';
-import {type Use} from '../../packages/fs-router/types.js';
-import {renderMiddleware as jsxRender} from '../../packages/render/jsx.middleware.js';
+import {type Use} from '#middleware/router/types.js';
+import {renderMiddleware as jsxRender} from '#middleware/jsx.middleware.js';
 import {passport} from '#config/passport.js';
 import Counter from '#components/islands/counter.js';
 import Layout from '#components/layout.js';

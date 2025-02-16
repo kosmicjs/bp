@@ -1,10 +1,10 @@
 import process from 'node:process';
 import {type ComponentChildren} from 'preact';
-import {getCtx} from '../../packages/core/index.js';
 import Footer from './footer.js';
 import Header from './header.js';
 import Modal from './modal.js';
 import Toast from './toast.js';
+import {getCtx} from '#core';
 
 export type Props = {
   readonly children: ComponentChildren;

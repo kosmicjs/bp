@@ -1,12 +1,14 @@
+import {type Server} from 'node:http';
 import {describe, test, expect, beforeAll, afterAll} from 'vitest';
 import got from 'got';
-import {app} from '../src/server.js';
-import {type Kosmic} from '../packages/core/index.js';
+import {start, close} from '../src/server.js';
 
 describe('server integration', async () => {
-  let server: Kosmic;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let server: Server;
+
   beforeAll(async () => {
-    server = await app.start({
+    server = await start({
       host: 'localhost',
       port: 4567,
     });
@@ -19,6 +21,6 @@ describe('server integration', async () => {
   });
 
   afterAll(async () => {
-    await server.close();
+    await close();
   });
 });

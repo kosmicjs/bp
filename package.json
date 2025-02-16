@@ -20,14 +20,12 @@
     "#config/*": "./dist/src/config/*",
     "#models/*": "./dist/src/models/*",
     "#middleware/*": "./dist/src/middleware/*",
-    "#db/*": "./dist/src/db/*"
+    "#db/*": "./dist/src/db/*",
+    "#core": "./dist/src/core.js"
   },
   "main": "dist/src/index.js",
   "source": "./src/app/client/main.ts",
   "types": "dist/src/index.d.ts",
-  "bin": {
-    "kosmic": "dist/packages/dev/cli.js"
-  },
   "scripts": {
     "analyze": "vite-bundle-visualizer",
     "build": "npm run clean && npm run compile",

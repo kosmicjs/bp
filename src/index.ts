@@ -1,8 +1,11 @@
-// import process from 'node:process';
-import {app} from './server.js';
+import process from 'node:process';
+import {start, close} from './server.js';
 import {config} from './config/index.js';
+import {logger} from './config/logger.js';
 
-await app.start({
-  host: config.host,
-  port: config.port,
+await start({port: config.port, host: config.host});
+
+process.on('uncaughtException', async (error) => {
+  logger.error(error);
+  await close();
 });
