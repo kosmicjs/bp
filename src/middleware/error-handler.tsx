@@ -1,6 +1,6 @@
 import type {Middleware, Next, Context} from 'koa';
 import {fromZodError, isZodErrorLike} from 'zod-validation-error';
-import logger from '#config/logger.js';
+import logger from '#utils/logger.js';
 
 export function errorHandler(): Middleware {
   async function middleware(ctx: Context, next: Next) {

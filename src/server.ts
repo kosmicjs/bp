@@ -13,7 +13,7 @@ import {helmetMiddleware} from '#middleware/helmet.js';
 import {createPinoMiddleware} from '#middleware/pino-http.js';
 import {errorHandler} from '#middleware/error-handler.js';
 import createFsRouter from '#middleware/router/index.js';
-import logger from '#config/logger.js';
+import logger from '#utils/logger.js';
 import {config} from '#config/index.js';
 import {passport} from '#middleware/passport.js';
 
