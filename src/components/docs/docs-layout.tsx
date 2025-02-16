@@ -5,7 +5,7 @@ import titleize from 'titleize';
 import Layout from '../layout.js';
 import ActiveDevWarning from '../active-dev-warning.js';
 import SideNav from './side-nav.js';
-import {getCtx} from '#core';
+import {getCtx} from '#server';
 
 type Props = {
   readonly pageName?: string;

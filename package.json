@@ -21,7 +21,7 @@
     "#models/*": "./dist/src/models/*",
     "#middleware/*": "./dist/src/middleware/*",
     "#db/*": "./dist/src/db/*",
-    "#core": "./dist/src/core.js"
+    "#server": "./dist/src/server.js"
   },
   "main": "dist/src/index.js",
   "source": "./src/app/client/main.ts",
@@ -36,7 +36,7 @@
     "compile:cp": "cp -rp src/public ./dist/src",
     "compile:tsc": "tsc -p tsconfig.json",
     "compile:vite": "vite build",
-    "dev": "vite & tsc --watch & sleep 5 && node --watch dist/src/index.js",
+    "dev": "vite & tsc --watch & sleep 5 && node --enable-source-maps --watch dist/src/index.js",
     "lint": "xo",
     "migrate": "npm run compile:tsc && node ./dist/src/db/migrate up",
     "migrate:down": "npm run compile:tsc && node ./dist/src/db/migrate down",

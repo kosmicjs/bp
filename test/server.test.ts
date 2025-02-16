@@ -1,7 +1,7 @@
 import {type Server} from 'node:http';
 import {describe, test, expect, beforeAll, afterAll} from 'vitest';
 import got from 'got';
-import {start, close} from '../src/server.js';
+import {start, close} from '../src/core.js';
 
 describe('server integration', async () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

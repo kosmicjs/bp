@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import {getCtx} from '#core';
+import {getCtx} from '#server';
 
 const NavItems = [
   {

@@ -4,7 +4,7 @@ import Footer from './footer.js';
 import Header from './header.js';
 import Modal from './modal.js';
 import Toast from './toast.js';
-import {getCtx} from '#core';
+import {getCtx} from '#server';
 
 export type Props = {
   readonly children: ComponentChildren;
