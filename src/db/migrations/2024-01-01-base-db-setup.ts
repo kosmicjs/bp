@@ -1,5 +1,5 @@
 import {type Kysely} from 'kysely';
-import logger from '../../config/logger.js';
+import logger from '../../utils/logger.js';
 
 export async function up(db: Kysely<any>): Promise<void> {
   logger.debug('Creating table users...');

@@ -2,7 +2,7 @@ import path from 'node:path';
 import process from 'node:process';
 import fs from 'node:fs/promises';
 import {type Migration, type MigrationProvider, Migrator} from 'kysely';
-import logger from '../config/logger.js';
+import logger from '../utils/logger.js';
 import {db} from './index.js';
 
 // https://github.com/kysely-org/kysely/issues/277#issuecomment-1385995789

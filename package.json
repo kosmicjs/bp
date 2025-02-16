@@ -21,6 +21,7 @@
     "#models/*": "./dist/src/models/*",
     "#middleware/*": "./dist/src/middleware/*",
     "#db/*": "./dist/src/db/*",
+    "#utils/*": "./dist/src/utils/*",
     "#server": "./dist/src/server.js"
   },
   "main": "dist/src/index.js",

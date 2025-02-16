@@ -1,6 +1,6 @@
 import {Kysely, PostgresDialect} from 'kysely';
 import type {Database} from '../models/index.js';
-import logger from '../config/logger.js';
+import logger from '../utils/logger.js';
 import {TimestampsPlugin} from './plugins/timestamps.js';
 import {pool} from './pool.js';
 

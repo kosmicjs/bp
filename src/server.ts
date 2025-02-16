@@ -15,8 +15,7 @@ import {errorHandler} from '#middleware/error-handler.js';
 import createFsRouter from '#middleware/router/index.js';
 import logger from '#config/logger.js';
 import {config} from '#config/index.js';
-
-const __dirname = import.meta.dirname;
+import {passport} from '#middleware/passport.js';
 
 type Logger = typeof logger;
 
@@ -54,14 +53,14 @@ export async function createServer(): Promise<Server> {
   app.use(responseTime());
 
   // serve static files from public dir
-  app.use(serve(path.join(__dirname, 'public')));
+  app.use(serve(path.join(import.meta.dirname, 'public')));
 
   // add manifest to state for prod
   if (process.env.NODE_ENV === 'production') {
     app.use(async (ctx, next) => {
       const manifest = JSON.parse(
         await fs.readFile(
-          path.join(__dirname, 'public', '.vite', 'manifest.json'),
+          path.join(import.meta.dirname, 'public', '.vite', 'manifest.json'),
           'utf8',
         ),
       ) as Record<
@@ -93,12 +92,17 @@ export async function createServer(): Promise<Server> {
 
   app.use(session(app));
 
-  const routesDir = path.join(__dirname, 'routes');
+  // add fs routes
+  const routesDir = path.join(import.meta.dirname, 'routes');
   const {middleware: fsRouterMiddleware} = await createFsRouter(routesDir);
-
   app.use(fsRouterMiddleware);
 
+  // security headers
   app.use(helmetMiddleware);
+
+  // passport auth
+  app.use(passport.initialize({userProperty: 'email'}));
+  app.use(passport.session());
 
   const server: Server = http.createServer(app.callback());
 
