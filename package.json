@@ -1,7 +1,7 @@
 {
-  "name": "@kosmic/core",
+  "name": "kosmic-template",
   "version": "0.0.0",
-  "description": "Strongly typed Koa web and api framework with all the basics built in and minimal opinions",
+  "description": "A highly opinionated and strongly typed Koa web and api template.",
   "bugs": {
     "url": "https://github.com/spence-s/kosmic/issues"
   },
@@ -44,7 +44,7 @@
     "prepare": "husky || true",
     "prepublishOnly": "npm run build",
     "start": "NODE_ENV=production node dist/src/index.js",
-    "test": "vitest"
+    "test": "npm run clean && npm run compile:tsc && node --test dist/test/server.test.js"
   },
   "prettier": {
     "plugins": [
@@ -55,19 +55,15 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@stripe/stripe-js": "^5.6.0",
-    "@types/swagger-ui-dist": "^3.30.5",
     "argon2": "^0.41.1",
     "bootstrap": "^5.3.3",
     "camelcase": "^8.0.0",
-    "chokidar": "^4.0.3",
     "clsx": "^2.1.1",
     "copy-to-clipboard": "^3.3.3",
     "dedent": "^1.5.3",
     "defaults": "^3.0.0",
     "dotenv": "^16.4.7",
-    "escape-goat": "^4.0.0",
     "execa": "^9.5.2",
-    "fast-glob": "^3.3.3",
     "globby": "^14.1.0",
     "got": "^14.4.6",
     "helmet": "^8.0.0",
@@ -89,7 +85,6 @@
     "koa-session": "^7.0.2",
     "koa-static": "^5.0.0",
     "kysely": "^0.27.5",
-    "lodash": "^4.17.21",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "path-to-regexp": "^8.2.0",
@@ -128,6 +123,7 @@
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.11.11",
+    "@types/swagger-ui-dist": "^3.30.5",
     "husky": "^9.1.7",
     "kosmic": "file:.",
     "lint-staged": "^15.4.3",
@@ -144,7 +140,6 @@
     "typescript": "~5.7.3",
     "vite": "^6.1.0",
     "vite-bundle-visualizer": "^1.2.1",
-    "vitest": "^3.0.5",
     "xo": "npm:@spence-s/flat-xo@^0.0.10"
   }
 }
